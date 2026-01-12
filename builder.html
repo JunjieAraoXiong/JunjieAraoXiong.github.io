@@ -1,0 +1,297 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Entry Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <style>
+    /* Builder-specific styles */
+    .builder-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      gap: 40px;
+    }
+    .builder-form {
+      flex: 1;
+      max-width: 500px;
+    }
+    .builder-preview {
+      flex: 1;
+      max-width: 600px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="url"],
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-family: 'Lato', Verdana, Helvetica, sans-serif;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .form-group textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .dynamic-list {
+      margin-top: 8px;
+    }
+    .dynamic-item {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .dynamic-item input {
+      flex: 1;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'Lato', Verdana, Helvetica, sans-serif;
+    }
+    .btn-primary {
+      background: #1772d0;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #125a9e;
+    }
+    .btn-secondary {
+      background: #eee;
+      color: #333;
+    }
+    .btn-secondary:hover {
+      background: #ddd;
+    }
+    .btn-danger {
+      background: #d9534f;
+      color: white;
+    }
+    .btn-danger:hover {
+      background: #c9302c;
+    }
+    .btn-small {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+    .preview-box {
+      border: 2px dashed #ccc;
+      padding: 16px;
+      background: #fafafa;
+      min-height: 200px;
+    }
+    .preview-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #333;
+    }
+    .entry-list {
+      margin-top: 40px;
+    }
+    .entry-list h2 {
+      margin-bottom: 16px;
+    }
+    .entry-card {
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 4px;
+      background: #fff;
+    }
+    .entry-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .entry-card-title {
+      font-weight: 700;
+      color: #1772d0;
+    }
+    .entry-card-type {
+      font-size: 12px;
+      background: #eee;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .entry-card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .header-nav {
+      text-align: center;
+      padding: 20px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 20px;
+    }
+    .header-nav a {
+      margin: 0 10px;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checkbox-group input[type="checkbox"] {
+      width: auto;
+    }
+    .image-preview {
+      max-width: 160px;
+      max-height: 160px;
+      margin-top: 8px;
+      border: 1px solid #ddd;
+    }
+    .copy-feedback {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #5cb85c;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      display: none;
+      z-index: 1000;
+    }
+    @media (max-width: 900px) {
+      .builder-container {
+        flex-direction: column;
+      }
+      .builder-form, .builder-preview {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header-nav">
+    <p class="name">Entry Builder</p>
+    <p>
+      <a href="index.html">Back to Homepage</a> &nbsp;/&nbsp;
+      <a href="#" onclick="clearForm(); return false;">New Entry</a> &nbsp;/&nbsp;
+      <a href="#entry-list">Manage Entries</a>
+    </p>
+  </div>
+
+  <div class="copy-feedback" id="copyFeedback">Copied to clipboard!</div>
+
+  <div class="builder-container">
+    <!-- Form Section -->
+    <div class="builder-form">
+      <h2>Create Entry</h2>
+      <form id="entryForm">
+        <input type="hidden" id="editingId" value="">
+
+        <div class="form-group">
+          <label for="entryType">Entry Type *</label>
+          <select id="entryType" required>
+            <option value="project">Project</option>
+            <option value="publication">Publication</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="title">Title *</label>
+          <input type="text" id="title" required placeholder="Enter title...">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Short Description</label>
+          <textarea id="description" placeholder="Enter description (multi-line supported)..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="venue">Venue / Context</label>
+          <input type="text" id="venue" placeholder="e.g., CVPR 2025, Personal Project, etc.">
+        </div>
+
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="highlighted">
+          <label for="highlighted" style="margin-bottom: 0;">Highlight this entry (yellow background)</label>
+        </div>
+
+        <div class="form-group">
+          <label>Bullets (optional)</label>
+          <div id="bulletsList" class="dynamic-list"></div>
+          <button type="button" class="btn btn-secondary btn-small" onclick="addBullet()">+ Add Bullet</button>
+        </div>
+
+        <div class="form-group">
+          <label>Links (optional)</label>
+          <div id="linksList" class="dynamic-list"></div>
+          <button type="button" class="btn btn-secondary btn-small" onclick="addLink()">+ Add Link</button>
+        </div>
+
+        <div class="form-group">
+          <label for="imageUrl">Image URL (optional)</label>
+          <input type="url" id="imageUrl" placeholder="https://example.com/image.jpg">
+          <img id="imagePreview" class="image-preview" style="display: none;">
+        </div>
+
+        <div class="form-group">
+          <label for="imageAlt">Image Alt Text / Caption</label>
+          <input type="text" id="imageAlt" placeholder="Describe the image...">
+        </div>
+
+        <div class="form-group" style="margin-top: 24px;">
+          <button type="submit" class="btn btn-primary" id="submitBtn">Add Entry</button>
+          <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="builder-preview">
+      <div class="preview-title">Live Preview</div>
+      <div class="preview-box">
+        <table style="width:100%;border:0px;border-spacing:0px 10px;border-collapse:separate;">
+          <tbody id="previewContainer">
+            <tr>
+              <td colspan="2" style="padding:16px;color:#999;text-align:center;">
+                Fill out the form to see a preview...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Entry List Section -->
+  <div class="builder-container">
+    <div style="width: 100%;">
+      <div class="entry-list" id="entry-list">
+        <h2>Saved Entries</h2>
+        <div id="entriesContainer">
+          <p style="color: #999;">No entries yet. Create one above!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="builder.js"></script>
+</body>
+</html>
