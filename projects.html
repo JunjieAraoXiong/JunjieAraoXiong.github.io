@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Junjie Xiong">
+    <meta name="description" content="Projects — Junjie Xiong">
+    <title>Projects — Junjie Xiong</title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  </head>
+
+  <body>
+    <main class="page">
+
+      <!-- TOP NAV: keep identical on every page. -->
+      <p class="nav">
+        <a href="index.html">Home</a> ·
+        <a href="projects.html">Projects</a> ·
+        <a href="classes.html">Notes</a> ·
+        <a href="blog.html">Blog</a>
+      </p>
+
+      <h1>Projects</h1>
+
+      <!-- ========================== PROJECTS =======================
+           Each <article class="project"> is one project, laid out as:
+           thumbnail on the LEFT, text on the RIGHT.
+
+           THUMBNAIL options for each entry:
+           (a) keep the colored letter box, e.g.  <div class="project-thumb rl">RL</div>
+               (color comes from the class: rl, rag, fin, sys, math)
+           (b) use a real image: put a file in images/ and replace that line with
+               <img class="project-thumb" src="images/myproject.png" alt="Title" style="object-fit:cover;padding:0;">
+
+           TO ADD A PROJECT: copy a whole <article class="project"> ... </article>.
+           ============================================================ -->
+      <section class="section">
+
+        <article class="project">
+          <div class="project-thumb rl">RL</div>
+          <div class="project-copy">
+            <h3>RL for Language Models</h3>
+            <p class="meta">Reinforcement learning infrastructure and post-training systems</p>
+            <p>
+              I am interested in the practical stack behind RL for LLMs: rollout
+              generation, reward signals, policy optimization, evaluation, and
+              debugging. I have been exploring open-source RL-for-LLM tooling
+              including rLLM, with an eye toward making post-training more
+              understandable and reproducible.
+            </p>
+            <p class="project-links">
+              <a href="https://github.com/rllm-org/rllm">rLLM</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-thumb rag">RAG</div>
+          <div class="project-copy">
+            <h3>Towards Expert Financial QA via Self-Improving RAG</h3>
+            <p class="meta">Accepted at AFA Workshop @ ICLR 2026</p>
+            <p>
+              A judge-driven multi-agent retrieval system for financial document
+              QA. The system decomposes answering into retrieval, reasoning, and
+              judging agents, then uses feedback-driven retries to recover from
+              weak answers. I see this as a bridge between retrieval systems and
+              RL-style improvement loops: feedback, credit assignment, and
+              iterative correction.
+            </p>
+            <p class="project-links">
+              <a href="https://github.com/JunjieAraoXiong/self-improving-rag">code</a>
+              /
+              <a href="https://github.com/JunjieAraoXiong/self-improving-rag/blob/main/paper.pdf">paper</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-thumb sys">SYS</div>
+          <div class="project-copy">
+            <h3>Inference Engineering</h3>
+            <p class="meta">Systems notes for deploying and reasoning about LLM inference</p>
+            <p>
+              A learning repo for inference engineering: serving, evaluation,
+              model behavior, and the operational details that matter once model
+              systems move from notebooks into real environments.
+            </p>
+            <p class="project-links">
+              <a href="https://github.com/JunjieAraoXiong/inference-engineering">notes</a>
+            </p>
+          </div>
+        </article>
+
+        <!-- COPY-PASTE TEMPLATE for a new project (remove the comment marks to use):
+        <article class="project">
+          <div class="project-thumb rl">RL</div>
+          <div class="project-copy">
+            <h3>Project Title</h3>
+            <p class="meta">Short subtitle, venue, or one-line summary</p>
+            <p>A sentence or two describing what it is and why it matters.</p>
+            <p class="project-links">
+              <a href="https://URL">code</a> / <a href="https://URL">paper</a>
+            </p>
+          </div>
+        </article>
+        -->
+      </section>
+
+      <footer>
+        <p><a href="index.html">&larr; Back to home</a></p>
+      </footer>
+    </main>
+  </body>
+</html>
