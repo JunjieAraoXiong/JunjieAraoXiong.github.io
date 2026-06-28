@@ -1,12 +1,29 @@
+---
+# This blank "front matter" tells Jekyll to process this page (build the post list below).
+---
 <!DOCTYPE HTML>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Junjie Xiong">
-    <meta name="description" content="Blog — Junjie Xiong">
+    <meta name="description" content="Writing by Junjie Xiong on reinforcement learning, language models, and machine learning systems.">
     <title>Blog — Junjie Xiong</title>
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="canonical" href="https://junjiearaoxiong.github.io/blog.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Junjie Xiong">
+    <meta property="og:url" content="https://junjiearaoxiong.github.io/blog.html">
+    <meta property="og:title" content="Blog — Junjie Xiong">
+    <meta property="og:description" content="Writing on reinforcement learning, language models, and machine learning systems.">
+    <meta property="og:image" content="https://junjiearaoxiong.github.io/images/profile.jpg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@jaraxiong">
+    <meta name="twitter:title" content="Blog — Junjie Xiong">
+    <meta name="twitter:description" content="Writing on reinforcement learning, language models, and machine learning systems.">
+    <meta name="twitter:image" content="https://junjiearaoxiong.github.io/images/profile.jpg">
   </head>
 
   <body>
@@ -35,16 +52,14 @@
            To ADD a post, copy a <div class="course"> ... </div> block.
            ============================================================ -->
       <section class="section">
-
+        <!-- This list is generated automatically from the Markdown files in
+             _posts/. To add a post, just create a new file in _posts/ — it
+             will appear here, newest first. No need to edit this list. -->
+        {% for post in site.posts %}
         <div class="course">
-          <p class="course-title"><a href="#">Your first blog post</a> <span class="course-term">· Coming soon</span></p>
+          <p class="course-title"><a href="{{ post.url }}">{{ post.title }}</a> <span class="course-term">&middot; {{ post.date | date: "%b %Y" }}</span></p>
         </div>
-
-        <!-- COPY-PASTE TEMPLATE for a new post (remove the comment marks to use it):
-        <div class="course">
-          <p class="course-title"><a href="posts/my-post.html">Post title</a> <span class="course-term">· Mon Year</span></p>
-        </div>
-        -->
+        {% endfor %}
       </section>
 
       <footer class="site-footer">

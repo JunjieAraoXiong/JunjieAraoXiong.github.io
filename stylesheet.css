@@ -45,6 +45,13 @@ a:focus {
   color: var(--link-hover);
 }
 
+/* visible keyboard-focus ring (mouse users never see it) */
+a:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 /* warm-brown links for schools / affiliations */
 a.affil {
   color: var(--affil);
@@ -356,6 +363,20 @@ img.project-thumb {
 
   h1 {
     font-size: 34px;
+  }
+
+  /* stack experience rows (logo above text) so they don't get crushed */
+  .role {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 0;
+  }
+
+  .role-logo {
+    width: 110px;
+    height: 48px;
+    object-position: left center;
   }
 
   .project {

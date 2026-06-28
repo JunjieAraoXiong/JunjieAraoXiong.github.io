@@ -1,0 +1,4 @@
+# Jekyll configuration (GitHub Pages builds this automatically on push).
+title: Junjie Xiong
+# Blog posts (files in _posts/) are published at /posts/<title>/
+permalink: /posts/:title/
