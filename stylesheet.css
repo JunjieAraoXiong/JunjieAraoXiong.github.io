@@ -1,18 +1,20 @@
 /* ===========================================================
-   Academic-template styling (à la Jon Barron / Paris Zhang):
-   Lato typography, 14px base, blue links with orange hover,
-   centered name, bio-beside-photo header, underlined headings,
-   thumbnail-left entries. All visual detail lives here.
+   Personal site styling — serif/editorial formatting inspired by
+   john-b-yang.github.io, on our own template:
+   EB Garamond type, top bar (name left / nav right), photo-left
+   hero, warm-brown affiliation links, © + social-icon footer.
+   All visual detail lives here; content lives in the .html files.
    =========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
 
 :root {
-  --text: #1b1b1f;
-  --muted: #5f6570;
-  --link: #1772d0;        /* Barron blue   */
-  --link-hover: #f09228;  /* Barron orange */
-  --border: #e1e4e8;
+  --text: #1a1a1a;
+  --muted: #6b7280;
+  --link: #1772d0;        /* links            */
+  --link-hover: #b45a00;  /* hover (warm)      */
+  --affil: #9a5b2e;       /* schools / affiliations */
+  --border: #e3e3e3;
   --soft-blue: #e8f2ff;
   --soft-green: #e8f6ef;
   --soft-gold: #fff4d8;
@@ -28,9 +30,9 @@ body {
   margin: 0;
   color: var(--text);
   background: #ffffff;
-  font-family: 'Lato', Verdana, Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.65;
+  font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  font-size: 19px;
+  line-height: 1.6;
 }
 
 a {
@@ -41,59 +43,96 @@ a {
 a:hover,
 a:focus {
   color: var(--link-hover);
-  text-decoration: none;
+}
+
+/* warm-brown links for schools / affiliations */
+a.affil {
+  color: var(--affil);
+}
+
+a.affil:hover {
+  color: var(--link-hover);
+}
+
+p {
+  margin: 0 0 14px;
 }
 
 .page {
   width: 100%;
-  max-width: 760px;
+  max-width: 740px;
   margin: 0 auto;
-  padding: 48px 24px 72px;
+  padding: 32px 24px 80px;
 }
 
-/* ---------- header ---------- */
+/* ---------- top bar ---------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 14px;
+  margin-bottom: 44px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-size: 23px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.brand:hover,
+.brand:focus {
+  color: var(--text);
+}
+
+.topnav a {
+  margin-left: 22px;
+  font-size: 17px;
+  color: var(--text);
+}
+
+.topnav a:hover {
+  color: var(--link-hover);
+}
+
+/* ---------- hero (home): portrait photo left, text right ---------- */
 .intro {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 220px;
-  gap: 44px;
-  align-items: center;
-  padding: 8px 0 24px;
-}
-
-h1 {
-  margin: 0 0 22px;
-  font-size: 33px;
-  font-weight: 500;
-  line-height: 1.1;
-  text-align: center;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 38px;
+  align-items: start;
+  margin-bottom: 16px;
 }
 
 .intro-photo img {
   display: block;
   width: 100%;
-  object-fit: cover;
   border-radius: 8px;
 }
 
-.links {
-  margin-top: 16px;
-  text-align: center;
+.intro-copy h1 {
+  margin: 0 0 6px;
 }
 
-.links span {
-  color: var(--muted);
-  margin: 0 5px;
+.tagline {
+  margin: 0 0 18px;
+  color: var(--text);
 }
 
-/* ---------- sections ---------- */
-.section {
-  padding: 34px 0 8px;
+/* ---------- headings ---------- */
+h1 {
+  margin: 0 0 16px;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.05;
 }
 
 h2 {
-  margin: 0 0 22px;
-  font-size: 22px;
-  font-weight: 400;   /* underline comes from <u> in the markup */
+  margin: 0 0 20px;
+  font-size: 26px;
+  font-weight: 500;   /* underline comes from <u> in the markup */
 }
 
 h2 u {
@@ -102,19 +141,20 @@ h2 u {
 }
 
 h3 {
-  margin: 0 0 5px;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.35;
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.3;
 }
 
-p {
-  margin: 0 0 12px;
+/* ---------- sections ---------- */
+.section {
+  padding: 32px 0 6px;
 }
 
 .focus-list {
   margin: 4px 0 0;
-  padding-left: 20px;
+  padding-left: 22px;
 }
 
 .focus-list li {
@@ -124,15 +164,14 @@ p {
 /* ---------- experience (Research / Internships) ---------- */
 .role {
   display: flex;
-  gap: 34px;
+  gap: 32px;
   align-items: center;
-  padding: 26px 0;
+  padding: 24px 0;
 }
 
-/* big brand logo on the left, no box/border */
 .role-logo {
   width: 130px;
-  height: 60px;
+  height: 58px;
   flex-shrink: 0;
   object-fit: contain;
   object-position: center;
@@ -143,20 +182,19 @@ p {
   min-width: 0;
 }
 
-/* title + date stack vertically (date under the title) */
 .role-head {
   display: block;
 }
 
 .role-where {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .role-date {
   display: block;
-  margin-top: 2px;
+  margin-top: 1px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .role-tag {
@@ -166,52 +204,38 @@ p {
 
 .role-loc {
   margin: 6px 0 0;
-  font-size: 14px;
+  font-size: 18px;
 }
 
-/* ---------- selected work (publication-style rows) ---------- */
+/* ---------- projects (publication-style rows) ---------- */
 .project {
   display: grid;
-  grid-template-columns: 160px minmax(0, 1fr);
-  gap: 30px;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 28px;
   align-items: start;
-  padding: 28px 0;
+  padding: 26px 0;
 }
 
 .project-thumb {
-  width: 160px;
-  height: 116px;
+  width: 150px;
+  height: 108px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 6px;
   color: var(--text);
-  font-weight: 700;
+  font-weight: 600;
   border: 1px solid var(--border);
 }
 
-.project-thumb.rl {
-  background: var(--soft-blue);
-}
-
-.project-thumb.rag {
-  background: var(--soft-green);
-}
-
-.project-thumb.fin {
-  background: var(--soft-gold);
-}
-
-.project-thumb.sys {
-  background: var(--soft-gray);
-}
-
-.project-thumb.math {
-  background: var(--soft-red);
-}
+.project-thumb.rl { background: var(--soft-blue); }
+.project-thumb.rag { background: var(--soft-green); }
+.project-thumb.fin { background: var(--soft-gold); }
+.project-thumb.sys { background: var(--soft-gray); }
+.project-thumb.math { background: var(--soft-red); }
 
 .meta {
-  margin: 2px 0 10px;
+  margin: 2px 0 8px;
   color: var(--muted);
   font-style: italic;
 }
@@ -220,53 +244,9 @@ p {
   margin: 0;
 }
 
-/* ---------- social icons + footer ---------- */
-.social {
-  display: flex;
-  justify-content: center;
-  gap: 22px;
-  margin: 0 0 14px;
-}
-
-.social a {
-  display: inline-flex;
-  color: #1b1b1f;
-}
-
-.social a:hover {
-  color: var(--link-hover);
-}
-
-.social svg {
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
-  display: block;
-}
-
-footer {
-  padding-top: 48px;
-  color: var(--muted);
-  font-size: 13px;
-  text-align: center;
-}
-
-footer p {
-  margin: 0;
-}
-
-/* ---------- top nav (links between pages) ---------- */
-.nav {
-  margin: 0 0 40px;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0.2px;
-  word-spacing: 7px;
-}
-
-/* ---------- course notes page ---------- */
+/* ---------- course notes / blog list ---------- */
 .course {
-  padding: 10px 0;
+  padding: 12px 0;
   border-top: 1px solid var(--border);
 }
 
@@ -280,52 +260,97 @@ footer p {
 
 .course-term {
   color: var(--muted);
-  font-size: 13px;
-  font-weight: 400;
+  font-size: 16px;
 }
 
 .course-links {
   margin: 0;
-  font-size: 14px;
+  font-size: 17px;
+}
+
+/* ---------- footer (© left, icons right) ---------- */
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 60px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.site-footer .social {
+  display: flex;
+  gap: 18px;
+  margin: 0;
+}
+
+.site-footer .social a {
+  display: inline-flex;
+  color: var(--muted);
+}
+
+.site-footer .social a:hover {
+  color: var(--link-hover);
+}
+
+.site-footer .social svg {
+  width: 19px;
+  height: 19px;
+  fill: currentColor;
+  display: block;
 }
 
 /* ---------- responsive ---------- */
 @media (max-width: 680px) {
   .page {
-    padding: 22px 16px 30px;
+    padding: 24px 16px 48px;
+  }
+
+  body {
+    font-size: 18px;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .topnav a {
+    margin: 0 11px;
   }
 
   .intro {
     grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
     gap: 18px;
   }
 
-  .intro-photo {
-    grid-row: 1;
-    width: 200px;
-    margin: 0 auto;
+  .intro-photo img {
+    width: 220px;
   }
 
   h1 {
-    font-size: 30px;
+    font-size: 34px;
   }
 
   .project {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 12px;
   }
 
   .project-thumb {
     width: 100%;
-    height: 80px;
+    height: 84px;
   }
 
-  .role-head {
+  .site-footer {
     flex-direction: column;
-    gap: 2px;
-  }
-
-  footer {
-    text-align: center;
+    gap: 12px;
   }
 }

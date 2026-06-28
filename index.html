@@ -29,31 +29,37 @@
            ============================================================== -->
 
 
-      <!-- TOP NAV: links to the pages of this site. Keep this identical on
-           every page (index.html, projects.html, classes.html, blog.html). -->
-      <p class="nav">
-        <a href="index.html">Home</a> ·
-        <a href="projects.html">Projects</a> ·
-        <a href="classes.html">Notes</a> ·
-        <a href="blog.html">Blog</a>
-      </p>
+      <!-- TOP BAR: your name (left) links home; page links on the right.
+           Keep this identical on every page (projects/classes/blog). -->
+      <header class="topbar">
+        <a class="brand" href="index.html">Junjie Xiong</a>
+        <nav class="topnav">
+          <a href="projects.html">Projects</a>
+          <a href="classes.html">Notes</a>
+          <a href="blog.html">Blog</a>
+        </nav>
+      </header>
 
 
-      <!-- ========================= HEADER ==========================
-           Your name, a short bio, your links, and your photo.
+      <!-- ========================= HERO ============================
+           Photo on the left; "I'm Junjie." heading + a one-line tagline,
+           then a short bio. Each <p> is one paragraph. To link a word:
+           <a href="https://...">word</a>  (use class="affil" for schools
+           so they show in warm brown).
            ============================================================ -->
       <section class="intro">
+        <!-- PHOTO (left column): change the file in images/ or point src elsewhere. -->
+        <div class="intro-photo">
+          <img src="images/profile.jpg" alt="Profile photo of Junjie Xiong">
+        </div>
+
+        <!-- TEXT (right column): heading, tagline, then bio paragraphs. -->
         <div class="intro-copy">
-
-          <!-- NAME: shown large and centered. -->
-          <h1>Junjie Xiong</h1>
-
-          <!-- BIO: write a few short paragraphs about yourself.
-               Each <p> ... </p> is one paragraph.
-               To link a word, wrap it: <a href="https://...">word</a> -->
+          <h1>I'm Junjie.</h1>
+          <p class="tagline">CS + Applied Mathematics junior @ <a class="affil" href="https://www.berkeley.edu/">UC Berkeley</a></p>
           <p>
-            I am a CS + Applied Mathematics junior at UC Berkeley, focused on
-            reinforcement learning, agent training, continual learning, and evaluation.
+            I focus on reinforcement learning, agent training, continual
+            learning, and evaluation.
           </p>
           <p>
             I am broadly interested in language models, machine learning, and deep
@@ -63,15 +69,18 @@
             Outside of research, I am interested in learning about investment
             in the world of venture capital. I love to read.
           </p>
-
-          <!-- (Social links are now an icon row at the BOTTOM of the page,
-               inside the footer. Edit them there.) -->
         </div>
+      </section>
 
-        <!-- PHOTO: change the file in images/ or point src at a new file. -->
-        <div class="intro-photo">
-          <img src="images/profile.png" alt="Profile photo of Junjie Xiong">
-        </div>
+
+      <!-- ========================= CURRENTLY =======================
+           A short "what I'm looking for / up to now" note. -->
+      <section class="section">
+        <h2><u>Currently</u></h2>
+        <p>
+          I am looking for roles in post-training research, machine learning
+          engineering (MLE), and software engineering (SWE).
+        </p>
       </section>
 
 
@@ -157,7 +166,7 @@
           <img class="role-logo" src="images/logos/epoch.png" alt="Epoch AI" loading="lazy">
           <div class="role-body">
             <div class="role-head">
-              <span class="role-where"><strong>Data Scientist</strong>, Epoch AI</span>
+              <span class="role-where"><strong>Data Scientist</strong>, Epoch AI <span class="role-tag">(Contract)</span></span>
               <span class="role-date">Mar 2026 &ndash; Jun 2026</span>
             </div>
             <p class="role-loc">San Francisco, CA</p>
@@ -182,6 +191,7 @@
               <span class="role-where"><strong>Software Engineer Intern</strong>, Xiaomi Technology</span>
               <span class="role-date">Jun 2025 &ndash; Aug 2025</span>
             </div>
+            <p class="role-loc">Beijing, China</p>
           </div>
         </div>
 
@@ -203,29 +213,20 @@
               <span class="role-where"><strong>Summer Intern</strong>, Cowin Venture Capital</span>
               <span class="role-date">May 2022 &ndash; Jul 2022</span>
             </div>
+            <p class="role-loc">Shenzhen, China</p>
           </div>
         </div>
       </section>
 
 
-      <!-- ========================= CURRENTLY =======================
-           A short "what I'm looking for / up to now" note. -->
-      <section class="section">
-        <h2><u>Currently</u></h2>
-        <p>
-          I am looking for roles in post-training research, machine learning
-          engineering (MLE), and software engineering (SWE).
-        </p>
-      </section>
-
-
       <!-- ========================== FOOTER =========================
-           SOCIAL ICONS: each <a> wraps one inline SVG icon. To add one,
-           copy an <a> ... </a> block, change the href, and paste a new
-           <svg> path. To remove one, delete its <a> ... </a> block.
+           © on the LEFT, social icons on the RIGHT. Each icon is an <a>
+           wrapping an inline <svg>; change the href to update a link.
+           Keep this footer identical on every page.
            ============================================================ -->
-      <footer>
-        <p class="social">
+      <footer class="site-footer">
+        <span class="copyright">© 2026 Junjie Xiong</span>
+        <span class="social">
           <a href="mailto:junjiexiong@berkeley.edu" aria-label="Email" title="Email">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
           </a>
@@ -238,12 +239,7 @@
           <a href="https://x.com/jaraxiong" aria-label="X" title="X">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
           </a>
-        </p>
-        <p>
-          Website template originally forked from
-          <a href="https://jonbarron.info/">Jon Barron</a>.
-          Last updated: June 2026.
-        </p>
+        </span>
       </footer>
     </main>
   </body>
