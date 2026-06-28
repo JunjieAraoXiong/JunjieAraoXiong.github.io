@@ -234,6 +234,25 @@ h3 {
 .project-thumb.sys { background: var(--soft-gray); }
 .project-thumb.math { background: var(--soft-red); }
 
+/* image thumbnails: show the whole logo, contained on white */
+img.project-thumb {
+  object-fit: contain;
+  background: #ffffff;
+}
+
+/* wide-banner project: full-width image stacked above the text */
+.project-wide {
+  display: block;
+}
+
+.project-banner {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
 .meta {
   margin: 2px 0 8px;
   color: var(--muted);
