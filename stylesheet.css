@@ -107,8 +107,8 @@ p {
 /* ---------- hero (home): portrait photo left, text right ---------- */
 .intro {
   display: grid;
-  grid-template-columns: 200px minmax(0, 1fr);
-  gap: 38px;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 34px;
   align-items: start;
   margin-bottom: 16px;
 }
