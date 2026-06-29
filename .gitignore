@@ -1,2 +1,13 @@
 .DS_Store
 **/.DS_Store
+
+# Jekyll / Ruby build artifacts
+_site/
+.jekyll-cache/
+.jekyll-metadata
+vendor/
+.bundle/
+
+# Node / Lighthouse CI
+node_modules/
+.lighthouseci/
