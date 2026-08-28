@@ -287,17 +287,13 @@ img.project-thumb {
   background: #ffffff;
 }
 
-/* wide-banner project: full-width image stacked above the text */
-.project-wide {
+/* compact conference mark used on standalone project pages */
+.conference-logo {
   display: block;
-}
-
-.project-banner {
-  display: block;
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  margin-bottom: 16px;
+  width: 240px;
+  max-width: 100%;
+  height: auto;
+  margin: 18px 0 24px;
 }
 
 .meta {
