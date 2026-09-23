@@ -67,7 +67,7 @@ permalink: /recruiting/verkada.html
             <h2>At a glance</h2>
             <div class="summary-box">
               <p><strong>Best-supported conclusion:</strong> the current invitation is a short CodeSignal; recent internship reports then suggest one or two LeetCode-style technical rounds and a hiring-manager or engineering-lead conversation. Medium-level coding appears often, but the exact sequence varies by team and cycle.</p>
-              <p>The most useful recurring themes are arrays and hash maps, recursion, stateful class design, filesystem paths, intervals, chronological event streams, and clear complexity analysis. Behavioral preparation should emphasize ownership, grit, teamwork, customer impact, and why Verkada.</p>
+              <p>The most useful recurring themes are arrays and hash maps, recursion, stateful class design, filesystem paths, intervals, chronological event streams, practical API implementation, and clear complexity analysis. Behavioral preparation should emphasize ownership, grit, teamwork, customer impact, and why Verkada.</p>
             </div>
             <div class="fact-grid" aria-label="Assessment facts">
               <div class="fact"><span class="fact-label">Current invitation</span><strong>CodeSignal · 30 min</strong></div>
@@ -81,6 +81,11 @@ permalink: /recruiting/verkada.html
           <section class="guide-section" id="evidence">
             <h2>Evidence map</h2>
             <div class="evidence-list">
+              <article class="evidence-item">
+                <div><p class="evidence-source">First-hand · anonymized</p><p class="evidence-date">2026</p></div>
+                <div class="evidence-copy"><h3>Informal engineer conversation</h3><p>Paraphrased notes highlighted a memorable project, resolving a difficult issue, and practical Flask API implementation. This is one engineer's perspective—not an official or guaranteed interview format.</p></div>
+                <span class="confidence-badge medium">Direct, not official</span>
+              </article>
               <article class="evidence-item">
                 <div><p class="evidence-source">Official · current</p><p class="evidence-date">Verkada careers</p></div>
                 <div class="evidence-copy"><h3><a href="https://www.verkada.com/careers/">Published interview process</a></h3><p>Verkada says recruiter screens cover background and goals; hiring-manager screens mix behavioral and role-specific questions; later stages may include tailored technical work and team discussions.</p></div>
@@ -191,6 +196,12 @@ permalink: /recruiting/verkada.html
                 <p><strong>Official signal:</strong> Verkada's 2025 intern retrospective describes bounded concurrent requests, partial-error handling, cross-stack APIs, and integration tests.</p>
                 <p class="practice-prompt"><strong>Practice:</strong> implement <code>fetchCameraStats(ids, limit)</code> so at most <code>limit</code> requests run, order is preserved, and one failure does not cancel the batch.</p>
               </article>
+              <article class="question-card question-card-wide">
+                <div class="question-card-head"><span class="question-number">07</span><span class="topic-chip">First-hand engineer note</span></div>
+                <h3>Practical Flask API</h3>
+                <p><strong>First-hand signal:</strong> conversation notes included writing APIs with Flask. This is a paraphrased theme, not a promise of a particular round or exact prompt.</p>
+                <p class="practice-prompt"><strong>Practice:</strong> model a device as <code>{id, name, serial_number}</code>, with a unique serial number. Build <code>POST /devices</code>, cursor-paginated <code>GET /devices</code>, <code>GET /devices/&lt;id&gt;</code>, and a partial <code>PATCH /devices/&lt;id&gt;</code>. Return <code>400</code> for invalid input, <code>404</code> for a missing device, and <code>409</code> for a duplicate serial number. Add success and error-path tests; then discuss persistence, idempotency, and authorization.</p>
+              </article>
             </div>
             <p class="public-note"><strong>How to use this bank:</strong> solve the original prompts from scratch, narrate your invariant, test edge cases, and explain the first meaningful optimization. Do not memorize anonymous reports as predictions.</p>
           </section>
@@ -217,10 +228,20 @@ permalink: /recruiting/verkada.html
 
           <section class="guide-section" id="behavioral">
             <h2>Behavioral preparation</h2>
-            <p>Verkada officially says the hiring-manager conversation mixes behavioral and role-specific questions. The safest preparation is a small set of detailed technical stories—not generic answers.</p>
+            <p>Verkada officially says the hiring-manager conversation mixes behavioral and role-specific questions. An informal engineer conversation reinforces preparing detailed stories about memorable work and difficult technical issues—not generic answers.</p>
 
-            <h3>Questions candidates actually reported</h3>
+            <h3>Reported questions and engineer-conversation prompts</h3>
             <div class="reported-prompts">
+              <article class="reported-prompt">
+                <span class="topic-chip">2026 · informal chat</span>
+                <p>Which project or experience is most memorable to you, and why?</p>
+                <span class="prompt-source">Reconstructed from notes</span>
+              </article>
+              <article class="reported-prompt">
+                <span class="topic-chip">2026 · informal chat</span>
+                <p>Tell me about a very difficult issue. How did you diagnose it, resolve it, and verify the fix?</p>
+                <span class="prompt-source">Reconstructed from notes</span>
+              </article>
               <article class="reported-prompt">
                 <span class="confidence-badge medium">Feb. 2026 · intern</span>
                 <p>What do you know about Verkada and this role?</p>
@@ -311,6 +332,7 @@ permalink: /recruiting/verkada.html
           <section class="guide-section" id="sources">
             <h2>Sources and limits</h2>
             <ul class="source-list">
+              <li>First-hand conversation with a software engineer, paraphrased and anonymized (2026)</li>
               <li><a href="https://www.verkada.com/careers/">Verkada: Official interview process</a></li>
               <li><a href="https://www.verkada.com/blog/engineering-values/">Verkada: Engineering values</a></li>
               <li><a href="https://www.verkada.com/blog/engineering-at-verkada-a-look-into-verkadas-2025-software-internship/">Verkada: 2025 Software Internship retrospective</a></li>
@@ -334,7 +356,7 @@ permalink: /recruiting/verkada.html
               <li><a href="https://www.reddit.com/r/csMajors/comments/xisbak/verkada_oa/">Reddit: company-specific CodeSignal discussion</a></li>
               <li><a href="https://www.reddit.com/r/csMajors/comments/111dqem/summer_2023_swe_internship_search_recap/">Reddit: 2023 embedded-intern recap</a></li>
             </ul>
-            <p>Candidate reports may be inaccurate, duplicated by aggregators, outdated, or tied to another team. A “reported” label means only that one public source described it—not that Verkada confirmed it or will repeat it. Original prompts on this page are deliberately not claimed as live questions.</p>
+            <p>Candidate reports may be inaccurate, duplicated by aggregators, outdated, or tied to another team. A “reported” label means only that one public source described it—not that Verkada confirmed it or will repeat it. First-hand notes are one engineer's perspective and are anonymized. Original prompts on this page are deliberately not claimed as live questions.</p>
           </section>
         </div>
       </div>

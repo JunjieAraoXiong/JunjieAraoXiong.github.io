@@ -801,6 +801,10 @@
   background: rgba(255, 255, 255, .38);
 }
 
+.question-card-wide {
+  grid-column: 1 / -1;
+}
+
 .question-card-head {
   display: flex;
   justify-content: space-between;
@@ -854,6 +858,12 @@
 }
 
 .reported-prompt a {
+  white-space: nowrap;
+}
+
+.prompt-source {
+  color: var(--resource-muted);
+  font: 12px/1.4 var(--resource-mono);
   white-space: nowrap;
 }
 
@@ -1122,7 +1132,8 @@
     justify-self: start;
   }
 
-  .reported-prompt a {
+  .reported-prompt a,
+  .prompt-source {
     white-space: normal;
   }
 
