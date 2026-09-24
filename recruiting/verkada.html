@@ -56,6 +56,7 @@ permalink: /recruiting/verkada.html
             <li><a href="#process">Interview path</a></li>
             <li><a href="#technical">Technical questions</a></li>
             <li><a href="#practice">Practice set</a></li>
+            <li><a href="#camera-mock">Pair mock</a></li>
             <li><a href="#behavioral">Behavioral prep</a></li>
             <li><a href="#sessions">Six sessions</a></li>
             <li><a href="#execution">Execution loops</a></li>
@@ -258,8 +259,74 @@ permalink: /recruiting/verkada.html
               <div class="practice-item"><input type="checkbox" aria-label="Mark Diameter of Binary Tree complete" data-practice-check data-item="tree-diameter"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/diameter-of-binary-tree/">Diameter of Binary Tree</a></strong><span>Postorder aggregation and local-versus-global state.</span></span><span class="practice-time">25 min</span></div>
               <div class="practice-item"><input type="checkbox" aria-label="Mark Lowest Common Ancestor complete" data-practice-check data-item="lowest-common-ancestor"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/">Lowest Common Ancestor</a></strong><span>Recursive identity and split-point reasoning.</span></span><span class="practice-time">25 min</span></div>
               <div class="practice-item"><input type="checkbox" aria-label="Mark All Nodes Distance K complete" data-practice-check data-item="distance-k"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/">All Nodes Distance K in Binary Tree</a></strong><span>Parent map, visited set, and BFS from a target.</span></span><span class="practice-time">30 min</span></div>
-              <div class="practice-item"><input type="checkbox" aria-label="Mark paired camera hierarchy mock complete" data-practice-check data-item="paired-camera-tree-mock"><span class="practice-copy"><strong>Paired camera-hierarchy mock</strong><span>Take an unseen tree problem, clarify the model, implement aloud, accept one requirement change, and finish with tests.</span></span><span class="practice-time">45 min</span></div>
+              <div class="practice-item"><input type="checkbox" aria-label="Mark paired camera hierarchy mock complete" data-practice-check data-item="paired-camera-tree-mock"><span class="practice-copy"><strong><a href="#camera-mock">Paired camera-hierarchy mock</a></strong><span>Run Camera Alert Radius with a partner, reveal the bidirectional-link change, and finish with tests.</span></span><span class="practice-time">45 min</span></div>
             </div>
+          </section>
+
+          <section class="guide-section" id="camera-mock">
+            <h2>Paired camera-hierarchy mock</h2>
+            <p class="section-intro"><strong>Original rehearsal—not a reported Verkada intern question.</strong> This mock wraps standard tree and graph patterns in camera vocabulary. Verkada's public product documentation confirms nested sites and subsites, not this fictional camera-to-camera data model. One person interviews; the other codes without reading the later stages in advance.</p>
+
+            <div class="question-grid">
+              <article class="question-card question-card-wide">
+                <div class="question-card-head"><span class="question-number">01</span><span class="topic-chip">Reveal at 0:00</span></div>
+                <h3>Camera Alert Radius: downward traversal</h3>
+                <p>For this fictional exercise, a monitoring network is modeled as a rooted N-ary tree of cameras. Each <code>CameraNode</code> exposes <code>id: string</code> and <code>children: list&lt;CameraNode&gt;</code>. The root is non-null, IDs are unique, the input is a valid tree, and <code>1 &le; n &le; 100,000</code>.</p>
+                <p class="practice-prompt"><strong>Implement:</strong> <code>cameras_below(root, target_id, k) -&gt; list[str]</code>. Return the IDs of all cameras exactly <code>k</code> levels below <code>target_id</code>, in any order. Return an empty list when the target is missing or <code>k &lt; 0</code>; when <code>k = 0</code>, return the target itself.</p>
+                <p><strong>Example hierarchy:</strong> <code>cam-hq -&gt; cam-lobby -&gt; {cam-a, cam-b}</code> and <code>cam-hq -&gt; cam-lab -&gt; cam-c</code>. Then <code>cameras_below(root, "cam-lobby", 1)</code> returns <code>["cam-a", "cam-b"]</code>.</p>
+              </article>
+
+              <article class="question-card question-card-wide">
+                <div class="question-card-head"><span class="question-number">02</span><span class="topic-chip">Reveal near 18:00</span></div>
+                <h3>Requirement change: links work both ways</h3>
+                <p>After the first version is implemented and tested, explain that alerts can travel across every parent-child link in either direction. Ancestors and sibling branches can now be in range.</p>
+                <p class="practice-prompt"><strong>Update the solution:</strong> implement <code>cameras_at_distance(root, target_id, k) -&gt; list[str]</code>, returning every camera exactly <code>k</code> links from the target. Keep the same missing-target, negative-<code>k</code>, and ordering rules.</p>
+                <p><strong>Example:</strong> in the hierarchy above, <code>cameras_at_distance(root, "cam-a", 2)</code> returns <code>["cam-hq", "cam-b"]</code>.</p>
+              </article>
+            </div>
+
+            <div class="story-kit">
+              <div>
+                <p class="guide-label">45-minute pairing script</p>
+                <ol>
+                  <li><strong>0–5:</strong> candidate clarifies the model and edge cases.</li>
+                  <li><strong>5–15:</strong> implement the downward-only version.</li>
+                  <li><strong>15–18:</strong> test it together; then reveal stage two.</li>
+                  <li><strong>18–35:</strong> adapt the model and keep the code runnable.</li>
+                  <li><strong>35–41:</strong> test root, leaf, chain, sibling, and out-of-range cases.</li>
+                  <li><strong>41–45:</strong> explain complexity and repeated-query trade-offs.</li>
+                </ol>
+              </div>
+              <div>
+                <p class="guide-label">Debrief after time</p>
+                <p>The clean adaptation builds an ID-to-node map plus parent links—or one undirected adjacency list—then runs BFS from the target with a visited set. Building the representation and answering one worst-case query both take <code>O(n)</code> time and <code>O(n)</code> space.</p>
+                <p>For many queries, preprocess the adjacency structure once inside a reusable <code>CameraHierarchy</code> object instead of rebuilding it per call.</p>
+              </div>
+            </div>
+
+            <h3>Interviewer cue sheet</h3>
+            <div class="question-grid">
+              <article class="question-card">
+                <div class="question-card-head"><span class="question-number">H</span><span class="topic-chip">Hints, in order</span></div>
+                <p>“Can a rooted tree be viewed as an undirected graph?”</p>
+                <p>“Which link is missing from the node model?”</p>
+                <p>“How will you avoid bouncing forever between a parent and child?”</p>
+              </article>
+              <article class="question-card">
+                <div class="question-card-head"><span class="question-number">F</span><span class="topic-chip">Final follow-up</span></div>
+                <p>Suppose the input is an unordered list of camera links rather than a trusted hierarchy. How would you reject malformed topology?</p>
+                <p class="practice-prompt"><strong>Expected direction:</strong> require <code>n - 1</code> links plus connectivity, or verify both connectivity and acyclicity with DFS or union-find; discuss duplicate and unknown IDs.</p>
+              </article>
+            </div>
+
+            <h3>Closest standard practice problems</h3>
+            <ul class="resource-link-list">
+              <li><a href="https://leetcode.com/problems/n-ary-tree-level-order-traversal/">N-ary Tree Level Order Traversal</a><p>Queue boundaries and level-by-level traversal for the first stage.</p></li>
+              <li><a href="https://leetcode.com/problems/employee-importance/">Employee Importance</a><p>ID lookup plus traversal through a named hierarchy.</p></li>
+              <li><a href="https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/">All Nodes Distance K in Binary Tree</a><p>The closest algorithmic analogue to the bidirectional requirement change.</p></li>
+              <li><a href="https://leetcode.com/problems/binary-tree-cameras/">Binary Tree Cameras</a><p>A different, harder coverage problem. Use it only as a stretch exercise, not as the model for this mock.</p></li>
+            </ul>
+            <p class="public-note"><strong>Evidence boundary:</strong> public internship reports support LeetCode-style technical rounds but do not confirm this prompt. Official Verkada documentation supports nested site/subsite vocabulary and permission inheritance—not a camera-to-camera tree. The data model, algorithm, and staged requirement change here are original practice.</p>
           </section>
 
           <section class="guide-section" id="behavioral">
@@ -460,6 +527,9 @@ permalink: /recruiting/verkada.html
               <li>First-hand conversation with a Verkada software engineer, paraphrased and anonymized (2026)</li>
               <li><a href="https://github.com/verkada/interview-prep">Verkada: Official archived interview setup — Python/Flask or Go</a></li>
               <li><a href="https://www.verkada.com/uk/blog/customer-focused-collaboration/">Verkada: Employee account of a collaborative pair-programming interview</a></li>
+              <li><a href="https://help.verkada.com/verkada-cameras/configuration/manage-sites-and-subsites">Verkada: Official camera site and subsite hierarchy documentation</a></li>
+              <li><a href="https://help.verkada.com/verkada-cameras/getting-started/roles-and-permissions-for-cameras">Verkada: Official inherited camera roles and permissions documentation</a></li>
+              <li><a href="https://prachub.com/coding-questions/find-users-with-access-to-all-cameras">Non-intern candidate-report cluster: camera and group graph traversal (directional only)</a></li>
               <li><a href="https://prachub.com/interview-experiences/verkada-software-engineer-interview-experience-phone-screen-plus-a-four-round-onsite-no-feedback-after-two-weeks">Non-intern candidate report: three API calls and database discussion</a></li>
               <li><a href="https://www.reddit.com/r/interviews/comments/1d5g2el/verkada_interview/">Non-intern Reddit discussion: API-layer pair programming</a></li>
               <li><a href="https://www.reddit.com/r/interviews/comments/1kzbj8u/verkada_backend_engineer_interview_prep/">Non-intern Reddit discussion: backend API development</a></li>
