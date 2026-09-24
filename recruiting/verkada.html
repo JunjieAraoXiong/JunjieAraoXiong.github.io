@@ -67,7 +67,7 @@ permalink: /recruiting/verkada.html
             <h2>At a glance</h2>
             <div class="summary-box">
               <p><strong>Best-supported conclusion:</strong> the current invitation is a short CodeSignal; recent internship reports then suggest one or two LeetCode-style technical rounds and a hiring-manager or engineering-lead conversation. Medium-level coding appears often, but the exact sequence varies by team and cycle.</p>
-              <p>The most useful recurring themes are arrays and hash maps, recursion, stateful class design, filesystem paths, intervals, chronological event streams, practical API implementation, and clear complexity analysis. Behavioral preparation should emphasize ownership, grit, teamwork, customer impact, and why Verkada.</p>
+              <p>The most useful recurring themes are arrays and hash maps, recursion, stateful class design, filesystem paths, intervals, chronological event streams, practical API implementation, and clear complexity analysis. For backend roles, Verkada's current internship posting names Python and Go—not Java. Behavioral preparation should emphasize ownership, grit, teamwork, customer impact, and why Verkada.</p>
             </div>
             <div class="fact-grid" aria-label="Assessment facts">
               <div class="fact"><span class="fact-label">Current invitation</span><strong>CodeSignal · 30 min</strong></div>
@@ -85,6 +85,16 @@ permalink: /recruiting/verkada.html
                 <div><p class="evidence-source">First-hand · anonymized</p><p class="evidence-date">2026</p></div>
                 <div class="evidence-copy"><h3>Informal engineer conversation</h3><p>Paraphrased notes highlighted a memorable project, resolving a difficult issue, and practical Flask API implementation. This is one engineer's perspective—not an official or guaranteed interview format.</p></div>
                 <span class="confidence-badge medium">Direct, not official</span>
+              </article>
+              <article class="evidence-item">
+                <div><p class="evidence-source">Official · current role</p><p class="evidence-date">2027 internship</p></div>
+                <div class="evidence-copy"><h3><a href="https://job-boards.greenhouse.io/verkada/jobs/5210813007">Backend Software Engineering Intern</a></h3><p>The role explicitly says interns design clean APIs in Python and/or Go. Verkada's <a href="https://github.com/verkada/interview-prep">official, now-archived setup repository</a> likewise offered Python or Go; its Python starter uses Flask while the actual challenge remained private.</p></div>
+                <span class="confidence-badge high">High</span>
+              </article>
+              <article class="evidence-item">
+                <div><p class="evidence-source">Candidate reports</p><p class="evidence-date">2024–2026</p></div>
+                <div class="evidence-copy"><h3><a href="https://prachub.com/interview-experiences/verkada-software-engineer-interview-experience-phone-screen-plus-a-four-round-onsite-no-feedback-after-two-weeks">Practical API implementation</a></h3><p>Reports describe a local environment with Docker/PyCharm, three API calls, request/response parsing, data access, and an API layer built from requirements. These are not intern-only reports, so treat the format as plausible rather than guaranteed.</p></div>
+                <span class="confidence-badge medium">Medium</span>
               </article>
               <article class="evidence-item">
                 <div><p class="evidence-source">Official · current</p><p class="evidence-date">Verkada careers</p></div>
@@ -159,6 +169,12 @@ permalink: /recruiting/verkada.html
           <section class="guide-section" id="technical">
             <h2>Technical question bank</h2>
             <p>Each card first summarizes a public candidate signal; the practice prompt is original and targets the same skill without claiming to reproduce a current interview question.</p>
+            <div class="language-brief" aria-label="Language guidance">
+              <article><span>CodeSignal OA</span><strong>Your strongest allowed language</strong><p>Your invitation explicitly allows a language choice. Do not switch languages only to imitate the company stack.</p></article>
+              <article><span>Backend internship</span><strong>Python or Go</strong><p>The current official posting names both languages for clean API implementation.</p></article>
+              <article><span>Practical API round</span><strong>Flask means Python</strong><p>Verkada's archived setup repo had candidates choose Python/Flask or Go before receiving the private challenge.</p></article>
+              <article><span>Java</span><strong>Not the priority here</strong><p>Java is not named in the current backend-intern posting. Keep it for the OA only if it is your strongest choice.</p></article>
+            </div>
             <div class="question-grid">
               <article class="question-card">
                 <div class="question-card-head"><span class="question-number">01</span><span class="confidence-badge medium">Recent + repeated</span></div>
@@ -197,10 +213,11 @@ permalink: /recruiting/verkada.html
                 <p class="practice-prompt"><strong>Practice:</strong> implement <code>fetchCameraStats(ids, limit)</code> so at most <code>limit</code> requests run, order is preserved, and one failure does not cancel the batch.</p>
               </article>
               <article class="question-card question-card-wide">
-                <div class="question-card-head"><span class="question-number">07</span><span class="topic-chip">First-hand engineer note</span></div>
-                <h3>Practical Flask API</h3>
-                <p><strong>First-hand signal:</strong> conversation notes included writing APIs with Flask. This is a paraphrased theme, not a promise of a particular round or exact prompt.</p>
-                <p class="practice-prompt"><strong>Practice:</strong> model a device as <code>{id, name, serial_number}</code>, with a unique serial number. Build <code>POST /devices</code>, cursor-paginated <code>GET /devices</code>, <code>GET /devices/&lt;id&gt;</code>, and a partial <code>PATCH /devices/&lt;id&gt;</code>. Return <code>400</code> for invalid input, <code>404</code> for a missing device, and <code>409</code> for a duplicate serial number. Add success and error-path tests; then discuss persistence, idempotency, and authorization.</p>
+                <div class="question-card-head"><span class="question-number">07</span><span class="confidence-badge medium">Official setup + reports</span></div>
+                <h3>API implementation—not merely CRUD</h3>
+                <p><strong>What the evidence says:</strong> Verkada's archived interview setup supports Python/Flask and Go, with the real challenge shared privately. A 2026 SWE report describes implementing three API calls, then discussing request/response parsing, a data-access layer, and a simple database design. Other candidates describe completing an API layer from supplied signatures and requirements.</p>
+                <p><strong>What is probably evaluated:</strong> a correct running service, understanding an existing codebase, clean interfaces, validation, state and persistence, edge cases, tests, and communication. CRUD can be the outer shape, but it is unlikely to be the whole signal.</p>
+                <p class="practice-prompt"><strong>Original drill:</strong> extend a Flask camera-log service with <code>POST /logs</code>, <code>GET /logs</code>, and <code>GET /logs/&lt;id&gt;</code>. Validate JSON; support camera, severity, and time-range filters; return deterministically ordered, cursor-paginated results; preserve data through the supplied repository; and add focused success and failure tests. Then explain concurrent writes, database indexes, and how you would implement the same contract safely in Go.</p>
               </article>
             </div>
             <p class="public-note"><strong>How to use this bank:</strong> solve the original prompts from scratch, narrate your invariant, test edge cases, and explain the first meaningful optimization. Do not memorize anonymous reports as predictions.</p>
@@ -229,6 +246,31 @@ permalink: /recruiting/verkada.html
           <section class="guide-section" id="behavioral">
             <h2>Behavioral preparation</h2>
             <p>Verkada officially says the hiring-manager conversation mixes behavioral and role-specific questions. An informal engineer conversation reinforces preparing detailed stories about memorable work and difficult technical issues—not generic answers.</p>
+
+            <h3>How the conversation is likely to unfold</h3>
+            <p class="section-intro">This is a realistic mock flow synthesized from reported questions, Verkada's published values, and the engineer conversation—not a leaked or guaranteed script.</p>
+            <ol class="interview-path behavioral-flow">
+              <li>
+                <span class="path-step">01</span>
+                <div><h3>Opening and motivation</h3><p>“Tell me about yourself.” “What do you know about Verkada and this role?” “Why this team or stack?”</p></div>
+                <span class="confidence-badge medium">Reported</span>
+              </li>
+              <li>
+                <span class="path-step">02</span>
+                <div><h3>Memorable project deep dive</h3><p>“Which project is most meaningful to you?” Then expect: what problem, what was yours, why that design, which trade-offs, what result, and what you would change.</p></div>
+                <span class="confidence-badge medium">Repeated theme</span>
+              </li>
+              <li>
+                <span class="path-step">03</span>
+                <div><h3>Difficult issue and debugging</h3><p>“Tell me about the hardest technical problem you hit.” Then: first symptom, evidence, hypotheses ruled out, root cause, fix, tests, monitoring, and prevention.</p></div>
+                <span class="confidence-badge medium">Repeated theme</span>
+              </li>
+              <li>
+                <span class="path-step">04</span>
+                <div><h3>Collaboration and reflection</h3><p>“Tell me about a conflict or difficult collaborator.” Then: what each side wanted, how you communicated, what you changed, the outcome, and what you learned.</p></div>
+                <span class="confidence-badge medium">Reported</span>
+              </li>
+            </ol>
 
             <h3>Reported questions and engineer-conversation prompts</h3>
             <div class="reported-prompts">
@@ -302,6 +344,16 @@ permalink: /recruiting/verkada.html
                 <p>Expect follow-ups: “What exactly did you own?”, “What did you reject?”, “How did you measure it?”, and “What would you change?”</p>
               </div>
             </div>
+
+            <h3>Best behavioral resources</h3>
+            <ul class="resource-link-list behavioral-resources">
+              <li><a href="https://www.verkada.com/careers/">Verkada interview process</a><p>Official round structure: recruiter background and goals, then behavioral plus role-specific manager questions.</p></li>
+              <li><a href="https://www.verkada.com/blog/engineering-values/">Verkada engineering values</a><p>Use ownership, integrity, grit, thoughtful speed, craft, and teamwork to choose your six stories.</p></li>
+              <li><a href="https://www.verkada.com/au/blog/from-escalation-to-enhancement-how-one-camera-issue-strengthened-the-platform/">A Verkada debugging case study</a><p>A strong answer model: symptom → evidence → reproduction → root cause → repair → validation → broader impact.</p></li>
+              <li><a href="https://career.berkeley.edu/prepare-for-success/interviewing/">UC Berkeley interview preparation</a><p>Story-mining guidance plus access to Big Interview for practicing “Tell me about a time…” questions.</p></li>
+              <li><a href="https://capd.mit.edu/resources/the-star-method-for-behavioral-interviews/">MIT STAR guide and worksheet</a><p>Use it to make the action unmistakably yours and end with a result and lesson.</p></li>
+              <li><a href="https://www.verkada.com/blog/engineering-at-verkada-a-look-into-verkadas-2025-software-internship/">2025 internship retrospective</a><p>Concrete material for why Verkada: end-to-end ownership, customer impact, cross-team work, APIs, and production-bound projects.</p></li>
+            </ul>
           </section>
 
           <section class="guide-section" id="sessions">
@@ -334,9 +386,14 @@ permalink: /recruiting/verkada.html
             <ul class="source-list">
               <li>First-hand conversation with a software engineer, paraphrased and anonymized (2026)</li>
               <li><a href="https://www.verkada.com/careers/">Verkada: Official interview process</a></li>
+              <li><a href="https://job-boards.greenhouse.io/verkada/jobs/5210813007">Verkada: Backend Software Engineering Intern 2027 — Python/Go APIs and stack</a></li>
+              <li><a href="https://github.com/verkada/interview-prep">Verkada: Official archived interview setup — Python/Flask or Go</a></li>
               <li><a href="https://www.verkada.com/blog/engineering-values/">Verkada: Engineering values</a></li>
               <li><a href="https://www.verkada.com/blog/engineering-at-verkada-a-look-into-verkadas-2025-software-internship/">Verkada: 2025 Software Internship retrospective</a></li>
               <li><a href="https://www.verkada.com/blog/how-verkada-engineers-onboard-for-impact-from-day-one/">Verkada: Engineering onboarding and customer empathy</a></li>
+              <li><a href="https://www.verkada.com/au/blog/from-escalation-to-enhancement-how-one-camera-issue-strengthened-the-platform/">Verkada: Difficult camera issue from symptom through validation</a></li>
+              <li><a href="https://career.berkeley.edu/prepare-for-success/interviewing/">UC Berkeley Career Engagement: Interview preparation and Big Interview</a></li>
+              <li><a href="https://capd.mit.edu/resources/the-star-method-for-behavioral-interviews/">MIT CAPD: STAR method guide and worksheet</a></li>
               <li><a href="https://support.codesignal.com/hc/en-us/articles/360045953873-Taking-an-assessment-on-CodeSignal">CodeSignal: Taking an assessment</a></li>
               <li><a href="https://support.codesignal.com/hc/en-us/articles/15171059136407-Preparing-for-your-CodeSignal-Assessment">CodeSignal: Preparing for an assessment</a></li>
               <li><a href="https://support.codesignal.com/hc/en-us/articles/12984563824279-Practice-Content-Overview">CodeSignal: Practice content overview</a></li>
@@ -346,6 +403,9 @@ permalink: /recruiting/verkada.html
               <li><a href="https://www.glassdoor.com/Interview/Verkada-Interview-E2153775-RVW95479505.htm">Glassdoor: March 2025 accepted-offer internship report</a></li>
               <li><a href="https://www.glassdoor.com/Interview/Verkada-Interview-E2153775-RVW94390548.htm">Glassdoor: January 2025 filesystem-question report</a></li>
               <li><a href="https://www.reddit.com/r/csMajors/comments/1p01x5p/anyone_who_interviewed_with_verkada_in_the_past/">Reddit: late-2025 internship process discussion</a></li>
+              <li><a href="https://prachub.com/interview-experiences/verkada-software-engineer-interview-experience-phone-screen-plus-a-four-round-onsite-no-feedback-after-two-weeks">Candidate report: 2026 three-API-call screen and database discussion</a></li>
+              <li><a href="https://www.reddit.com/r/interviews/comments/1d5g2el/verkada_interview/">Reddit: API-layer pair-programming discussion</a></li>
+              <li><a href="https://www.reddit.com/r/interviews/comments/1kzbj8u/verkada_backend_engineer_interview_prep/">Reddit: backend API-development discussion</a></li>
               <li><a href="https://www.jointaro.com/interviews/companies/verkada/experiences/software-engineerinternship-united-states-march-3-2025-accepted-offer-positive-a78ab57c/">Candidate report: March 2025 manager behavioral</a></li>
               <li><a href="https://www.jointaro.com/interviews/companies/verkada/experiences/software-engineerinternship-united-states-march-1-2024-no-offer-positive-f35b3b5c/">Candidate report: 2024 intern technical and behavioral rounds</a></li>
               <li><a href="https://www.jointaro.com/interviews/companies/verkada/experiences/software-engineerinternship-united-states-august-22-2024-declined-offer-positive-b8e69ce2/">Candidate report: 2024 intern take-home and project deep dive</a></li>

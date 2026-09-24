@@ -795,6 +795,43 @@
   margin-top: 18px;
 }
 
+.language-brief {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 18px 0;
+  border: 1px solid var(--resource-line);
+}
+
+.language-brief article {
+  min-width: 0;
+  padding: 15px;
+  border-left: 1px solid var(--resource-line);
+}
+
+.language-brief article:first-child {
+  border-left: 0;
+}
+
+.language-brief span {
+  color: var(--resource-muted);
+  font: 11px/1.3 var(--resource-mono);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.language-brief strong {
+  display: block;
+  margin-top: 8px;
+  font: 500 18px/1.15 "EB Garamond", Georgia, serif;
+}
+
+.language-brief p {
+  margin: 7px 0 0;
+  color: var(--resource-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
 .question-card {
   padding: 18px;
   border: 1px solid var(--resource-line);
@@ -870,6 +907,14 @@
 .section-intro {
   color: var(--resource-muted);
   font-size: 15px;
+}
+
+.behavioral-flow {
+  margin-bottom: 26px !important;
+}
+
+.resource-link-list.behavioral-resources {
+  margin-top: 16px;
 }
 
 .behavior-grid {
@@ -993,6 +1038,18 @@
   .fact:nth-child(n+3) {
     border-top: 1px solid var(--resource-line);
   }
+
+  .language-brief {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .language-brief article:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .language-brief article:nth-child(n+3) {
+    border-top: 1px solid var(--resource-line);
+  }
 }
 
 @media (max-width: 680px) {
@@ -1091,6 +1148,20 @@
   }
 
   .fact:first-child {
+    border-top: 0;
+  }
+
+  .language-brief {
+    grid-template-columns: 1fr;
+  }
+
+  .language-brief article,
+  .language-brief article:nth-child(n+3) {
+    border-top: 1px solid var(--resource-line);
+    border-left: 0;
+  }
+
+  .language-brief article:first-child {
     border-top: 0;
   }
 
