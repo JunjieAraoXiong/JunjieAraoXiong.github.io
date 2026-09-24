@@ -14,14 +14,14 @@ permalink: /recruiting/verkada.html
     <link rel="stylesheet" type="text/css" href="recruiting.css?v=3">
     <link rel="icon" href="../favicon.png" type="image/png">
     <link rel="canonical" href="https://junjiearaoxiong.github.io/recruiting/verkada.html">
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="Junjie Xiong">
     <meta property="og:title" content="Verkada SWE Internship Prep">
-    <meta property="og:description" content="CodeSignal preparation, reported technical themes, and a Verkada-specific behavioral question bank.">
+    <meta property="og:description" content="CodeSignal preparation, tree-focused technical practice, pair-programming execution, and a Verkada-specific behavioral question bank.">
   </head>
 
-  <body class="recruiting-body" data-progress-scope="verkada-swe-intern-2026">
+  <body class="recruiting-body" data-progress-scope="verkada-swe-intern-2027-v2">
     <main class="page guide-page">
       <header class="topbar">
         <a class="brand" href="../index.html">Junjie Xiong</a>
@@ -37,11 +37,11 @@ permalink: /recruiting/verkada.html
       <header class="guide-hero">
         <p class="guide-label">Company guide · Software Engineering Internship</p>
         <h1>Verkada interview prep</h1>
-        <p class="guide-deck">CodeSignal strategy, current SWE-internship evidence, backend-intern language guidance, and a focused behavioral story bank.</p>
+        <p class="guide-deck">Current SWE-internship evidence, tree-focused technical practice, pair-programming execution, and a focused behavioral story bank.</p>
         <div class="guide-meta">
           <span class="freshness-badge current">Reviewed Sep. 23, 2026</span>
-          <span class="topic-chip">CodeSignal + technicals</span>
-          <span class="topic-chip">Behavioral</span>
+          <span class="topic-chip">Trees + graph traversal</span>
+          <span class="topic-chip">Pair programming</span>
           <span class="topic-chip">SWE internship</span>
         </div>
       </header>
@@ -57,7 +57,7 @@ permalink: /recruiting/verkada.html
             <li><a href="#practice">Practice set</a></li>
             <li><a href="#behavioral">Behavioral prep</a></li>
             <li><a href="#sessions">Six sessions</a></li>
-            <li><a href="#execution">Assessment loop</a></li>
+            <li><a href="#execution">Execution loops</a></li>
             <li><a href="#sources">Sources</a></li>
           </ol>
         </aside>
@@ -66,21 +66,21 @@ permalink: /recruiting/verkada.html
           <section class="guide-section" id="summary">
             <h2>At a glance</h2>
             <div class="summary-box">
-              <p><strong>Best-supported conclusion:</strong> the current invitation is a short CodeSignal; recent internship reports then suggest one or two LeetCode-style technical rounds and a hiring-manager or engineering-lead conversation. Medium-level coding appears often, but the exact sequence varies by team and cycle.</p>
-              <p>The strongest internship-specific themes are arrays and hash maps, stateful class design, filesystem paths, recursion, clear complexity analysis, and detailed project discussion. For backend internships, the current posting names Python and Go—not Java—and emphasizes clean APIs. Behavioral preparation should emphasize ownership, grit, teamwork, customer impact, and why Verkada.</p>
+              <p><strong>Best-supported conclusion:</strong> the current invitation is a 30-minute CodeSignal. Your current process notes add two priorities: expect a technical-heavy loop with tree emphasis and prepare for collaborative pair programming. Recent internship reports independently suggest one or two LeetCode-style technicals followed by a manager or engineering-lead conversation, although the order varies.</p>
+              <p>A camera or controller story is likely a product wrapper around a standard tree or graph problem. Translate devices into nodes, relationships into edges, and the requested output into a traversal or tree invariant before coding. Spend roughly <strong>70% on trees and graphs, 20% solving aloud with a partner, and 10% on the archived API starter</strong>.</p>
             </div>
             <div class="fact-grid" aria-label="Assessment facts">
               <div class="fact"><span class="fact-label">Current invitation</span><strong>CodeSignal · 30 min</strong></div>
-              <div class="fact"><span class="fact-label">Sep. 2026 report</span><strong>LeetCode Medium</strong></div>
-              <div class="fact"><span class="fact-label">Recurring later rounds</span><strong>1–2 technicals</strong></div>
-              <div class="fact"><span class="fact-label">Behavioral signal</span><strong>Manager / team lead</strong></div>
+              <div class="fact"><span class="fact-label">Primary focus</span><strong>Trees + traversal</strong></div>
+              <div class="fact"><span class="fact-label">Later-round format</span><strong>Pair programming</strong></div>
+              <div class="fact"><span class="fact-label">Recurring public reports</span><strong>1–2 technicals</strong></div>
             </div>
             <p class="public-note"><strong>Preparation only:</strong> these are public reports and original practice prompts—not predictions or live assessment answers. Use this page before the timer starts; during an assessment, follow Verkada's and CodeSignal's rules and do not use AI when prohibited.</p>
           </section>
 
           <section class="guide-section" id="evidence">
             <h2>Evidence map</h2>
-            <p class="section-intro">The main evidence below is limited to your invitation, current official material, and SWE-internship reports. Broader backend material is separated afterward.</p>
+            <p class="section-intro">Direct notes from your current process are labeled separately from official material and public candidate reports. They guide preparation, but they do not reveal or guarantee an exact prompt.</p>
             <div class="evidence-list">
               <article class="evidence-item">
                 <div><p class="evidence-source">Direct · your invitation</p><p class="evidence-date">Current process</p></div>
@@ -88,8 +88,13 @@ permalink: /recruiting/verkada.html
                 <span class="confidence-badge high">Highest</span>
               </article>
               <article class="evidence-item">
+                <div><p class="evidence-source">Direct · your process notes</p><p class="evidence-date">Current cycle</p></div>
+                <div class="evidence-copy"><h3>Technical-heavy, tree-focused, collaborative</h3><p>You were advised to prioritize tree-shaped algorithm problems, expect product language such as cameras or controllers, and prepare for pair programming in a later round. No exact question is assumed or reproduced here.</p></div>
+                <span class="confidence-badge medium">Direct note</span>
+              </article>
+              <article class="evidence-item">
                 <div><p class="evidence-source">Official · current role</p><p class="evidence-date">2027 internship</p></div>
-                <div class="evidence-copy"><h3><a href="https://job-boards.greenhouse.io/verkada/jobs/5210813007">Backend Software Engineering Intern</a></h3><p>The role explicitly says interns design clean APIs in Python and/or Go and names REST, Postgres, Kafka/SQS, Docker, Kubernetes, and distributed systems.</p></div>
+                <div class="evidence-copy"><h3><a href="https://job-boards.greenhouse.io/verkada/jobs/5210813007">Backend Software Engineering Intern</a></h3><p>The role explicitly says interns design clean APIs in Python and/or Go, work in an agile team environment, and may use REST, Postgres, Kafka/SQS, Docker, Kubernetes, and distributed systems.</p></div>
                 <span class="confidence-badge high">High</span>
               </article>
               <article class="evidence-item">
@@ -133,7 +138,7 @@ permalink: /recruiting/verkada.html
                 <span class="confidence-badge high">High</span>
               </article>
             </div>
-            <p class="public-note"><strong>Supplementary backend context—not an internship prediction:</strong> your recent engineer conversation mentioned memorable projects, resolving a difficult issue, and Flask API implementation. Verkada's <a href="https://github.com/verkada/interview-prep">archived official interview starter</a> offered Python/Flask or Go, while <a href="https://prachub.com/interview-experiences/verkada-software-engineer-interview-experience-phone-screen-plus-a-four-round-onsite-no-feedback-after-two-weeks">a non-intern candidate report</a> described multi-endpoint and data-layer work. Use this only to prepare for a possible backend exercise.</p>
+            <p class="public-note"><strong>Supplementary backend context—not an internship prediction:</strong> your engineer conversation suggested preparing memorable-project, difficult-issue, and API implementation stories. Verkada's <a href="https://github.com/verkada/interview-prep">official interview starter</a> offered Python/Flask or Go, but the repository was archived on September 10, 2026. Treat it as a useful practice environment, not proof of the current format.</p>
           </section>
 
           <section class="guide-section" id="process">
@@ -142,22 +147,27 @@ permalink: /recruiting/verkada.html
             <ol class="interview-path">
               <li>
                 <span class="path-step">01</span>
-                <div><h3>Recruiter or HR screen</h3><p>Background, skills, career goals, preferred stack, and why Verkada. Be ready to connect your interests to physical-security products and real customer impact.</p></div>
-                <span class="confidence-badge high">Official</span>
+                <div><h3>CodeSignal assessment</h3><p>Your current invitation is a 30-minute assessment in the allowed language you choose. Complete it independently and follow the stated no-AI rule.</p></div>
+                <span class="confidence-badge high">Direct</span>
               </li>
               <li>
                 <span class="path-step">02</span>
-                <div><h3>Assessment or first technical</h3><p>Your current invitation is a 30-minute CodeSignal. A September 2026 intern report then describes one LeetCode Medium in the first interview round.</p></div>
-                <span class="confidence-badge medium">Reported</span>
+                <div><h3>Recruiter or HR screen</h3><p>Background, skills, career goals, preferred stack, and why Verkada. Connect your interests to physical-security products and concrete customer impact.</p></div>
+                <span class="confidence-badge high">Official</span>
               </li>
               <li>
                 <span class="path-step">03</span>
-                <div><h3>Second technical</h3><p>Recent reports most often mention another one or two coding questions. Some cycles instead used a take-home followed by a deep dive into design choices and prior work.</p></div>
-                <span class="confidence-badge medium">Recurring</span>
+                <div><h3>Live technical rounds</h3><p>Recent internship reports most often mention one or two Medium-level coding questions. For this loop, prioritize trees, graph traversal, and translating camera-shaped product language into standard data structures.</p></div>
+                <span class="confidence-badge medium">Reports + direct note</span>
               </li>
               <li>
                 <span class="path-step">04</span>
-                <div><h3>Hiring manager or engineering lead</h3><p>Expect project depth, role alignment, working style, and behavioral questions about challenge, conflict, ownership, and collaboration.</p></div>
+                <div><h3>Later technical / pair programming</h3><p>Current guidance adds a collaborative pairing format. Solve aloud, keep the code runnable, test early, and treat interviewer feedback or a changed requirement as new information. The exact problem remains unconfirmed.</p></div>
+                <span class="confidence-badge medium">Direct note</span>
+              </li>
+              <li>
+                <span class="path-step">05</span>
+                <div><h3>Hiring manager or engineering lead</h3><p>Expect project depth, role alignment, working style, and behavioral questions about challenge, conflict, ownership, and collaboration. This conversation may occur before the final technical.</p></div>
                 <span class="confidence-badge high">Official + reports</span>
               </li>
             </ol>
@@ -165,7 +175,7 @@ permalink: /recruiting/verkada.html
 
           <section class="guide-section" id="technical">
             <h2>SWE internship technical bank</h2>
-            <p>The reported topics below come from SWE-internship sources or official internship material. The final API drill is supplementary backend-intern preparation based on the current role and your engineer conversation—not a claimed interview question.</p>
+            <p>Current guidance for your loop makes trees and graph traversal the highest-value preparation. The API drill remains optional backend practice based on the current role and an archived official starter—not a claimed current interview question.</p>
             <div class="language-brief" aria-label="Language guidance">
               <article><span>CodeSignal OA</span><strong>Your strongest allowed language</strong><p>Your invitation explicitly allows a language choice. Do not switch languages only to imitate the company stack.</p></article>
               <article><span>Backend internship</span><strong>Python or Go</strong><p>The current official posting names both languages for clean API implementation.</p></article>
@@ -174,35 +184,46 @@ permalink: /recruiting/verkada.html
             </div>
             <div class="question-grid">
               <article class="question-card">
-                <div class="question-card-head"><span class="question-number">01</span><span class="confidence-badge medium">Recent + repeated</span></div>
-                <h3>Arrays and hash maps</h3>
-                <p><strong>Reported:</strong> recent rounds are commonly described as LeetCode Medium; a 2024 intern report mentions a constrained pair-sum problem.</p>
-                <p class="practice-prompt"><strong>Practice:</strong> process device events and return the first pair meeting a target latency gap, then support duplicates and streaming input.</p>
+                <div class="question-card-head"><span class="question-number">01</span><span class="confidence-badge medium">Direct prep signal</span></div>
+                <h3>Model the camera story</h3>
+                <p>Strip away product nouns: cameras, gateways, sites, and controllers become nodes; containment or connectivity becomes edges.</p>
+                <p class="practice-prompt"><strong>Clarify first:</strong> rooted tree or general graph, binary or N-ary, directed or undirected, unique IDs, possible cycles, and whether parent links are available.</p>
               </article>
               <article class="question-card">
-                <div class="question-card-head"><span class="question-number">02</span><span class="confidence-badge medium">Intern reports</span></div>
-                <h3>Stateful classes and filesystems</h3>
-                <p><strong>Reported:</strong> one 2024 round required implementing a class; a 2025 report called its prompt a simple filesystem question.</p>
-                <p class="practice-prompt"><strong>Practice:</strong> implement a small in-memory filesystem with create, read, list, and path validation; state the invariants and complexity.</p>
+                <div class="question-card-head"><span class="question-number">02</span><span class="topic-chip">Core pattern</span></div>
+                <h3>DFS and BFS traversal</h3>
+                <p>Use DFS for subtree aggregation and BFS for level-by-level updates or shortest unweighted paths. State what each call or queue entry means.</p>
+                <p class="practice-prompt"><strong>Original drill:</strong> return every camera beneath a gateway, then change the requirement to return them grouped by network depth.</p>
               </article>
               <article class="question-card">
-                <div class="question-card-head"><span class="question-number">03</span><span class="confidence-badge medium">Intern report</span></div>
-                <h3>Recursion and traversal</h3>
-                <p><strong>Reported:</strong> a 2024 SWE-intern candidate described a recursion-focused technical round.</p>
-                <p class="practice-prompt"><strong>Practice:</strong> resolve inherited door permissions through nested user groups while detecting cycles and avoiding duplicate access.</p>
+                <div class="question-card-head"><span class="question-number">03</span><span class="topic-chip">Postorder</span></div>
+                <h3>Height, diameter, and subtree state</h3>
+                <p>Practice returning information upward after processing children. Be precise about whether height and path length count nodes or edges.</p>
+                <p class="practice-prompt"><strong>Original drill:</strong> find the longest route between two cameras in a site hierarchy and explain the <code>O(V + E)</code> bound.</p>
               </article>
               <article class="question-card">
-                <div class="question-card-head"><span class="question-number">04</span><span class="topic-chip">Original drill · intern work</span></div>
-                <h3>Concurrency and reliability</h3>
-                <p><strong>Official internship context:</strong> Verkada's 2025 intern retrospective describes bounded concurrent requests, partial-error handling, cross-stack APIs, and integration tests.</p>
-                <p class="practice-prompt"><strong>Practice:</strong> implement <code>fetchCameraStats(ids, limit)</code> so at most <code>limit</code> requests run, order is preserved, and one failure does not cancel the batch.</p>
+                <div class="question-card-head"><span class="question-number">04</span><span class="topic-chip">Relationships</span></div>
+                <h3>LCA, paths, and distance</h3>
+                <p>Lowest Common Ancestor models a closest shared controller. Distance-K problems test parent mapping plus graph traversal from a target.</p>
+                <p class="practice-prompt"><strong>Original drill:</strong> find two cameras' nearest shared controller, then list all devices exactly <code>k</code> links from one camera.</p>
+              </article>
+              <article class="question-card">
+                <div class="question-card-head"><span class="question-number">05</span><span class="topic-chip">Stretch</span></div>
+                <h3>Coverage and tree DP</h3>
+                <p>Some camera wording may genuinely describe coverage. Learn the postorder states in Binary Tree Cameras, but do not assume that exact problem will appear.</p>
+                <p class="practice-prompt"><strong>State invariant:</strong> each node is covered, has a monitor, or still needs its parent to cover it; test leaves, a chain, and a balanced tree.</p>
               </article>
               <article class="question-card question-card-wide">
-                <div class="question-card-head"><span class="question-number">05</span><span class="confidence-badge medium">Supplementary backend prep</span></div>
+                <div class="question-card-head"><span class="question-number">06</span><span class="confidence-badge medium">Current pairing guidance</span></div>
+                <h3>Pair programming: the practical agile signal</h3>
+                <p>“Agile” is more likely to show up as collaboration under changing information than as Scrum vocabulary. <strong>Align</strong> on constraints and acceptance criteria, <strong>slice</strong> the smallest complete solution, <strong>check</strong> it with examples early, <strong>adapt</strong> to hints or requirement changes, and <strong>close</strong> with complexity, edge cases, and the next improvement.</p>
+                <p class="practice-prompt"><strong>Communication target:</strong> narrate decision points rather than every keystroke. Keep typing ownership unless the interviewer asks to switch, and make each suggestion visible in the code or tests.</p>
+              </article>
+              <article class="question-card question-card-wide">
+                <div class="question-card-head"><span class="question-number">07</span><span class="confidence-badge low">Optional · archived format</span></div>
                 <h3>Clean API implementation—not merely CRUD</h3>
-                <p><strong>Internship-specific signal:</strong> the current Backend SWE Intern role explicitly includes designing clean APIs in Python or Go. Your engineer conversation mentioned Flask/API implementation, and Verkada's archived official interview setup offered Python/Flask or Go while keeping the challenge private.</p>
-                <p><strong>Prepare to demonstrate:</strong> a correct running service, understanding an existing codebase, clean interfaces, validation, state and persistence, edge cases, tests, and communication. CRUD can be the outer shape, but these engineering details distinguish a strong solution.</p>
-                <p class="practice-prompt"><strong>Original drill:</strong> extend a Flask camera-log service with <code>POST /logs</code>, <code>GET /logs</code>, and <code>GET /logs/&lt;id&gt;</code>. Validate JSON; support camera, severity, and time-range filters; return deterministically ordered, cursor-paginated results; preserve data through the supplied repository; and add focused success and failure tests. Then explain concurrent writes, database indexes, and how you would implement the same contract safely in Go.</p>
+                <p>The current Backend SWE Intern role includes clean APIs in Python or Go. Verkada's now-archived starter used Python/Flask or Go, so it is useful code-reading and pairing practice but weak evidence for the current internship loop.</p>
+                <p class="practice-prompt"><strong>Optional drill:</strong> start the archived service, trace the existing <code>/greeting</code> route and tests, then add one small validated endpoint end to end. Explain the contract, error behavior, test cases, and what you would change for persistence or concurrent writes.</p>
               </article>
             </div>
             <p class="public-note"><strong>How to use this bank:</strong> solve the original prompts from scratch, narrate your invariant, test edge cases, and explain the first meaningful optimization. Do not memorize anonymous reports as predictions.</p>
@@ -210,27 +231,27 @@ permalink: /recruiting/verkada.html
 
           <section class="guide-section" id="practice">
             <h2>Prioritized practice</h2>
-            <p>The first five exercises prioritize short-OA fundamentals. The final four target SWE-internship signals: filesystem state, recursion, clean APIs, and bounded concurrency. Work in the language you will use, cap the time, explain the invariant, and record only mistakes or edge cases you missed.</p>
+            <p>The first three exercises preserve short-OA speed. The next five cover the highest-value tree patterns, and the final mock turns those skills into a collaborative interview. Work in your chosen language, cap the time, state the invariant, and record only mistakes or edge cases you missed.</p>
             <div class="practice-progress">
               <div class="progress-head"><p data-progress-text>0 of 9 complete</p><button type="button" class="progress-clear" data-progress-clear>Clear progress</button></div>
               <div class="progress-track" role="progressbar" aria-label="Practice completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-value" data-progress-value></div></div>
             </div>
             <div class="practice-list">
-              <div class="practice-item"><input type="checkbox" aria-label="Mark Valid Anagram complete" data-practice-check data-item="valid-anagram"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/valid-anagram/">Valid Anagram</a></strong><span>Frequency counting and input normalization.</span></span><span class="practice-time">10 min</span></div>
               <div class="practice-item"><input type="checkbox" aria-label="Mark Two Sum complete" data-practice-check data-item="two-sum"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/two-sum/">Two Sum</a></strong><span>One-pass hash map and complexity improvement.</span></span><span class="practice-time">10 min</span></div>
-              <div class="practice-item"><input type="checkbox" aria-label="Mark Valid Palindrome complete" data-practice-check data-item="valid-palindrome"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/valid-palindrome/">Valid Palindrome</a></strong><span>Normalization, two pointers, and boundaries.</span></span><span class="practice-time">12 min</span></div>
               <div class="practice-item"><input type="checkbox" aria-label="Mark Longest Substring Without Repeating Characters complete" data-practice-check data-item="longest-substring"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/">Longest Substring Without Repeating Characters</a></strong><span>Sliding-window state and duplicate handling.</span></span><span class="practice-time">22 min</span></div>
               <div class="practice-item"><input type="checkbox" aria-label="Mark Group Anagrams complete" data-practice-check data-item="group-anagrams"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/group-anagrams/">Group Anagrams</a></strong><span>Canonical keys and nested output.</span></span><span class="practice-time">20 min</span></div>
-              <div class="practice-item"><input type="checkbox" aria-label="Mark Simplify Path complete" data-practice-check data-item="simplify-path"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/simplify-path/">Simplify Path</a></strong><span>Path parsing, stack state, normalization, and edge cases.</span></span><span class="practice-time">20 min</span></div>
-              <div class="practice-item"><input type="checkbox" aria-label="Mark Number of Islands complete" data-practice-check data-item="number-islands"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/number-of-islands/">Number of Islands</a></strong><span>Recursive traversal, visited state, and boundary checks.</span></span><span class="practice-time">25 min</span></div>
-              <div class="practice-item"><input type="checkbox" aria-label="Mark Flask API contract drill complete" data-practice-check data-item="flask-api"><span class="practice-copy"><strong>Flask API contract drill</strong><span>Three routes, validation, filtering, pagination, status codes, persistence, and focused tests.</span></span><span class="practice-time">45 min</span></div>
-              <div class="practice-item"><input type="checkbox" aria-label="Mark bounded concurrency drill complete" data-practice-check data-item="bounded-concurrency"><span class="practice-copy"><strong>Bounded concurrency drill</strong><span>Limit parallel requests, preserve order, and isolate partial failures.</span></span><span class="practice-time">30 min</span></div>
+              <div class="practice-item"><input type="checkbox" aria-label="Mark Maximum Depth of Binary Tree complete" data-practice-check data-item="maximum-depth"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/">Maximum Depth of Binary Tree</a></strong><span>Recursive return contract and iterative alternative.</span></span><span class="practice-time">15 min</span></div>
+              <div class="practice-item"><input type="checkbox" aria-label="Mark Binary Tree Level Order Traversal complete" data-practice-check data-item="level-order"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/">Binary Tree Level Order Traversal</a></strong><span>Queue boundaries and depth-grouped output.</span></span><span class="practice-time">20 min</span></div>
+              <div class="practice-item"><input type="checkbox" aria-label="Mark Diameter of Binary Tree complete" data-practice-check data-item="tree-diameter"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/diameter-of-binary-tree/">Diameter of Binary Tree</a></strong><span>Postorder aggregation and local-versus-global state.</span></span><span class="practice-time">25 min</span></div>
+              <div class="practice-item"><input type="checkbox" aria-label="Mark Lowest Common Ancestor complete" data-practice-check data-item="lowest-common-ancestor"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/">Lowest Common Ancestor</a></strong><span>Recursive identity and split-point reasoning.</span></span><span class="practice-time">25 min</span></div>
+              <div class="practice-item"><input type="checkbox" aria-label="Mark All Nodes Distance K complete" data-practice-check data-item="distance-k"><span class="practice-copy"><strong><a href="https://leetcode.com/problems/all-nodes-distance-k-in-binary-tree/">All Nodes Distance K in Binary Tree</a></strong><span>Parent map, visited set, and BFS from a target.</span></span><span class="practice-time">30 min</span></div>
+              <div class="practice-item"><input type="checkbox" aria-label="Mark paired camera hierarchy mock complete" data-practice-check data-item="paired-camera-tree-mock"><span class="practice-copy"><strong>Paired camera-hierarchy mock</strong><span>Take an unseen tree problem, clarify the model, implement aloud, accept one requirement change, and finish with tests.</span></span><span class="practice-time">45 min</span></div>
             </div>
           </section>
 
           <section class="guide-section" id="behavioral">
             <h2>Behavioral preparation</h2>
-            <p>Verkada officially says the hiring-manager conversation mixes behavioral and role-specific questions. An informal engineer conversation reinforces preparing detailed stories about memorable work and difficult technical issues—not generic answers.</p>
+            <p>Verkada officially says the hiring-manager conversation mixes behavioral and role-specific questions. An informal engineer conversation reinforces preparing detailed stories about memorable work and difficult technical issues—not generic answers. The pair-programming round may also reveal how you clarify, respond to feedback, and recover when an approach needs to change.</p>
 
             <h3>How the conversation is likely to unfold</h3>
             <p class="section-intro">This is a realistic mock flow synthesized from reported questions, Verkada's published values, and the engineer conversation—not a leaked or guaranteed script.</p>
@@ -304,7 +325,8 @@ permalink: /recruiting/verkada.html
               <article><span>Persistence &amp; grit</span><p>Describe a difficult or intermittent bug. How did you keep the investigation structured when early ideas failed?</p></article>
               <article><span>Bias toward action</span><p>Tell me about moving forward with incomplete information. Which guardrails kept the decision safe?</p></article>
               <article><span>Craft</span><p>What technical detail did you improve that others might have overlooked, and why did it matter?</p></article>
-              <article><span>Teamwork</span><p>Describe a technical disagreement or shifting cross-team dependency. How was the final decision made?</p></article>
+              <article><span>Teamwork</span><p>Describe a technical disagreement or a pairing session where another person's feedback improved your solution.</p></article>
+              <article><span>Adaptability</span><p>Tell me about a requirement that changed mid-implementation. How did you re-scope, preserve correctness, and communicate the trade-off?</p></article>
               <article><span>Customer empathy</span><p>When did user feedback materially change your implementation or priorities?</p></article>
               <article><span>Learning</span><p>Tell me about an unfamiliar technology you learned quickly enough to make a meaningful contribution.</p></article>
               <article><span>Impact</span><p>What is the most meaningful thing you shipped? Who used it, and how do you know it helped?</p></article>
@@ -344,17 +366,18 @@ permalink: /recruiting/verkada.html
           <section class="guide-section" id="sessions">
             <h2>Six focused sessions</h2>
             <div class="session-list">
-              <article class="session"><div><h3>Fundamentals</h3><p>Valid Anagram, Two Sum, and Valid Palindrome. Target clean implementations in 10–12 minutes.</p></div></article>
-              <article class="session"><div><h3>Maps and windows</h3><p>Longest Substring and Group Anagrams; redo the harder one from a blank editor.</p></div></article>
-              <article class="session"><div><h3>Stateful classes and paths</h3><p>Simplify Path, then implement the small in-memory filesystem from a blank editor with explicit invariants.</p></div></article>
-              <article class="session"><div><h3>Recursion and traversal</h3><p>Number of Islands, then the nested-permissions drill; focus on visited state, cycles, and boundary errors.</p></div></article>
-              <article class="session"><div><h3>Backend internship practice</h3><p>Build the Flask API contract drill, then implement the bounded-concurrency helper and explain failure behavior.</p></div></article>
-              <article class="session"><div><h3>Two realistic mocks</h3><p>Use CodeSignal's practice environment. Work for 30 minutes, without help, on unfamiliar problems.</p></div></article>
+              <article class="session"><div><h3>OA speed</h3><p>Two Sum, Longest Substring, and Group Anagrams. Target a clear plan, correct code, and edge-case pass under a short timer.</p></div></article>
+              <article class="session"><div><h3>Tree foundations</h3><p>Maximum Depth and Level Order Traversal. Solve recursively and iteratively, then state the queue or call-stack invariant.</p></div></article>
+              <article class="session"><div><h3>Postorder reasoning</h3><p>Diameter plus one subtree-aggregation variation. Separate the value returned to a parent from the global answer.</p></div></article>
+              <article class="session"><div><h3>Relationships and distance</h3><p>Lowest Common Ancestor and Distance K. Practice parent maps, visited sets, and converting a tree into an undirected graph.</p></div></article>
+              <article class="session"><div><h3>Product-shaped modeling</h3><p>Solve Graph Valid Tree, then restate it with cameras and controllers. Add a cross-link and explain how the model and safeguards change.</p></div></article>
+              <article class="session"><div><h3>Solo + paired mocks</h3><p>Run one 30-minute CodeSignal-style mock alone, then one unseen tree problem with a partner who changes one requirement midway.</p></div></article>
             </div>
           </section>
 
           <section class="guide-section" id="execution">
-            <h2>Thirty-minute execution loop</h2>
+            <h2>Execution loops</h2>
+            <h3>Thirty-minute CodeSignal</h3>
             <ol>
               <li><strong>0:00–3:00 — Read:</strong> restate the task, inspect examples and constraints, and identify the expected complexity.</li>
               <li><strong>3:00–5:00 — Design:</strong> choose the data structure and write the invariant or loop plan.</li>
@@ -364,13 +387,28 @@ permalink: /recruiting/verkada.html
               <li><strong>29:00–30:00 — Submit:</strong> verify the required signature and explicitly submit.</li>
             </ol>
             <p>If multiple questions are visible, scan all of them and start with the one you can finish most confidently. One correct solution is better than two fragments.</p>
+
+            <h3>Collaborative pair-programming round</h3>
+            <ol>
+              <li><strong>0:00–5:00 — Align:</strong> restate the goal, ask about constraints, clarify the tree or graph model, and agree on a first slice.</li>
+              <li><strong>5:00–10:00 — Design aloud:</strong> compare plausible approaches, choose one, and state the invariant and expected complexity.</li>
+              <li><strong>10:00–30:00 — Build a working slice:</strong> implement the simplest correct path while narrating only meaningful decisions.</li>
+              <li><strong>30:00–40:00 — Test together:</strong> run the examples plus empty input, one node, a chain, a balanced tree, and any cycle or duplicate case allowed by the model.</li>
+              <li><strong>40:00–45:00 — Adapt and close:</strong> incorporate feedback or one changed requirement, then summarize complexity, trade-offs, and the next improvement.</li>
+            </ol>
+            <p>Treat hints as collaboration, not failure. Confirm what changed, update the plan, and keep the code runnable after each meaningful step.</p>
           </section>
 
           <section class="guide-section" id="sources">
             <h2>Sources and limits</h2>
+            <h3>Direct notes from your process</h3>
+            <ul class="source-list">
+              <li>Your current Software Engineering Internship invitation: 30-minute CodeSignal, language choice, seven-day completion window, and no-AI instruction</li>
+              <li>Current process guidance, paraphrased without exact prompts: technical-heavy loop, tree emphasis, product-context wording, and pair programming</li>
+              <li>Informal engineer conversation, paraphrased without identifying details: memorable work, difficult issue resolution, and API implementation as preparation themes</li>
+            </ul>
             <h3>Core SWE-internship evidence</h3>
             <ul class="source-list">
-              <li>Your current Software Engineering Internship invitation: 30-minute CodeSignal, language choice, and seven-day completion window</li>
               <li><a href="https://job-boards.greenhouse.io/verkada/jobs/5210813007">Verkada: Backend Software Engineering Intern 2027 — Python/Go APIs and stack</a></li>
               <li><a href="https://www.verkada.com/blog/engineering-at-verkada-a-look-into-verkadas-2025-software-internship/">Verkada: 2025 Software Internship retrospective</a></li>
               <li><a href="https://www.verkada.com/careers/">Verkada: Official interview process</a></li>
@@ -391,6 +429,7 @@ permalink: /recruiting/verkada.html
             <ul class="source-list">
               <li>First-hand conversation with a Verkada software engineer, paraphrased and anonymized (2026)</li>
               <li><a href="https://github.com/verkada/interview-prep">Verkada: Official archived interview setup — Python/Flask or Go</a></li>
+              <li><a href="https://www.verkada.com/uk/blog/customer-focused-collaboration/">Verkada: Employee account of a collaborative pair-programming interview</a></li>
               <li><a href="https://prachub.com/interview-experiences/verkada-software-engineer-interview-experience-phone-screen-plus-a-four-round-onsite-no-feedback-after-two-weeks">Non-intern candidate report: three API calls and database discussion</a></li>
               <li><a href="https://www.reddit.com/r/interviews/comments/1d5g2el/verkada_interview/">Non-intern Reddit discussion: API-layer pair programming</a></li>
               <li><a href="https://www.reddit.com/r/interviews/comments/1kzbj8u/verkada_backend_engineer_interview_prep/">Non-intern Reddit discussion: backend API development</a></li>
@@ -399,7 +438,7 @@ permalink: /recruiting/verkada.html
               <li><a href="https://career.berkeley.edu/prepare-for-success/interviewing/">UC Berkeley Career Engagement: Interview preparation and Big Interview</a></li>
               <li><a href="https://capd.mit.edu/resources/the-star-method-for-behavioral-interviews/">MIT CAPD: STAR method guide and worksheet</a></li>
             </ul>
-            <p>Core topic claims on this page are based on the SWE-internship evidence above. Supplementary backend reports are included only to shape optional API practice, not to predict the internship loop. Candidate reports may be inaccurate, outdated, or tied to another team; original prompts are deliberately not claimed as live questions.</p>
+            <p>Current tree and pair-programming priorities come from your direct process notes; public reports support a coding-heavy internship loop but do not independently confirm a specific camera/tree question. The archived starter and non-intern backend reports shape optional API practice only. Candidate reports may be inaccurate, outdated, or tied to another team, and no original drill is claimed as a live question.</p>
           </section>
         </div>
       </div>
