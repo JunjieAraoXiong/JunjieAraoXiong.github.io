@@ -14,3 +14,7 @@ defaults:
       path: "recruiting/"
     values:
       sitemap: false
+
+# Temporarily hide Projects while retaining the page source.
+exclude:
+  - projects.html
