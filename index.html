@@ -10,8 +10,9 @@
     <!-- <title> = the text shown on the browser tab. -->
     <title>Junjie Xiong</title>
     <!-- This line loads all the styling (fonts, colors, layout). Leave it. -->
-    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=5">
+    <link rel="stylesheet" type="text/css" href="landing.css?v=1">
 
+    <script src="landing.js?v=1" defer></script>
     <!-- Favicon: the small icon shown on the browser tab. -->
     <link rel="icon" href="favicon.png" type="image/png">
     <!-- Canonical: the official address of this page (helps Google). -->
@@ -32,246 +33,135 @@
   </head>
 
   <body>
-    <main class="page">
+    <header class="landing-header">
+      <a class="landing-name" href="index.html" aria-current="page">Junjie Xiong</a>
+      <nav aria-label="Main navigation">
+        <a class="about-link" href="about.html">about</a>
+      </nav>
+    </header>
 
-      <!-- ==============================================================
-           HOW TO EDIT THIS PAGE
-           - This file (index.html) holds ALL your visible content.
-           - stylesheet.css controls only how things LOOK (sizes/colors).
-           - Make text a link:   <a href="https://URL">the words</a>
-           - Add an image:       put the file in the images/ folder, then
-                                 <img src="images/yourfile.png" alt="what it is">
-           - Save the file, then refresh your browser to see the change.
-           - Anything between  <!-­- and --­>  is a note to yourself and is
-             NOT shown on the page. Use it to "turn off" code too.
-           ============================================================== -->
-
-
-      <!-- TOP BAR: your name (left) links home; page links on the right.
-           Keep this identical on every page (projects/classes/blog). -->
-      <header class="topbar">
-        <a class="brand" href="index.html">Junjie Xiong</a>
-        <nav class="topnav">
-          <a href="classes.html">Notes</a>
-          <a href="https://jaraxiong.substack.com">Blog</a>
-        </nav>
-      </header>
-
-
-      <!-- ========================= HERO ============================
-           Photo on the left; "I'm Junjie." heading + a one-line tagline,
-           then a short bio. Each <p> is one paragraph. To link a word:
-           <a href="https://...">word</a>  (use class="affil" for schools
-           so they show in warm brown).
-           ============================================================ -->
-      <section class="intro">
-        <!-- PHOTO (left column): change the file in images/ or point src elsewhere. -->
-        <div class="intro-photo">
-          <img src="images/profile-v2.jpg" alt="Profile photo of Junjie Xiong">
-        </div>
-
-        <!-- TEXT (right column): heading, tagline, then bio paragraphs. -->
-        <div class="intro-copy">
-          <h1>I'm Junjie <span lang="zh">俊杰</span>.</h1>
-          <p class="tagline">CS + Maths @ <a class="affil" href="https://www.berkeley.edu/">UC Berkeley</a></p>
-          <p>
-            My research centers on reinforcement learning, training language
-            model agents, continual learning, and LLM evaluation.
-          </p>
-          <p>
-            More broadly, I am interested in language models and machine
-            learning systems, and I am currently deepening my understanding of
-            performance engineering and efficient machine learning.
-          </p>
-          <p>
-            Outside of research, I am drawn to investing and the venture capital
-            world, and I am an <a href="https://www.goodreads.com/jaraxiong">avid reader</a>. I also enjoy staying active through
-            swimming, long-distance running, and racket sports like tennis, squash, and pickleball.
-          </p>
-          <p class="intro-cta">
-            <a class="booking-button" href="https://calendar.app.google/z51co3A5pXzdETQF6">Book a 30-minute chat</a>
-          </p>
-        </div>
-      </section>
-
-
-      <!-- ========================= CURRENTLY =======================
-           A short "what I'm looking for / up to now" note. -->
-      <section class="section">
-        <h2><u>Currently</u></h2>
-        <p>
-          I am looking for roles in post-training research, machine learning
-          engineering (MLE), and software engineering (SWE).
-        </p>
-      </section>
-
-
-      <!-- ======================== RESEARCH ========================
-           Research positions. Each <div class="role"> is one entry.
-           The logo is loaded automatically from the org's website via
-           the favicon link. To use your own logo image instead, replace
-           the <img ...> with:  <img class="role-logo" src="images/logo.png" alt="Org">
-
-           TO ADD A NEW ENTRY: copy one whole <div class="role"> ... </div>
-           block and edit the role, organization, date, and location.
-           ============================================================ -->
-      <section class="section">
-        <h2><u>Research</u></h2>
-
-        <div class="role">
-          <img class="role-logo" src="images/logos/berkeley.png" alt="UC Berkeley" loading="lazy">
-          <div class="role-body">
-            <div class="role-head">
-              <span class="role-place">Berkeley, CA</span>
-              <span class="role-where"><strong>Post-Training Researcher</strong>, Berkeley Sky Computing Lab</span>
-              <span class="role-date">Dec 2025 &ndash; Present</span>
-            </div>
-            <p class="role-loc">RL for language models and agents; advised by <a href="https://people.eecs.berkeley.edu/~raluca/">Raluca Ada Popa</a> &amp; <a href="https://people.eecs.berkeley.edu/~istoica/">Ion Stoica</a>.<br> I am forever thankful for the mentoring from <a href="https://jeffreysijuntan.github.io/">Sijun Tan</a>, <a href="https://thwu1.github.io/tianhaowu/">Tianhao Wu</a>, and <a href="https://listar2000.github.io/">Sida Li</a>.</p>
-          </div>
-        </div>
-
-        <div class="role">
-          <img class="role-logo" src="images/logos/bair.png" alt="Berkeley Artificial Intelligence Research (BAIR)" loading="lazy">
-          <div class="role-body">
-            <div class="role-head">
-              <span class="role-where"><strong><a href="https://bair.berkeley.edu/">Berkeley Artificial Intelligence Research (BAIR)</a></strong></span>
-              <span class="role-date">Sep 2026 &ndash; Present</span>
-            </div>
-            <p class="role-loc"><strong>Agents&rsquo; Last Exam (ALE).</strong> Building infrastructure for end-to-end evaluation of computer-use agents, with <a href="https://www2.eecs.berkeley.edu/Faculty/Homepages/song.html">Dawn Song</a>&rsquo;s group and the SGLang team.</p>
-            <p class="role-loc"><strong>Efficient evaluation.</strong> Exploring early stopping, representative task sampling, and paired comparisons to evaluate language models and agents more efficiently while maintaining reliable performance estimates.</p>
-            <p class="role-loc"><strong>Neural data.</strong> Exploring pretraining and adaptation of language and diffusion models for neuroimaging and neural activity data.</p>
-          </div>
-        </div>
-
-        <div class="role">
-          <img class="role-logo" src="images/logos/stanford.jpg" alt="Stanford" loading="lazy">
-          <div class="role-body">
-            <div class="role-head">
-              <span class="role-place">Stanford, CA</span>
-              <span class="role-where"><strong>Student Researcher</strong>, Stanford AI Laboratory (SAIL)</span>
-              <span class="role-date">Jun 2026 &ndash; Aug 2026</span>
-            </div>
-            <p class="role-loc">NLP Group; advised by <a href="https://web.stanford.edu/~jurafsky/">Dan Jurafsky</a> and mentored by <a href="https://sites.google.com/mail.huji.ac.il/dr-chen-shani?usp=sharing">Chen Shani</a>, exploring whether post-training can steer language models toward concept-preserving reasoning.</p>
-          </div>
-        </div>
-
-        <div class="role">
-          <img class="role-logo" src="images/logos/duke.png" alt="Duke University" loading="lazy">
-          <div class="role-body">
-            <div class="role-head">
-              <span class="role-place">Florence, Italy</span>
-              <span class="role-where"><strong>Undergraduate Researcher</strong>, Duke University</span>
-              <span class="role-date">Jun 2024 &ndash; Aug 2024</span>
-            </div>
-            <p class="role-loc">Contributed to the <a href="https://sites.duke.edu/vulci/">Vulci</a> project with <a href="https://scholars.duke.edu/person/maurizio.forte">Maurizio Forte</a>, doing geophysical surveys and computer graphics; mentored by <a href="https://www.researchgate.net/profile/Nevio-Danelon">Nevio Danelon</a> and <a href="https://www.researchgate.net/profile/Antonio-Lopiano">Antonio Lopiano</a>.</p>
-          </div>
-        </div>
-
-        <!-- COPY-PASTE TEMPLATE for a new research entry (remove the wrapping
-             comment marks to use it):
-        <div class="role">
-          <img class="role-logo" src="images/your-logo.png" alt="Organization">
-          <div class="role-body">
-            <div class="role-head">
-              <span class="role-place">Location</span>
-              <span class="role-where"><strong>Your Role</strong>, Organization</span>
-              <span class="role-date">Mon Year &ndash; Mon Year</span>
-            </div>
-            <p class="role-loc">one short line about the work.</p>
-          </div>
-        </div>
-        -->
-      </section>
-
-
-      <!-- ======================= INTERNSHIPS ======================
-           Same format as Research. One <div class="role"> per job.
-           ============================================================ -->
-      <section class="section">
-        <h2><u>Internships</u></h2>
-
-        <div class="role">
-          <img class="role-logo" src="images/logos/tencent.jpg" alt="Tencent" loading="lazy">
-          <div class="role-body">
-            <div class="role-head">
-              <span class="role-place">Palo Alto, CA</span>
-              <span class="role-where"><strong>Software Engineer</strong>, Tencent</span>
-              <span class="role-date">Jun 2026 &ndash; Sep 2026</span>
-            </div>
-            <p class="role-loc">Developed Go backend services and infrastructure for an internal ML platform supporting model training and LLM evaluation for Tencent&rsquo;s <a href="https://www.tencent.com/tencent-hunyuan-officially-releases-hy3-advancing-agent-capabilities-and-deeper-product-integration/">Hy3</a> and <a href="https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/">Hy4 preview</a> models. Contributed from day one to asynchronous workflow orchestration, automated failure recovery, and model proxy monitoring.</p>
-          </div>
-        </div>
-
-        <div class="role">
-          <img class="role-logo" src="images/logos/epoch.png" alt="Epoch AI" loading="lazy">
-          <div class="role-body">
-            <div class="role-head">
-              <span class="role-place">San Francisco, CA</span>
-              <span class="role-where"><strong>Data Scientist</strong>, Epoch AI</span>
-              <span class="role-date">Mar 2026 &ndash; Jun 2026</span>
-            </div>
-            <p class="role-loc">Explored methods for evaluating mathematical reasoning in LLMs, including auto-formalization of SPDE questions in <a href="https://lean-lang.org/">Lean</a>.</p>
-          </div>
-        </div>
-
-        <div class="role">
-          <img class="role-logo" src="images/logos/xiaomi.svg" alt="Xiaomi" loading="lazy">
-          <div class="role-body">
-            <div class="role-head">
-              <span class="role-place">Beijing, China</span>
-              <span class="role-where"><strong>Software Engineer Intern</strong>, Xiaomi Technology</span>
-              <span class="role-date">Jun 2025 &ndash; Aug 2025</span>
-            </div>
-            <p class="role-loc">Collaborated with Xiaomi&rsquo;s audio team on MiDasheng model development and product integration.</p>
-          </div>
-        </div>
-
-        <div class="role">
-          <img class="role-logo" src="images/logos/cowin.png" alt="Cowin Capital Group" loading="lazy">
-          <div class="role-body">
-            <div class="role-head">
-              <span class="role-place">Shenzhen, China</span>
-              <span class="role-where"><strong>Summer Analyst</strong>, Cowin Capital Group</span>
-              <span class="role-date">May 2023 &ndash; Jul 2023</span>
-            </div>
-            <p class="role-loc">Supported deal sourcing and due diligence for consumer-sector investments, preparing research reports and tracking investment memos. Contributed to early-round investment work, primarily involving Chi Forest and Qiandama. Cowin was an early investor in <a href="https://www.popmart.com/">Pop Mart</a>, <a href="https://www.chiforest.com/">Chi Forest</a>, <a href="https://www.teastone.cn/">Tea&rsquo;stone</a>, and <a href="https://www.qiandama.cn/">Qiandama</a>. Cowin is a private equity and venture capital firm founded in 2000, with approximately <a href="https://www.cnfin.com/jyzfb-lb/detail/20250326/4206425_1.html" title="AUM reported in 2025; USD equivalent at October 5, 2026 exchange rate." aria-label="US$5.2 billion in AUM; AUM reported in 2025; USD equivalent at October 5, 2026 exchange rate.">US$5.2 billion in AUM</a>.</p>
-          </div>
-        </div>
-      </section>
-
-
-      <section class="section">
-        <h2><u>Honors</u></h2>
-        <p>Dean&rsquo;s List. In-class rankings: 1st in CS 168, 2nd in EECS 126, and 4th in EECS 127.</p>
-      </section>
-
-
-      <!-- ========================== FOOTER =========================
-           © on the LEFT, social icons on the RIGHT. Each icon is an <a>
-           wrapping an inline <svg>; change the href to update a link.
-           Keep this footer identical on every page.
-           ============================================================ -->
-      <footer class="site-footer">
-        <span class="copyright">© 2026 Junjie Xiong</span>
-        <span class="social">
-          <a href="mailto:junjiexiong@berkeley.edu" aria-label="Email" title="Email">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          </a>
-          <a href="https://github.com/JunjieAraoXiong" aria-label="GitHub" title="GitHub">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-          </a>
-          <a href="https://www.linkedin.com/in/junjiexiong/" aria-label="LinkedIn" title="LinkedIn">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
-          </a>
-          <a href="https://x.com/jaraxiong" aria-label="X" title="X">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
-          </a>
-          <a href="https://jaraxiong.substack.com" aria-label="Substack" title="Substack">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/></svg>
-          </a>
-        </span>
-      </footer>
+    <main class="landing-stage" aria-label="Sisyphus, an animated ink study">
+      <h1 class="visually-hidden">Junjie Xiong</h1>
+      <svg xmlns="http://www.w3.org/2000/svg" class="sisyphus-art" viewBox="0 0 1100 760" role="img" aria-labelledby="sisyphus-title sisyphus-desc">
+  <title id="sisyphus-title">The work continues</title>
+  <desc id="sisyphus-desc">An original ink drawing of Sisyphus, braced against an enormous boulder on a hillside. His body bends and rises in a quiet, continuous rhythm of effort.</desc>
+  <!-- All animation starts only when the host calls beginElement(). The host
+       respects reduced motion, and uses pauseAnimations()/unpauseAnimations().
+       Native SVG animation works in Safari as well as Firefox and Chromium. -->
+  <defs>
+    <filter id="sisyphus-ink" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".11" numOctaves="2" seed="8" result="sis-grain"/>
+      <feDisplacementMap in="SourceGraphic" in2="sis-grain" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+  <!-- Irregular, tapered ink strokes; the white page is part of the drawing. -->
+  <g fill="#171717" stroke="none" transform="translate(-15 28)" filter="url(#sisyphus-ink)">
+    <path class="sis-hillside" d="M 224 671 C 295 641 346 620 408 596 L 532 546 C 638 502 695 480 790 442 L 918 390 C 965 371 1000 358 1033 347 L 996 364 L 918 397 L 796 447 C 686 492 622 519 535 552 L 412 601 C 343 628 286 651 224 671 Z"/>
+    <path d="M 245 671 L 318 643 L 288 656 Z M 910 401 L 1007 361 L 977 376 Z" opacity=".58"/>
+    <g class="sis-stone" transform="rotate(-.35 750 262)">
+      <animateTransform attributeName="transform" type="rotate" values="-.35 750 262; .6 750 262; .6 750 262; -.35 750 262" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      <!-- The rim is deliberately uneven: a loaded brush at the bottom,
+           almost dry at the crown, with open white space inside. -->
+      <path fill-rule="evenodd" d="M 749 77 C 776 76 802 84 825 94 C 842 101 854 109 870 123 C 884 135 897 150 908 167 C 921 189 929 210 934 235 C 938 260 937 285 932 309 C 929 330 920 350 908 369 C 896 390 883 402 864 416 C 849 426 832 435 813 440 C 792 448 769 450 745 448 C 720 449 695 443 674 434 C 649 425 629 412 611 394 C 593 376 580 355 573 332 C 564 306 561 281 564 255 C 564 232 570 207 578 186 C 588 163 602 145 620 128 C 638 111 660 99 683 90 C 706 81 728 78 749 77 Z
+M 749 83 C 725 84 703 88 683 96 C 660 105 639 118 624 134 C 608 150 594 169 584 190 C 576 212 571 234 571 256 C 569 282 573 307 580 329 C 588 350 601 370 619 387 C 637 404 657 417 680 425 C 702 433 725 438 747 437 C 770 440 793 435 813 430 C 833 425 850 417 865 407 C 882 394 895 379 906 360 C 917 342 925 322 929 301 C 933 279 932 257 928 236 C 924 213 917 191 904 171 C 893 153 880 138 866 126 C 852 114 837 104 820 98 C 798 88 773 82 749 83 Z"/>
+      <path d="M 685 88 C 711 79 739 76 763 79 C 740 77 711 84 693 90 Z M 570 222 C 565 243 564 265 567 283 L 565 301 C 560 274 561 248 567 226 Z M 897 378 C 884 400 863 417 845 425 L 862 414 Z"/>
+      <path d="M 827 104 C 857 117 880 140 896 164" fill="none" stroke="#171717" stroke-width="1.2" stroke-linecap="round" opacity=".6"/>
+      <path d="M 581 218 C 579 225 578 233 578 241 M 692 422 C 705 428 715 429 727 431" fill="none" stroke="#171717" stroke-width="1.1" stroke-linecap="round" opacity=".55"/>
+      <path d="M 766 85 L 775 85 L 772 87 Z M 925 281 L 926 287 L 924 292 Z M 618 381 L 622 387 L 620 386 Z"/>
+    </g>
+    <g class="sis-figure">
+      <path class="sis-far-arm" fill="#171717" d="M 506 332 C 522 333 537 347 546 351 C 556 344 560 332 567 319 L 570 304 C 570 299 573 296 576 300 L 579 316 L 586 325 C 589 331 584 339 579 343 L 558 369 C 549 380 536 375 524 367 L 503 353 Z">
+        <animate attributeName="d" values="M 506 332 C 522 333 537 347 546 351 C 556 344 560 332 567 319 L 570 304 C 570 299 573 296 576 300 L 579 316 L 586 325 C 589 331 584 339 579 343 L 558 369 C 549 380 536 375 524 367 L 503 353 Z; M 514.89 323.11 C 529.2 325.8 542.61 341.39 550.66 346.34 C 559.6 340.4 563.18 328.82 569.44 316.56 L 572.66 300.39 C 572.66 295.39 575.45 292.68 578.24 296.96 L 581.03 313.25 L 587.54 322.91 C 590.33 329.19 585.68 336.72 581.03 340.25 L 561.39 365.61 C 553.34 375.66 541.72 369.28 530.99 360.01 L 512 344 Z; M 514.89 323.11 C 529.2 325.8 542.61 341.39 550.66 346.34 C 559.6 340.4 563.18 328.82 569.44 316.56 L 572.66 300.39 C 572.66 295.39 575.45 292.68 578.24 296.96 L 581.03 313.25 L 587.54 322.91 C 590.33 329.19 585.68 336.72 581.03 340.25 L 561.39 365.61 C 553.34 375.66 541.72 369.28 530.99 360.01 L 512 344 Z; M 506 332 C 522 333 537 347 546 351 C 556 344 560 332 567 319 L 570 304 C 570 299 573 296 576 300 L 579 316 L 586 325 C 589 331 584 339 579 343 L 558 369 C 549 380 536 375 524 367 L 503 353 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-far-arm-light" fill="#fff" d="M 520 341 C 529 345 539 357 548 357 C 555 354 563 342 570 331 L 576 329 C 573 343 560 359 552 366 C 542 366 532 355 520 350 Z">
+        <animate attributeName="d" values="M 520 341 C 529 345 539 357 548 357 C 555 354 563 342 570 331 L 576 329 C 573 343 560 359 552 366 C 542 366 532 355 520 350 Z; M 527.41 333.59 C 535.46 338.54 544.4 351.6 552.45 352.55 C 558.71 350.29 565.86 339.14 572.66 327.39 L 578.24 325.96 C 575.45 339.68 563.18 355.82 556.02 361.98 C 547.08 360.92 538.14 348.86 527.41 342.59 Z; M 527.41 333.59 C 535.46 338.54 544.4 351.6 552.45 352.55 C 558.71 350.29 565.86 339.14 572.66 327.39 L 578.24 325.96 C 575.45 339.68 563.18 355.82 556.02 361.98 C 547.08 360.92 538.14 348.86 527.41 342.59 Z; M 520 341 C 529 345 539 357 548 357 C 555 354 563 342 570 331 L 576 329 C 573 343 560 359 552 366 C 542 366 532 355 520 350 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-back-leg" fill="#171717" d="M 393 447 C 377 458 370 477 365 495 C 361 510 354 523 349 540 C 344 553 332 565 328 581 L 316 611 C 313 618 305 623 305 631 L 306 639 L 320 635 C 329 633 339 629 349 625 L 358 620 C 360 616 356 614 352 616 L 326 620 L 332 606 C 338 593 349 582 354 568 L 371 542 C 384 525 391 506 406 492 L 427 467 Z">
+        <animate attributeName="d" values="M 393 447 C 377 458 370 477 365 495 C 361 510 354 523 349 540 C 344 553 332 565 328 581 L 316 611 C 313 618 305 623 305 631 L 306 639 L 320 635 C 329 633 339 629 349 625 L 358 620 C 360 616 356 614 352 616 L 326 620 L 332 606 C 338 593 349 582 354 568 L 371 542 C 384 525 391 506 406 492 L 427 467 Z; M 401.43 437.57 C 385.07 448.3 377.43 466.82 371.7 484.96 C 366.78 501.33 358.99 515.51 352.96 534.07 C 347.17 548.25 334.43 561.35 329.46 578.81 L 316 611 C 313 618 305 623 305 631 L 306 639 L 320 635 C 329 633 339 629 349 625 L 358 620 C 360 616 356 614 352 616 L 326 620 L 332 606 C 338.73 591.9 350.4 579.9 356.25 564.62 L 374.83 536.25 C 388.87 517.7 397.03 496.96 412.8 481.8 L 434.77 457.07 Z; M 401.43 437.57 C 385.07 448.3 377.43 466.82 371.7 484.96 C 366.78 501.33 358.99 515.51 352.96 534.07 C 347.17 548.25 334.43 561.35 329.46 578.81 L 316 611 C 313 618 305 623 305 631 L 306 639 L 320 635 C 329 633 339 629 349 625 L 358 620 C 360 616 356 614 352 616 L 326 620 L 332 606 C 338.73 591.9 350.4 579.9 356.25 564.62 L 374.83 536.25 C 388.87 517.7 397.03 496.96 412.8 481.8 L 434.77 457.07 Z; M 393 447 C 377 458 370 477 365 495 C 361 510 354 523 349 540 C 344 553 332 565 328 581 L 316 611 C 313 618 305 623 305 631 L 306 639 L 320 635 C 329 633 339 629 349 625 L 358 620 C 360 616 356 614 352 616 L 326 620 L 332 606 C 338 593 349 582 354 568 L 371 542 C 384 525 391 506 406 492 L 427 467 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-back-leg-light" fill="#fff" d="M 392 461 C 379 477 379 495 372 513 C 366 529 357 539 355 552 C 355 535 357 518 363 501 C 367 485 376 470 392 461 Z M 346 570 C 340 588 328 604 323 620 L 313 631 L 317 619 C 321 603 326 585 335 578 Z">
+        <animate attributeName="d" values="M 392 461 C 379 477 379 495 372 513 C 366 529 357 539 355 552 C 355 535 357 518 363 501 C 367 485 376 470 392 461 Z M 346 570 C 340 588 328 604 323 620 L 313 631 L 317 619 C 321 603 326 585 335 578 Z; M 399.97 451.23 C 386.43 466.82 385.7 484.96 377.6 504.6 C 370.63 522.06 361.02 532.97 358.23 547.16 C 359.26 528.61 362.3 510.06 369.33 491.5 C 374.17 474.62 383.67 460 399.97 451.23 Z M 348.13 566.8 C 341.03 586.45 328.06 603.91 323 620 L 313 631 L 317 619 C 321.12 602.82 327.22 583.17 336.64 575.53 Z; M 399.97 451.23 C 386.43 466.82 385.7 484.96 377.6 504.6 C 370.63 522.06 361.02 532.97 358.23 547.16 C 359.26 528.61 362.3 510.06 369.33 491.5 C 374.17 474.62 383.67 460 399.97 451.23 Z M 348.13 566.8 C 341.03 586.45 328.06 603.91 323 620 L 313 631 L 317 619 C 321.12 602.82 327.22 583.17 336.64 575.53 Z; M 392 461 C 379 477 379 495 372 513 C 366 529 357 539 355 552 C 355 535 357 518 363 501 C 367 485 376 470 392 461 Z M 346 570 C 340 588 328 604 323 620 L 313 631 L 317 619 C 321 603 326 585 335 578 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-back-thigh-ink" fill="#171717" d="M 391 470 C 391 487 381 507 373 520 C 377 496 379 480 391 470 Z">
+        <animate attributeName="d" values="M 391 470 C 391 487 381 507 373 520 C 377 496 379 480 391 470 Z; M 398.67 460 C 398.1 476.57 386.97 498.05 378.17 512.24 C 383.63 486.05 386.33 469.75 398.67 460 Z; M 398.67 460 C 398.1 476.57 386.97 498.05 378.17 512.24 C 383.63 486.05 386.33 469.75 398.67 460 Z; M 391 470 C 391 487 381 507 373 520 C 377 496 379 480 391 470 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-front-leg" fill="#171717" d="M 416 443 C 441 449 468 458 488 470 C 506 479 517 488 514 502 C 512 516 490 526 478 539 L 454 565 L 455 574 L 480 567 C 486 564 491 566 489 570 L 479 576 L 445 590 C 437 592 430 589 430 583 L 434 562 C 440 546 455 533 469 516 L 481 501 C 465 497 442 486 426 484 C 407 481 397 465 416 443 Z">
+        <animate attributeName="d" values="M 416 443 C 441 449 468 458 488 470 C 506 479 517 488 514 502 C 512 516 490 526 478 539 L 454 565 L 455 574 L 480 567 C 486 564 491 566 489 570 L 479 576 L 445 590 C 437 592 430 589 430 583 L 434 562 C 440 546 455 533 469 516 L 481 501 C 465 497 442 486 426 484 C 407 481 397 465 416 443 Z; M 424.57 433.68 C 449.37 439.52 476.07 448.3 495.67 460 C 513.37 468.77 524.07 477.55 519.82 493.27 C 516.44 509.35 493.45 520.82 480.17 535.75 L 454 565 L 455 574 L 480 567 C 486 564 491 566 489 570 L 479 576 L 445 590 C 437 592 430 589 430 583 L 434 562 C 441.48 543.78 457.76 528.86 473.44 509.35 L 486.92 492.13 C 471.31 487.54 449.13 475.6 433.2 473.65 C 414.3 470.73 404.83 455.12 424.57 433.68 Z; M 424.57 433.68 C 449.37 439.52 476.07 448.3 495.67 460 C 513.37 468.77 524.07 477.55 519.82 493.27 C 516.44 509.35 493.45 520.82 480.17 535.75 L 454 565 L 455 574 L 480 567 C 486 564 491 566 489 570 L 479 576 L 445 590 C 437 592 430 589 430 583 L 434 562 C 441.48 543.78 457.76 528.86 473.44 509.35 L 486.92 492.13 C 471.31 487.54 449.13 475.6 433.2 473.65 C 414.3 470.73 404.83 455.12 424.57 433.68 Z; M 416 443 C 441 449 468 458 488 470 C 506 479 517 488 514 502 C 512 516 490 526 478 539 L 454 565 L 455 574 L 480 567 C 486 564 491 566 489 570 L 479 576 L 445 590 C 437 592 430 589 430 583 L 434 562 C 440 546 455 533 469 516 L 481 501 C 465 497 442 486 426 484 C 407 481 397 465 416 443 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-front-thigh-light" fill="#fff" d="M 421 453 C 444 460 473 471 488 481 C 500 488 503 496 499 503 C 496 509 489 514 481 518 C 489 508 493 500 487 493 C 472 482 447 476 426 472 Z">
+        <animate attributeName="d" values="M 421 453 C 444 460 473 471 488 481 C 500 488 503 496 499 503 C 496 509 489 514 481 518 C 489 508 493 500 487 493 C 472 482 447 476 426 472 Z; M 429.23 443.43 C 452 450.25 480.63 460.98 495.3 470.73 C 507.07 477.55 509.41 486.39 504.72 494.42 C 501.13 501.31 493.63 507.05 485.24 511.64 C 494.23 500.16 499.01 490.98 493.7 482.94 C 479.27 471.7 454.47 465.85 433.6 461.95 Z; M 429.23 443.43 C 452 450.25 480.63 460.98 495.3 470.73 C 507.07 477.55 509.41 486.39 504.72 494.42 C 501.13 501.31 493.63 507.05 485.24 511.64 C 494.23 500.16 499.01 490.98 493.7 482.94 C 479.27 471.7 454.47 465.85 433.6 461.95 Z; M 421 453 C 444 460 473 471 488 481 C 500 488 503 496 499 503 C 496 509 489 514 481 518 C 489 508 493 500 487 493 C 472 482 447 476 426 472 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-front-calf-light" fill="#fff" d="M 486 516 C 476 533 453 549 446 565 L 441 580 L 434 584 L 440 562 C 449 546 471 531 486 516 Z">
+        <animate attributeName="d" values="M 486 516 C 476 533 453 549 446 565 L 441 580 L 434 584 L 440 562 C 449 546 471 531 486 516 Z; M 490.44 509.35 C 478.76 528.86 454.18 547.23 446 565 L 441 580 L 434 584 L 440 562 C 450.48 543.78 473.96 526.56 490.44 509.35 Z; M 490.44 509.35 C 478.76 528.86 454.18 547.23 446 565 L 441 580 L 434 584 L 440 562 C 450.48 543.78 473.96 526.56 490.44 509.35 Z; M 486 516 C 476 533 453 549 446 565 L 441 580 L 434 584 L 440 562 C 449 546 471 531 486 516 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-front-foot-light" fill="#fff" d="M 447 582 L 476 573 L 456 582 L 446 587 Z">
+        <animate attributeName="d" values="M 447 582 L 476 573 L 456 582 L 446 587 Z; M 447 582 L 476 573 L 456 582 L 446 587 Z; M 447 582 L 476 573 L 456 582 L 446 587 Z; M 447 582 L 476 573 L 456 582 L 446 587 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-torso" fill="#171717" d="M 389 475 C 376 468 373 447 381 426 C 393 397 416 369 442 346 C 457 331 475 318 493 319 C 510 317 525 329 527 344 C 526 359 516 369 502 376 L 470 400 C 458 414 454 436 440 454 C 426 472 407 483 389 475 Z">
+        <animate attributeName="d" values="M 389 475 C 376 468 373 447 381 426 C 393 397 416 369 442 346 C 457 331 475 318 493 319 C 510 317 525 329 527 344 C 526 359 516 369 502 376 L 470 400 C 458 414 454 436 440 454 C 426 472 407 483 389 475 Z; M 396.5 464.88 C 383.73 458.05 381.43 437.57 390 417 C 402 388 425 360 451 337 C 466 322 484 309 502 310 C 518.47 308.53 531.88 322.12 533.67 337.33 C 532.78 352.22 523.84 361.16 511 367 L 479 391 C 467 405 462.8 426.85 448.2 444.4 C 433.6 461.95 414.23 472.68 396.5 464.88 Z; M 396.5 464.88 C 383.73 458.05 381.43 437.57 390 417 C 402 388 425 360 451 337 C 466 322 484 309 502 310 C 518.47 308.53 531.88 322.12 533.67 337.33 C 532.78 352.22 523.84 361.16 511 367 L 479 391 C 467 405 462.8 426.85 448.2 444.4 C 433.6 461.95 414.23 472.68 396.5 464.88 Z; M 389 475 C 376 468 373 447 381 426 C 393 397 416 369 442 346 C 457 331 475 318 493 319 C 510 317 525 329 527 344 C 526 359 516 369 502 376 L 470 400 C 458 414 454 436 440 454 C 426 472 407 483 389 475 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-back-light" fill="#fff" d="M 386 445 C 391 416 413 386 439 362 C 456 346 475 329 492 328 C 499 327 507 331 512 337 C 502 339 490 342 480 352 C 465 358 453 370 444 385 C 432 405 421 423 417 446 C 410 462 399 467 390 463 Z">
+        <animate attributeName="d" values="M 386 445 C 391 416 413 386 439 362 C 456 346 475 329 492 328 C 499 327 507 331 512 337 C 502 339 490 342 480 352 C 465 358 453 370 444 385 C 432 405 421 423 417 446 C 410 462 399 467 390 463 Z; M 394.5 435.62 C 400 407 422 377 448 353 C 465 337 484 320 501 319 C 508 318 515.79 322.21 520.26 328.74 C 511 330 499 333 489 343 C 474 349 462 361 453 376 C 441 396 430 414 425.47 436.6 C 417.93 452.2 406.77 457.07 397.9 453.18 Z; M 394.5 435.62 C 400 407 422 377 448 353 C 465 337 484 320 501 319 C 508 318 515.79 322.21 520.26 328.74 C 511 330 499 333 489 343 C 474 349 462 361 453 376 C 441 396 430 414 425.47 436.6 C 417.93 452.2 406.77 457.07 397.9 453.18 Z; M 386 445 C 391 416 413 386 439 362 C 456 346 475 329 492 328 C 499 327 507 331 512 337 C 502 339 490 342 480 352 C 465 358 453 370 444 385 C 432 405 421 423 417 446 C 410 462 399 467 390 463 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-shoulder-light" fill="#fff" d="M 485 348 C 492 338 504 339 513 344 C 516 353 508 362 498 366 C 491 362 486 355 485 348 Z">
+        <animate attributeName="d" values="M 485 348 C 492 338 504 339 513 344 C 516 353 508 362 498 366 C 491 362 486 355 485 348 Z; M 494 339 C 501 329 513 330 521.15 335.85 C 523.84 345.16 516.68 353.32 507 357 C 500 353 495 346 494 339 Z; M 494 339 C 501 329 513 330 521.15 335.85 C 523.84 345.16 516.68 353.32 507 357 C 500 353 495 346 494 339 Z; M 485 348 C 492 338 504 339 513 344 C 516 353 508 362 498 366 C 491 362 486 355 485 348 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-lat-ink" fill="#171717" d="M 447 369 C 439 383 426 392 423 410 C 420 420 422 432 417 443 C 414 431 411 421 415 409 C 419 391 431 378 447 369 Z">
+        <animate attributeName="d" values="M 447 369 C 439 383 426 392 423 410 C 420 420 422 432 417 443 C 414 431 411 421 415 409 C 419 391 431 378 447 369 Z; M 456 360 C 448 374 435 383 432 401 C 429 411 430.93 422.95 425.57 433.68 C 422.97 421.98 420 412 424 400 C 428 382 440 369 456 360 Z; M 456 360 C 448 374 435 383 432 401 C 429 411 430.93 422.95 425.57 433.68 C 422.97 421.98 420 412 424 400 C 428 382 440 369 456 360 Z; M 447 369 C 439 383 426 392 423 410 C 420 420 422 432 417 443 C 414 431 411 421 415 409 C 419 391 431 378 447 369 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-scapula-ink" fill="#171717" d="M 464 345 C 465 353 467 358 479 361 C 469 363 456 358 451 354 Z">
+        <animate attributeName="d" values="M 464 345 C 465 353 467 358 479 361 C 469 363 456 358 451 354 Z; M 473 336 C 474 344 476 349 488 352 C 478 354 465 349 460 345 Z; M 473 336 C 474 344 476 349 488 352 C 478 354 465 349 460 345 Z; M 464 345 C 465 353 467 358 479 361 C 469 363 456 358 451 354 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-hip-light" fill="#fff" d="M 392 444 C 398 442 405 445 408 452 C 408 462 398 473 389 468 C 385 461 386 451 392 444 Z">
+        <animate attributeName="d" values="M 392 444 C 398 442 405 445 408 452 C 408 462 398 473 389 468 C 385 461 386 451 392 444 Z; M 400.53 434.65 C 406.6 432.7 413.5 435.62 416.27 442.45 C 415.93 452.2 405.57 462.93 396.73 458.05 C 392.97 451.23 394.3 441.48 400.53 434.65 Z; M 400.53 434.65 C 406.6 432.7 413.5 435.62 416.27 442.45 C 415.93 452.2 405.57 462.93 396.73 458.05 C 392.97 451.23 394.3 441.48 400.53 434.65 Z; M 392 444 C 398 442 405 445 408 452 C 408 462 398 473 389 468 C 385 461 386 451 392 444 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-belly-light" fill="#fff" d="M 450 406 C 447 423 440 442 425 453 C 431 437 434 420 450 406 Z">
+        <animate attributeName="d" values="M 450 406 C 447 423 440 442 425 453 C 431 437 434 420 450 406 Z; M 459 397 C 456 414 448.6 432.7 433.23 443.43 C 439.77 427.82 443 411 459 397 Z; M 459 397 C 456 414 448.6 432.7 433.23 443.43 C 439.77 427.82 443 411 459 397 Z; M 450 406 C 447 423 440 442 425 453 C 431 437 434 420 450 406 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-rib-light" fill="#fff" d="M 461 391 C 469 384 477 376 487 374 L 469 394 L 453 410 Z">
+        <animate attributeName="d" values="M 461 391 C 469 384 477 376 487 374 L 469 394 L 453 410 Z; M 470 382 C 478 375 486 367 496 365 L 478 385 L 462 401 Z; M 470 382 C 478 375 486 367 496 365 L 478 385 L 462 401 Z; M 461 391 C 469 384 477 376 487 374 L 469 394 L 453 410 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-neck-and-head" fill="#171717" d="M 504 338 C 515 341 520 343 528 343 C 541 341 550 350 551 359 L 551 365 L 557 370 L 553 375 L 550 382 L 542 388 C 536 391 527 385 522 381 C 516 377 514 368 508 365 L 499 358 Z">
+        <animate attributeName="d" values="M 504 338 C 515 341 520 343 528 343 C 541 341 550 350 551 359 L 551 365 L 557 370 L 553 375 L 550 382 L 542 388 C 536 391 527 385 522 381 C 516 377 514 368 508 365 L 499 358 Z; M 513 329 C 522.94 333.06 527.41 335.59 534.56 336.44 C 546.19 335.81 554.24 345.76 555.13 354.87 L 555.13 360.87 L 560.49 366.51 L 556.92 371.08 L 554.24 377.76 L 547.08 382.92 C 541.72 385.28 533.67 378.33 529.2 373.8 C 523.84 369.16 522.05 359.95 516.68 356.32 L 508 349 Z; M 513 329 C 522.94 333.06 527.41 335.59 534.56 336.44 C 546.19 335.81 554.24 345.76 555.13 354.87 L 555.13 360.87 L 560.49 366.51 L 556.92 371.08 L 554.24 377.76 L 547.08 382.92 C 541.72 385.28 533.67 378.33 529.2 373.8 C 523.84 369.16 522.05 359.95 516.68 356.32 L 508 349 Z; M 504 338 C 515 341 520 343 528 343 C 541 341 550 350 551 359 L 551 365 L 557 370 L 553 375 L 550 382 L 542 388 C 536 391 527 385 522 381 C 516 377 514 368 508 365 L 499 358 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-face-light" fill="#fff" d="M 538 352 C 545 354 546 360 545 365 L 550 370 L 546 374 L 545 380 L 540 382 C 532 377 528 371 529 366 C 535 369 537 365 536 361 Z">
+        <animate attributeName="d" values="M 538 352 C 545 354 546 360 545 365 L 550 370 L 546 374 L 545 380 L 540 382 C 532 377 528 371 529 366 C 535 369 537 365 536 361 Z; M 543.51 346.49 C 549.76 349.24 550.66 355.34 549.76 360.24 L 554.24 365.76 L 550.66 369.34 L 549.76 375.24 L 545.29 376.71 C 538.14 370.86 534.56 364.44 535.46 359.54 C 540.82 363.18 542.61 359.39 541.72 355.28 Z; M 543.51 346.49 C 549.76 349.24 550.66 355.34 549.76 360.24 L 554.24 365.76 L 550.66 369.34 L 549.76 375.24 L 545.29 376.71 C 538.14 370.86 534.56 364.44 535.46 359.54 C 540.82 363.18 542.61 359.39 541.72 355.28 Z; M 538 352 C 545 354 546 360 545 365 L 550 370 L 546 374 L 545 380 L 540 382 C 532 377 528 371 529 366 C 535 369 537 365 536 361 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-ear-light" fill="#fff" d="M 522 355 C 518 356 519 364 524 366 L 526 361 Z">
+        <animate attributeName="d" values="M 522 355 C 518 356 519 364 524 366 L 526 361 Z; M 529.2 347.8 C 525.62 348.38 526.52 356.48 530.99 359.01 L 532.78 354.22 Z; M 529.2 347.8 C 525.62 348.38 526.52 356.48 530.99 359.01 L 532.78 354.22 Z; M 522 355 C 518 356 519 364 524 366 L 526 361 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-arm" fill="#171717" d="M 482 354 C 470 355 465 369 475 385 C 489 407 507 424 525 423 C 545 418 577 400 602 392 L 619 383 C 626 378 628 370 621 365 L 613 365 L 606 372 C 597 375 585 377 572 382 L 529 398 C 514 393 505 373 497 362 Z">
+        <animate attributeName="d" values="M 482 354 C 470 355 465 369 475 385 C 489 407 507 424 525 423 C 545 418 577 400 602 392 L 619 383 C 626 378 628 370 621 365 L 613 365 L 606 372 C 597 375 585 377 572 382 L 529 398 C 514 393 505 373 497 362 Z; M 491 345 C 479 346 474 360 484 376 C 498 398 515.79 415.21 531.88 416.12 C 549.76 413.24 579.17 397.06 602.42 391.43 L 619 383 C 626 378 628 370 621 365 L 613 365 L 606.14 371.81 C 597.77 373.95 586.61 374.81 574.52 378.58 L 535.46 391.54 C 522.05 384.95 514 364 506 353 Z; M 491 345 C 479 346 474 360 484 376 C 498 398 515.79 415.21 531.88 416.12 C 549.76 413.24 579.17 397.06 602.42 391.43 L 619 383 C 626 378 628 370 621 365 L 613 365 L 606.14 371.81 C 597.77 373.95 586.61 374.81 574.52 378.58 L 535.46 391.54 C 522.05 384.95 514 364 506 353 Z; M 482 354 C 470 355 465 369 475 385 C 489 407 507 424 525 423 C 545 418 577 400 602 392 L 619 383 C 626 378 628 370 621 365 L 613 365 L 606 372 C 597 375 585 377 572 382 L 529 398 C 514 393 505 373 497 362 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-arm-light" fill="#fff" d="M 483 362 C 476 367 480 379 489 390 C 502 404 511 413 524 414 C 539 410 564 398 582 391 L 600 384 L 609 379 C 592 383 574 389 556 396 L 530 405 C 517 405 507 393 501 383 C 496 375 493 367 483 362 Z">
+        <animate attributeName="d" values="M 483 362 C 476 367 480 379 489 390 C 502 404 511 413 524 414 C 539 410 564 398 582 391 L 600 384 L 609 379 C 592 383 574 389 556 396 L 530 405 C 517 405 507 393 501 383 C 496 375 493 367 483 362 Z; M 492 353 C 485 358 489 370 498 381 C 511 395 519.36 404.64 530.99 407.01 C 544.4 404.6 566.75 395.25 583.82 388.53 L 600.56 383.24 L 609 379 C 593.12 381.48 576.38 385.77 559.6 392.4 L 536.35 398.65 C 524.73 397.27 515.79 384.21 510 374 C 505 366 502 358 492 353 Z; M 492 353 C 485 358 489 370 498 381 C 511 395 519.36 404.64 530.99 407.01 C 544.4 404.6 566.75 395.25 583.82 388.53 L 600.56 383.24 L 609 379 C 593.12 381.48 576.38 385.77 559.6 392.4 L 536.35 398.65 C 524.73 397.27 515.79 384.21 510 374 C 505 366 502 358 492 353 Z; M 483 362 C 476 367 480 379 489 390 C 502 404 511 413 524 414 C 539 410 564 398 582 391 L 600 384 L 609 379 C 592 383 574 389 556 396 L 530 405 C 517 405 507 393 501 383 C 496 375 493 367 483 362 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-bicep-ink" fill="#171717" d="M 481 376 C 488 382 496 390 500 399 C 490 396 482 387 481 376 Z">
+        <animate attributeName="d" values="M 481 376 C 488 382 496 390 500 399 C 490 396 482 387 481 376 Z; M 490 367 C 497 373 505 381 509 390 C 499 387 491 378 490 367 Z; M 490 367 C 497 373 505 381 509 390 C 499 387 491 378 490 367 Z; M 481 376 C 488 382 496 390 500 399 C 490 396 482 387 481 376 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-elbow-light" fill="#fff" d="M 517 411 C 521 414 524 416 530 414 L 526 419 L 519 419 Z">
+        <animate attributeName="d" values="M 517 411 C 521 414 524 416 530 414 L 526 419 L 519 419 Z; M 524.73 403.27 C 528.31 406.69 530.99 409.01 536.35 407.65 L 532.78 412.22 L 526.52 411.48 Z; M 524.73 403.27 C 528.31 406.69 530.99 409.01 536.35 407.65 L 532.78 412.22 L 526.52 411.48 Z; M 517 411 C 521 414 524 416 530 414 L 526 419 L 519 419 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+      <path class="sis-hand-detail" fill="#fff" d="M 609 372 L 617 369 L 620 371 L 611 377 Z M 613 378 L 620 375 L 619 379 L 611 383 Z">
+        <animate attributeName="d" values="M 609 372 L 617 369 L 620 371 L 611 377 Z M 613 378 L 620 375 L 619 379 L 611 383 Z; M 609 372 L 617 369 L 620 371 L 611 377 Z M 613 378 L 620 375 L 619 379 L 611 383 Z; M 609 372 L 617 369 L 620 371 L 611 377 Z M 613 378 L 620 375 L 619 379 L 611 383 Z; M 609 372 L 617 369 L 620 371 L 611 377 Z M 613 378 L 620 375 L 619 379 L 611 383 Z" keyTimes="0;.44;.56;1" keySplines=".42 0 .4 1; 0 0 1 1; .42 0 .4 1" calcMode="spline" dur="4.8s" begin="indefinite" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <!-- Small marks under the soles anchor the entire effort to the slope. -->
+    <path d="M 302 643 L 330 632 L 323 637 Z M 432 591 L 471 576 L 457 584 Z"/>
+  </g>
+</svg>
     </main>
+
+    <footer class="landing-footer">
+      <a class="film-credit" href="https://www.youtube.com/watch?v=QujiLG93BKw&amp;t=86s"
+         target="_blank" rel="noopener noreferrer"
+         aria-label="Inspired by Marcell Jankovics’s Sisyphus (1974). Watch the original film on YouTube in a new tab.">After <cite>Sisyphus</cite>, 1974</a>
+      <button class="motion-toggle" type="button" aria-label="Pause animation" hidden>
+        <svg class="pause-icon" viewBox="0 0 16 16" aria-hidden="true" width="16" height="16"><path d="M5 3v10M11 3v10"/></svg>
+        <svg class="play-icon" viewBox="0 0 16 16" aria-hidden="true" width="16" height="16"><path d="m5 3 8 5-8 5Z"/></svg>
+        <span class="motion-label">Pause</span>
+      </button>
+    </footer>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7baadfe13e8945a28573f8ceda32b6dd"}'></script><!-- End Cloudflare Web Analytics -->
   </body>
 </html>
