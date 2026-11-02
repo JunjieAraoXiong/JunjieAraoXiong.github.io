@@ -1,132 +1,141 @@
-/* A 36-second ink film: effort, accumulation, arrival, revelation.
- * World coordinates stay fixed while the camera follows the climb and retreats.
- * Pure sample()/frame() functions also generate the no-JavaScript poster.
+/* A 43-second ink film: load, failure, recovery, transformation, revelation.
+ * Feet retain their position on the hillside until a deliberate recovery step.
+ * The stone's rendered contour supplies both ground and hand-contact geometry.
+ * Camera movement is independent of the character's changing posture.
  */
 (function (global) {
   'use strict';
-  const DURATION = 36;
-  const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
-  const mix = (a, b, x) => a + (b - a) * x;
-  const ease = x => { x = clamp(x); return x * x * (3 - 2 * x); };
-  const n = x => Number(x.toFixed(3));
-  const at = (t, keys) => {
-    for (let i = 1; i < keys.length; i++) {
-      if (t <= keys[i][0]) {
-        const [ta, a] = keys[i - 1], [tb, b] = keys[i];
-        return mix(a, b, ease((t - ta) / (tb - ta)));
-      }
+  const DURATION=43, FINAL_ADVANCE=260, FINAL_CENTER=772;
+  const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+  const mix=(a,b,t)=>a+(b-a)*t;
+  const ease=t=>{t=clamp(t);return t*t*(3-2*t);};
+  const n=x=>Number(x.toFixed(3));
+  const timing=(q,kind)=>kind==='strike'?1-(1-q)**3:kind==='gather'?q*q:ease(q);
+  function between(t,keys) {
+    for(let i=1;i<keys.length;i++) if(t<=keys[i][0]) {
+      return {a:keys[i-1],b:keys[i],q:timing(clamp((t-keys[i-1][0])/(keys[i][0]-keys[i-1][0])),keys[i][2])};
     }
-    return keys[keys.length - 1][1];
-  };
-  // Each attempt has its own anticipation, hold, thrust, and partial retreat.
-  const posture = [[0,.15],[1.2,.4],[2.8,1],[3.6,1.08],[4.9,2.8],
-    [5.6,3],[6.5,1.4],[7.2,1.1],[8.7,1.9],[10.2,2],[11.3,2.08],
-    [12.7,2.95],[13.4,3],[14.4,2.25],[15.3,2],[16.7,1.2],
-    [17.8,1.1],[19.2,2.7],[20.6,3],[21.9,3.02],[23.7,4],[36,4]];
-  const ascent = [[0,0],[2.8,.02],[3.5,.02],[5.4,.22],[6.9,.17],
-    [10,.2],[11.3,.2],[13.4,.46],[15.1,.4],[17.6,.45],
-    [20.6,.86],[22.8,1],[36,1]];
-  const growth = [[0,188],[3.5,192],[5.6,221],[10,229],[13.6,268],
-    [17.7,274],[21.7,318],[23,322],[36,322]];
+    return {a:keys.at(-1),b:keys.at(-1),q:1};
+  }
+  function at(t,keys) {const {a,b,q}=between(t,keys);return mix(a[1],b[1],q);}
+  // Long periods without progress separate short, costly bursts of movement.
+  const travel=[[0,0],[3.8,0],[4.25,38,'strike'],[5.12,38],[5.55,22,'strike'],
+    [8.9,22],[10.1,75],[11.7,75],[12.15,49,'strike'],[14.7,49],
+    [16,88],[19.6,88],[20.35,180,'strike'],[22.65,180],
+    [23.5,240,'strike'],[24.8,260],[43,260]];
+  const growth=[[0,188],[3.8,188],[4.25,209],[8.9,209],[10.1,237],
+    [14.7,237],[16,252],[19.6,252],[20.35,303],[22.65,303],
+    [23.5,330],[24.8,334],[43,334]];
+  const acting=[
+    [0,'brace','smooth',.12],[1.4,'brace','smooth',.2],[3.8,'brace','gather',1],
+    [4.25,'extend','strike',.2],[5.12,'extend','smooth',.62],
+    [5.55,'buckle','strike',.8],[6.8,'brace','smooth',.4],[8.9,'shoulder','gather',1],
+    [10.1,'extend','strike',.3],[11.7,'extend','gather',1],
+    [12.15,'kneel','strike',.94],[14.7,'kneel','smooth',.65],
+    [16,'drag','gather',.9],[17.7,'shoulder','smooth',.86],[19.6,'shoulder','gather',1],
+    [20.35,'extend','strike',.2],[21.35,'buckle','smooth',.76],
+    [22.65,'shoulder','gather',1],[23.5,'extend','strike',.24],
+    [24.8,'extend','smooth',.3],[26.7,'exhausted','smooth',0],[43,'exhausted','smooth',0]
+  ];
+  const steps=[
+    [[5.8,6.55,75,31],[12.5,13.4,65,22],[16.2,16.9,85,30],[20.6,21.2,65,34],[24.85,25.55,171,18]],
+    [[7.1,7.8,230,25],[13.9,14.6,225,25],[17,17.6,235,24],[21.4,22.05,235,30],[25.7,26.3,265,15]]
+  ];
+  function foot(t,index,advance) {
+    let anchor=index?225:65,lift=0,swing=0;
+    for(const [start,end,landing,height] of steps[index]) {
+      const next=at(end,travel)+landing;
+      if(t>=end) anchor=next;
+      else if(t>start) {
+        const q=(t-start)/(end-start);
+        anchor=mix(anchor,next,ease(q));lift=Math.sin(Math.PI*q)*height;swing=Math.sin(Math.PI*q);break;
+      } else break;
+    }
+    return {ankle:[anchor-advance,(index?427:429)-lift],anchor,lift,swing};
+  }
   function sample(seconds) {
-    const t = clamp(seconds, 0, DURATION);
-    const progress = at(t, ascent), pose = at(t, posture);
-    const reveal = ease((t - 24) / 7.8);
-    const slope = at(t, [[0,-30],[6,-33],[13,-38],[18,-42],[21,-26],[23.5,0],[36,0]]);
-    const r = at(t, growth), cx = r + 438;
-    const tremble = (Math.sin(t * 43) + Math.sin(t * 29)) * .65 *
-      (t < 22 ? Math.sin(Math.PI * (t % 3.8) / 3.8) ** 6 : 0);
-    return { t, pose, progress, r, cx, cy: 440-r, slope, reveal,
-      rotation: -progress * 560,
-      x: -152 * (1-progress), y: 225 * (1-progress),
-      tremble, mountain: ease((t-22.7)/2.1),
-      opacity: Math.min(ease(t/.7), 1-ease((t-35)/1)) };
-  }
-  function curve(points) {
-    let d = `M ${points[0].map(n).join(' ')}`;
-    for (let i=0;i<points.length;i++) {
-      const a=points[(i+points.length-1)%points.length], b=points[i],
-        c=points[(i+1)%points.length], e=points[(i+2)%points.length];
-      d+=` C ${n(b[0]+(c[0]-a[0])/6)} ${n(b[1]+(c[1]-a[1])/6)} ${n(c[0]-(e[0]-b[0])/6)} ${n(c[1]-(e[1]-b[1])/6)} ${n(c[0])} ${n(c[1])}`;
-    }
-    return d+' Z';
-  }
-  function boulder(s) {
-    const outer=[], inner=[], turn=s.rotation*Math.PI/180;
-    // Uneven loaded-brush rim, with its darkest edge bearing the weight.
-    for(let i=0;i<32;i++) {
-      const a=i*Math.PI/16, rr=1+.014*Math.sin(3*a+turn)+.009*Math.cos(7*a+turn);
-      const thickness=.008+.033*(.5+.5*Math.sin(a-.3))**3+.006*(.5+.5*Math.sin(11*a+turn));
-      outer.push([Math.cos(a)*s.r*rr, Math.sin(a)*s.r]);
-      inner.push([Math.cos(a)*s.r*(rr-thickness),Math.sin(a)*s.r*(1-thickness)]);
-    }
-    return `<g transform="translate(${n(s.cx)} ${n(s.cy)})"><path fill="#181719" d="${curve(outer)}"/><path fill="#fff" d="${curve(inner)}"/><g transform="rotate(${n(s.rotation)})" fill="#181719"><path opacity=".8" d="M ${n(-s.r*.57)} ${n(-s.r*.75)} Q ${n(-s.r*.8)} ${n(-s.r*.56)} ${n(-s.r*.83)} ${n(-s.r*.32)} Q ${n(-s.r*.81)} ${n(-s.r*.58)} ${n(-s.r*.57)} ${n(-s.r*.75)} Z"/><path d="M ${n(s.r*.58)} ${n(s.r*.75)} Q ${n(s.r*.75)} ${n(s.r*.61)} ${n(s.r*.81)} ${n(s.r*.42)} Q ${n(s.r*.77)} ${n(s.r*.64)} ${n(s.r*.58)} ${n(s.r*.75)} Z"/></g></g>`;
+    const t=clamp(seconds,0,DURATION), advance=at(t,travel),r=at(t,growth);
+    const {a,b,q}=between(t,acting), actions=global.SisyphusFigure.actions;
+    const bank={...actions,
+      shoulder:{hip:[178,337],shoulder:[329,242],head:[378,282],tilt:54,knee0:[103,382],knee1:[290,380],elbow0:[390,221],elbow1:[395,347]},
+      drag:{...actions.kneel,hip:[157,351],shoulder:[328,292],head:[378,335],tilt:65,knee0:[91,404],knee1:[273,415]}};
+    const body={};
+    for(const key in bank[a[1]]) body[key]=Array.isArray(bank[a[1]][key])?
+      bank[a[1]][key].map((v,i)=>mix(v,bank[b[1]][key][i],q)):
+      mix(bank[a[1]][key],bank[b[1]][key],q);
+    const load=mix(a[3],b[3],q), fatigue=ease(t/26);
+    const release=ease((t-24.8)/1.9);
+    const feet=[foot(t,0,advance),foot(t,1,advance)];
+    feet.forEach((f,i)=>{
+      const base=mix(i?225:65,i?265:171,release);
+      body['knee'+i][0]+=(f.ankle[0]-base)*.35;
+      body['knee'+i][1]-=f.lift*.42;
+    });
+    const tremble=(Math.sin(t*49)+.48*Math.sin(t*31))*load**5*(.7+fatigue*1.3);
+    const rotation=-(advance+(r-188)*.65)*.39;
+    const shape=global.SisyphusStone.sample(r,rotation);
+    return {t,advance,r,cx:r+438,cy:440-shape.support,shape,rotation,
+      body,load,fatigue,tremble,feet,release,
+      slope:at(t,[[0,-34],[22.3,-34],[23.8,-22],[25.4,0],[43,0]]),
+      reveal:ease((t-29.8)/8.2),mountain:ease((t-25.3)/1.6),
+      opacity:Math.min(ease(t/.7),1-ease((t-42)/1))};
   }
   function contacts(s) {
-    const release=ease((s.t-21.9)/1.8);
-    const yFar=mix(229,351,release), yNear=mix(321,365,release);
-    const tangent=y=>s.cx-Math.sqrt(Math.max(0,s.r*s.r-(y-s.cy)**2))-7;
-    const handFar=[mix(tangent(yFar),243,release),yFar];
-    const handNear=[mix(tangent(yNear),299,release),yNear];
-    // Replant one foot at a time; the other continues to carry the load.
-    function step(start,end,lift,offset) {
-      const q=clamp((s.t-start)/(end-start));
-      return [offset*Math.sin(Math.PI*q),-lift*Math.sin(Math.PI*q)];
-    }
-    let a=[0,0],b=[0,0];
-    [[5.9,7.0,28,24],[13.5,14.8,36,32],[17,18,22,18]].forEach(k=>{
-      const v=step(...k); a=[a[0]+v[0],a[1]+v[1]];
-    });
-    [[8,9,24,18],[15,16.2,31,25],[20.8,21.8,17,15]].forEach(k=>{
-      const v=step(...k); b=[b[0]+v[0],b[1]+v[1]];
-    });
-    return {far:handFar,near:handNear,
-      ankles:[[at(s.t,[[0,65],[3.5,65],[5.6,15],[7,75],[11.3,75],[13.4,15],[14.8,75],[17.6,75],[20.6,25],[21.8,70],[23.7,171]])+a[0],429+a[1]],[at(s.t,[[0,225],[3.5,225],[5.6,175],[9,235],[11.3,235],[13.4,180],[16.2,245],[17.6,245],[20.6,185],[21.8,225],[23.7,265]])+b[0],427+b[1]]]};
+    // Regrip one hand at a time while the other carries the load.
+    const farY=at(s.t,[[0,229],[6.8,229],[7.65,207],[10.4,207],[11.8,231],
+      [12.5,252],[16.6,252],[17.5,219],[24.8,219],[26.2,351],[43,351]]);
+    const nearY=at(s.t,[[0,321],[6.15,321],[6.7,292],[11.6,292],[12.25,345],
+      [16.9,345],[17.7,313],[24.95,313],[26.7,365],[43,365]]);
+    const detach=(start,end)=>Math.sin(Math.PI*clamp((s.t-start)/(end-start)))*19;
+    const farRelease=ease((s.t-24.8)/1.4),nearRelease=ease((s.t-25.05)/1.65);
+    const far=[mix(s.cx+s.shape.leftAt(farY-s.cy)-7-detach(6.8,7.65)-detach(16.6,17.5),243,farRelease),farY];
+    const near=[mix(s.cx+s.shape.leftAt(nearY-s.cy)-7-detach(6.15,6.7)-detach(16.9,17.7),299,nearRelease),nearY];
+    return {body:s.body,load:s.load,fatigue:s.fatigue,tremble:s.tremble,
+      far,near,ankles:s.feet.map(f=>f.ankle),relaxed:[farRelease>.8,nearRelease>.8],
+      footAngles:[(s.load*19-s.feet[0].swing*28)*(1-s.release),
+        (s.load*3-s.feet[1].swing*21)*(1-s.release)]};
   }
   function frame(seconds) {
-    const s=sample(seconds), angle=s.slope*Math.PI/180;
-    const world=(x,y)=>[s.x+.08*((x-s.cx)*Math.cos(angle)-(y-440)*Math.sin(angle)),
-      s.y+.08*((x-s.cx)*Math.sin(angle)+(y-440)*Math.cos(angle))];
-    const center=world(s.cx,s.cy), radius=s.r*.08;
-    const body=[[30,440],[310,440],[150,280],[290,130+Math.min(s.pose,2)*55],[510,220]].map(p=>world(...p));
-    const left=Math.min(center[0]-radius,...body.map(p=>p[0]));
-    const right=Math.max(center[0]+radius,...body.map(p=>p[0]));
-    const top=Math.min(center[1]-radius,...body.map(p=>p[1]));
-    const bottom=Math.max(center[1]+radius,...body.map(p=>p[1]));
+    const s=sample(seconds),angle=s.slope*Math.PI/180, offset=s.advance-FINAL_CENTER-FINAL_ADVANCE;
+    const world=(x,y)=>[.08*((x+offset)*Math.cos(angle)-(y-440)*Math.sin(angle)),
+      .08*((x+offset)*Math.sin(angle)+(y-440)*Math.cos(angle))];
+    // A stable composition follows the burden; body motion never drives the camera.
+    const center=world(s.cx,440-s.r),radius=s.r*.08;
+    const bodyBounds=[[0,440],[300,440],[280,140]].map(p=>world(...p));
+    const left=Math.min(center[0]-radius,...bodyBounds.map(p=>p[0]));
+    const right=Math.max(center[0]+radius,...bodyBounds.map(p=>p[0]));
+    const top=Math.min(center[1]-radius,...bodyBounds.map(p=>p[1]));
+    const bottom=Math.max(center[1]+radius,...bodyBounds.map(p=>p[1]));
     const focus=[(left+right)/2,(top+bottom)/2];
-    const closeScale=Math.min(10.8,640/(bottom-top),960/(right-left));
+    const closeScale=Math.min(10.4,625/(bottom-top),960/(right-left));
     const scale=Math.exp(mix(Math.log(closeScale),Math.log(.76),s.reveal));
-    const targetX=mix(focus[0],0,s.reveal), targetY=mix(focus[1],330,s.reveal);
-    const camera=`translate(600 400) scale(${n(scale)}) translate(${n(-targetX)} ${n(-targetY)})`;
-    const actor=`translate(${n(s.x)} ${n(s.y)}) rotate(${n(s.slope)}) scale(.08) translate(${n(-s.cx)} -440)`;
-    const ground=`<path fill="#181719" opacity="${n(1-s.mountain)}" d="M -160 449 Q 310 437 ${n(s.cx+130)} 439 L ${n(s.cx+255)} 443 Q 350 443 -160 449 Z"/>`;
-    const dust=s.t<22?`<path fill="#181719" opacity="${n(Math.abs(s.tremble)*.45)}" d="M 37 453 l -15 7 8 -2 Z M 183 457 l -9 5 14 -3 Z M 7 465 l -7 4 12 -2 Z"/>`:'';
-    return {state:s,camera,actor,
-      figure:global.SisyphusFigure.render(s.pose,Math.min(s.t,24),contacts(s)),
-      stone:boulder(s),ground:ground+dust};
+    const camera=`translate(600 400) scale(${n(scale)}) translate(${n(-mix(focus[0],0,s.reveal))} ${n(-mix(focus[1],330,s.reveal))})`;
+    const actor=`rotate(${n(s.slope)}) scale(.08) translate(${n(offset)} -440)`;
+    const groundTransform=`rotate(${n(s.slope)}) scale(.08) translate(${-FINAL_CENTER-FINAL_ADVANCE} -440)`;
+    // These scuffs belong to the hillside, not to the moving character.
+    const ground=`<g transform="${groundTransform}" opacity="${n(1-s.mountain)}"><defs><linearGradient id="hillside-ink" gradientUnits="userSpaceOnUse" x1="${n(s.advance-180)}" x2="${n(s.advance+s.cx+280)}" y1="440" y2="440"><stop stop-color="#181719" stop-opacity="0"/><stop offset=".14" stop-color="#181719"/><stop offset=".78" stop-color="#181719"/><stop offset="1" stop-color="#181719" stop-opacity="0"/></linearGradient></defs><g fill="url(#hillside-ink)"><path d="M -700 440 L 1850 440 L 1850 443 Q 650 442 -700 447 Z"/><path opacity=".52" d="M 31 447 l 53 -2 -37 5 Z M 213 445 l 31 0 -19 3 Z M 397 448 l 54 -3 -22 4 Z M 646 446 l 29 -1 -11 3 Z M 931 447 l 51 -2 -33 4 Z"/></g></g>`;
+    const pose=s.release*4;
+    return {state:s,camera,actor,ground,contacts:contacts(s),
+      figure:global.SisyphusFigure.render(pose,Math.min(s.t,27.5),contacts(s)),
+      stone:`<g transform="translate(${n(s.cx)} ${n(s.cy)})">${s.shape.svg}</g>`};
   }
-  function markup(seconds=0.8) {
+  function markup(seconds=.8) {
     const f=frame(seconds);
-    return `<g data-film opacity="${n(f.state.opacity)}"><g data-camera transform="${f.camera}"><g data-mountain opacity="${n(f.state.mountain)}" transform="scale(.72 1)">${global.SisyphusMountain.create()}</g><g data-actor transform="${f.actor}"><g data-ground>${f.ground}</g><g data-figure>${f.figure}</g><g data-boulder>${f.stone}</g></g></g></g>`;
+    return `<g data-film opacity="${n(f.state.opacity)}"><g data-camera transform="${f.camera}"><g data-mountain opacity="${n(f.state.mountain)}" transform="scale(.72 1)">${global.SisyphusMountain.create()}</g><g data-ground>${f.ground}</g><g data-actor transform="${f.actor}"><g data-figure>${f.figure}</g><g data-boulder>${f.stone}</g></g></g></g>`;
   }
   function mount(svg) {
-    const layer=svg.querySelector('[data-scene]');
-    layer.innerHTML=markup(.8);
-    const film=layer.querySelector('[data-film]'), camera=layer.querySelector('[data-camera]'),
-      mountain=layer.querySelector('[data-mountain]'), actor=layer.querySelector('[data-actor]'),
-      figure=layer.querySelector('[data-figure]'), stone=layer.querySelector('[data-boulder]'),
-      ground=layer.querySelector('[data-ground]');
+    const layer=svg.querySelector('[data-scene]');layer.innerHTML=markup(.8);
+    const film=layer.querySelector('[data-film]'),camera=layer.querySelector('[data-camera]'),
+      mountain=layer.querySelector('[data-mountain]'),actor=layer.querySelector('[data-actor]'),
+      figure=layer.querySelector('[data-figure]'),stone=layer.querySelector('[data-boulder]'),ground=layer.querySelector('[data-ground]');
     let resting=false;
     return seconds=>{
       const f=frame(seconds);
-      film.setAttribute('opacity',n(f.state.opacity));
-      camera.setAttribute('transform',f.camera);
-      mountain.setAttribute('opacity',n(f.state.mountain));
-      actor.setAttribute('transform',f.actor);
-      if(!resting || seconds<25) {
-        figure.innerHTML=f.figure; stone.innerHTML=f.stone; ground.innerHTML=f.ground;
-      }
-      resting=seconds>=25;
+      film.setAttribute('opacity',n(f.state.opacity));camera.setAttribute('transform',f.camera);
+      mountain.setAttribute('opacity',n(f.state.mountain));actor.setAttribute('transform',f.actor);
+      ground.innerHTML=f.ground;
+      if(!resting || seconds<27.5) {figure.innerHTML=f.figure;stone.innerHTML=f.stone;}
+      resting=seconds>=27.5;
     };
   }
   global.SisyphusScene={DURATION,sample,frame,markup,mount};

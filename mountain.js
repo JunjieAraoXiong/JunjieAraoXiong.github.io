@@ -17,20 +17,6 @@
       return state / 4294967296;
     };
   }
-  function clip(polygon, a, b, c) {
-    const result = [];
-    for (let i = 0; i < polygon.length; i++) {
-      const p = polygon[i], q = polygon[(i + 1) % polygon.length];
-      const dp = a * p[0] + b * p[1] - c;
-      const dq = a * q[0] + b * q[1] - c;
-      if (dp <= 0) result.push(p);
-      if ((dp <= 0) !== (dq <= 0)) {
-        const t = dp / (dp - dq);
-        result.push([p[0] + (q[0] - p[0]) * t, p[1] + (q[1] - p[1]) * t]);
-      }
-    }
-    return result;
-  }
   function point(p) { return `${rounded(p[0])} ${rounded(p[1])}`; }
   function contour(points, roundness = 0.3) {
     const rough = [];
@@ -57,71 +43,82 @@
   function create() {
     if (cache) return cache;
     const random = randomFactory(1974112);
-    const stretch = 1.16;
-    const boundary = [[0, 0], [805 / stretch, 800], [-735 / stretch, 800]];
-    const sites = [[0, 38]];
-    // Unequal horizontal spacing and vertical drift avoid a visible masonry grid.
-    for (let row = 1; row <= 12; row++) {
-      const y = 52 + row * 60;
-      const count = row + (row % 3 === 0 ? 1 : 0);
-      const left = -0.91 * y, right = 1.0 * y;
-      const widths = Array.from({ length: count }, () => 0.58 + random() * 0.94);
-      const sum = widths.reduce((a, b) => a + b, 0);
-      let cursor = left;
-      for (const width of widths) {
-        const span = (right - left) * width / sum;
-        sites.push([(cursor + span * (0.4 + random() * 0.2)) / stretch, y + (random() - 0.5) * 51]);
-        cursor += span;
-      }
-    }
-    const stones = [];
-    for (let i = 0; i < sites.length; i++) {
-      const p = sites[i];
-      let polygon = boundary.map(v => v.slice());
-      for (let j = 0; j < sites.length && polygon.length; j++) {
-        if (i === j) continue;
-        const q = sites[j];
-        polygon = clip(polygon, q[0] - p[0], q[1] - p[1], (q[0] * q[0] + q[1] * q[1] - p[0] * p[0] - p[1] * p[1]) / 2);
-      }
-      if (polygon.length < 3) continue;
-      const cx = p[0] * stretch, cy = p[1];
-      polygon = polygon.map(v => [v[0] * stretch, v[1]]);
-      const center = [polygon.reduce((s, v) => s + v[0], 0) / polygon.length, polygon.reduce((s, v) => s + v[1], 0) / polygon.length];
-      const expanded = [];
-      // Small kinks in a handful of contours suggest the drag of a dry brush.
-      for (let k = 0; k < polygon.length; k++) {
-        const a = polygon[k], b = polygon[(k + 1) % polygon.length];
-        expanded.push(a);
-        if (Math.hypot(a[0] - b[0], a[1] - b[1]) > 48 && random() < 0.62) {
-          const t = 0.25 + random() * 0.5;
-          expanded.push([a[0] + (b[0] - a[0]) * t + (random() - 0.5) * 17, a[1] + (b[1] - a[1]) * t + (random() - 0.5) * 14]);
+    // The heap has shoulders, shelves, and a long broken right flank. Individual
+    // stones determine its actual edge; this is only a loose packing envelope.
+    const leftEdge = [[70,-55],[150,-118],[220,-139],[298,-226],[360,-224],[425,-348],[500,-385],[568,-500],[632,-522],[701,-647],[785,-735]];
+    const rightEdge = [[70,44],[145,81],[217,151],[280,172],[342,275],[404,291],[475,403],[548,455],[609,571],[683,665],[785,805]];
+    function edgeAt(edge, y) {
+      for (let i = 1; i < edge.length; i++) {
+        if (y <= edge[i][0]) {
+          const t = (y - edge[i - 1][0]) / (edge[i][0] - edge[i - 1][0]);
+          return edge[i - 1][1] + (edge[i][1] - edge[i - 1][1]) * t;
         }
       }
-      const shadow = expanded.map(v => [center[0] + (v[0] - center[0]) * 1.025, center[1] + (v[1] - center[1]) * 1.025]);
-      const white = expanded.map(v => {
-        const dx = v[0] - center[0], dy = v[1] - center[1];
-        const illumination = Math.max(-1, Math.min(1, (dx * 0.36 + dy * 0.94) / (Math.hypot(dx, dy) || 1)));
-        // White shoulders merge with the page; weight is carried by black undersides.
-        const inset = 0.98 - illumination * (0.18 + random() * 0.13);
-        return [center[0] + dx * inset - 2.5, center[1] + dy * inset - 2.5];
-      });
-      stones.push({ shadow, white, cx, cy, center, round: 0.38 + random() * 0.1 });
+      return edge[edge.length - 1][1];
     }
+    const stones = [];
+    function addStone(x, y, rx, ry, tilt) {
+      stones.push({ x, y, rx, ry, tilt: tilt === undefined ? (random() - 0.5) * 0.85 : tilt });
+    }
+    addStone(-20, 96, 65, 49, -0.27);
+    addStone(-49, 172, 65, 58, 0.21);
+    // Place large, old burdens first, then pack smaller attempts around them.
+    // Collision uses ellipses and permits overlap, without rows or tessellation.
+    for (const pass of [
+      { attempts: 900, min: 68, max: 117, threshold: 0.89, ceiling: 22 },
+      { attempts: 1900, min: 35, max: 67, threshold: 0.79, ceiling: 76 },
+      { attempts: 2400, min: 20, max: 37, threshold: 0.76, ceiling: 148 },
+      { attempts: 1400, min: 12, max: 22, threshold: 0.75, ceiling: 181 }
+    ]) {
+      for (let attempt = 0; attempt < pass.attempts && stones.length < pass.ceiling; attempt++) {
+        const y = 126 + random() * 637;
+        const rx = pass.min + random() * (pass.max - pass.min);
+        const ry = rx * (0.58 + random() * 0.49);
+        if (y - ry < 69 || y + ry * 1.12 > 804) continue;
+        const left = edgeAt(leftEdge, y), right = edgeAt(rightEdge, y);
+        const x = left + rx * 0.5 + random() * Math.max(0, right - left - rx);
+        if (x + rx * 0.45 > right || x - rx * 0.45 < left) continue;
+        if (stones.some(s => Math.hypot((x - s.x) / (rx + s.rx), (y - s.y) / (ry + s.ry)) < pass.threshold)) continue;
+        addStone(x, y, rx, ry);
+      }
+    }
+    stones.sort((a, b) => a.y - b.y);
     const markup = ['<g class="mountain-ink" aria-hidden="true" fill="#101010">'];
-    // Shadows are drawn as a continuous ink mass, never outlined pebbles.
-    for (const stone of stones) markup.push(`<path d="${contour(stone.shadow, stone.round)}"/>`);
-    markup.push('<g fill="#fff">');
-    for (const stone of stones) markup.push(`<path d="${contour(stone.white, 0.49)}"/>`);
-    markup.push('</g>');
-    // A few pale flecks break up the ink where the brush runs out of pigment.
-    markup.push('<g fill="#fff" opacity=".85">');
+    // Each burden has its own asymmetry, lean, and brush weight. Foreground
+    // stones cover the stones behind them, like an accumulated heap.
     for (const stone of stones) {
-      if (stone.cy < 160 || random() > 0.45) continue;
-      const vertex = stone.shadow.reduce((a, b) => a[1] > b[1] ? a : b);
-      const x = vertex[0] - 2 + random() * 4, y = vertex[1] - 4 - random() * 5;
-      markup.push(`<path d="M${rounded(x)} ${rounded(y)}l${rounded(0.7 + random() * 1.8)} -3.8 .7 5.6Z"/>`);
+      const {x, y, rx, ry, tilt} = stone;
+      const count = 10 + Math.floor(random() * 4);
+      const cos = Math.cos(tilt), sin = Math.sin(tilt);
+      const lightTilt = 0.16 + random() * 0.64;
+      const outline = [], face = [];
+      for (let i = 0; i < count; i++) {
+        const angle = i / count * Math.PI * 2;
+        const radius = 0.85 + random() * 0.28;
+        const dx = Math.cos(angle) * rx * radius;
+        const dy = Math.sin(angle) * ry * radius;
+        const ox = dx * cos - dy * sin, oy = dx * sin + dy * cos;
+        outline.push([x + ox, y + oy]);
+        const weight = Math.max(-1, Math.min(1, (ox * Math.sin(lightTilt) + oy * Math.cos(lightTilt)) / (Math.hypot(ox, oy) || 1)));
+        const shoulder = 0.94 - weight * (0.16 + random() * 0.13);
+        face.push([x + ox * shoulder - 1.2, y + oy * shoulder - 1.2]);
+      }
+      markup.push(`<path d="${contour(outline, 0.43)}"/>`);
+      markup.push(`<path fill="#fff" d="${contour(face, 0.47)}"/>`);
+      // Short cuts of paper within the dark undercut make the ink feel dragged.
+      const chips = rx > 48 ? 3 : 1;
+      for (let i = 0; i < chips; i++) {
+        const t = 0.35 + random() * 1.7;
+        const px = x + Math.cos(t) * rx * 0.87;
+        const py = y + Math.sin(t) * ry * 0.89;
+        const length = 2 + random() * Math.min(10, rx * 0.16);
+        markup.push(`<path fill="#fff" d="M${rounded(px)} ${rounded(py)}l${rounded(length * 0.52)} ${rounded(-length)} .8 ${rounded(length * 0.85)} -1.2 ${rounded(length * 0.3)}Z"/>`);
+      }
+      if (rx > 69 && random() < 0.14) {
+        const px = x - rx * 0.23, py = y + ry * 0.31;
+        markup.push(`<path d="M${rounded(px)} ${rounded(py)}q${rounded(rx * 0.2)} ${rounded(ry * 0.11)} ${rounded(rx * 0.4)} ${rounded(-ry * 0.02)}q${rounded(-rx * 0.19)} ${rounded(ry * 0.05)} ${rounded(-rx * 0.36)} ${rounded(-ry * 0.04)}Z"/>`);
+      }
     }
-    markup.push('</g>');
     // A broad, irregular cap gives the final standing figure an actual foothold.
     // Its left shoulder meets the first row of stones at y≈75.
     markup.push('<g class="summit-ledge">');

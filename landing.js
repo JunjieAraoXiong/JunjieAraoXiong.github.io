@@ -6,6 +6,7 @@
   if(!art || !button || !seek || !window.SisyphusScene) return;
   const draw=window.SisyphusScene.mount(art);
   const duration=window.SisyphusScene.DURATION;
+  seek.max=duration;
   const preference=window.matchMedia('(prefers-reduced-motion: reduce)');
   const label=button.querySelector('.motion-label');
   let paused=preference.matches, seconds=.8, previous=null, lastFrame=-1, request=0, manuallySet=false;

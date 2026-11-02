@@ -3,7 +3,16 @@
  * pose is a continuous scalar 0..4: brace, shoulder, crawl, extension, rest.
  * contact.near / contact.far optionally override hand centers as [x,y].
  * contact.ankles optionally overrides [rearAnkle, frontAnkle] as [x,y] pairs.
- * Coordinates: soles at y=440; x roughly 30..480; y 70..444.
+ * contact.blend={from,to,amount} interpolates two numbered poses directly.
+ * contact.body overrides hip,shoulder,head,tilt,knee0,knee1,elbow0,elbow1.
+ * contact.action: brace/buckle/kneel/extend/exhausted; actionMix defaults to 1.
+ * Order: pose/blend -> action -> body -> load/fatigue/tremble -> planted contacts.
+ * contact.load,fatigue:0..1; tremble:signed displacement in local pixels (-5..5).
+ * contact.footAngles:[rear,near] degrees. Positive lifts heel around toe,
+ * negative lifts toe around heel. The calf's ankle follows the pivot exactly.
+ * contact.relaxed:boolean or [farRelaxed,nearRelaxed] selects hanging hands.
+ * resolve(pose,seconds,contact) exposes final landmarks p and foot pivot geometry.
+ * Coordinates: soles at y=440; x roughly 0..510; y 70..446.
  * Return value is SVG markup. Parent rotates/translates the whole figure.
  * The same anatomical paths and landmark order persist through every pose.
  */
@@ -37,28 +46,64 @@
     const dx=b[0]-a[0],dy=b[1]-a[1],length=Math.hypot(dx,dy)||1;
     return {length, value:`matrix(${n(dx/length)} ${n(dy/length)} ${n(-dy/length)} ${n(dx/length)} ${n(a[0])} ${n(a[1])})`};
   }
-  // A shaped muscle, with an irregular loaded-brush shadow on the lower edge.
-  function muscle(a,b,r,variant=0,far=false) {
-    const {length:l,value}=matrix(a,b), w=r, taper=variant===1?.2:.31;
-    const d=`M ${n(-w*.3)} ${n(-w*.45)} C ${n(l*.04)} ${n(-w*1.02)} ${n(l*.17)} ${n(-w*1.21)} ${n(l*.31)} ${n(-w*.93)} C ${n(l*.48)} ${n(-w*.95)} ${n(l*.52)} ${n(-w*.5)} ${n(l*.65)} ${n(-w*.48)} C ${n(l*.83)} ${n(-w*.52)} ${n(l*.91)} ${n(-w*taper)} ${n(l)} ${n(-w*taper)} L ${n(l+w*.1)} ${n(w*.14)} C ${n(l*.86)} ${n(w*.29)} ${n(l*.83)} ${n(w*.61)} ${n(l*.63)} ${n(w*.65)} C ${n(l*.48)} ${n(w*.99)} ${n(l*.31)} ${n(w*1.05)} ${n(l*.2)} ${n(w*.7)} C ${n(-w*.24)} ${n(w*.73)} ${n(-w*.5)} ${n(w*.12)} ${n(-w*.3)} ${n(-w*.45)} Z`;
-    const light=`M ${n(w*.04)} ${n(-w*.44)} C ${n(l*.09)} ${n(-w*.87)} ${n(l*.22)} ${n(-w*.93)} ${n(l*.34)} ${n(-w*.72)} C ${n(l*.5)} ${n(-w*.7)} ${n(l*.54)} ${n(-w*.25)} ${n(l*.71)} ${n(-w*.29)} L ${n(l*.91)} ${n(-w*.13)} C ${n(l*.73)} ${n(w*.04)} ${n(l*.61)} ${n(w*.39)} ${n(l*.46)} ${n(w*.39)} C ${n(l*.34)} ${n(w*.36)} ${n(l*.27)} ${n(w*.21)} ${n(l*.26)} ${n(-w*.28)} C ${n(l*.19)} ${n(w*.01)} ${n(l*.16)} ${n(w*.45)} ${n(l*.08)} ${n(w*.44)} C ${n(-w*.1)} ${n(w*.18)} ${n(-w*.03)} ${n(-w*.12)} ${n(w*.04)} ${n(-w*.44)} Z`;
-    const sinew=`M ${n(l*.48)} ${n(-w*.42)} C ${n(l*.6)} ${n(-w*.19)} ${n(l*.72)} ${n(-w*.18)} ${n(l*.9)} ${n(-w*.13)} C ${n(l*.72)} ${n(-w*.05)} ${n(l*.6)} ${n(w*.06)} ${n(l*.48)} ${n(-w*.42)} Z`;
-    return `<g transform="${value}">${path(d)}${path(light,PAPER)}${path(sinew)}${far?'':path(`M ${n(l*.21)} ${n(w*.58)} Q ${n(l*.42)} ${n(w*.71)} ${n(l*.57)} ${n(w*.47)} L ${n(l*.43)} ${n(w*.68)} Z`,PAPER)}</g>`;
+  const clamp=(x,min=0,max=1)=>Math.max(min,Math.min(max,x));
+  const along=(a,b,t)=>[lerp(a[0],b[0],t),lerp(a[1],b[1],t)];
+  function smoothContour(points, tension=.96) {
+    let d=`M ${point(points[0])}`;
+    for(let i=0;i<points.length;i++) {
+      const a=points[(i+points.length-1)%points.length],b=points[i],
+        c=points[(i+1)%points.length],e=points[(i+2)%points.length];
+      d+=` C ${point([b[0]+(c[0]-a[0])*tension/6,b[1]+(c[1]-a[1])*tension/6])} ${point([c[0]-(e[0]-b[0])*tension/6,c[1]-(e[1]-b[1])*tension/6])} ${point(c)}`;
+    }
+    return d+' Z';
   }
-  function foot(ankle,near) {
-    const x=ankle[0], y=ankle[1]+(near?13:11);
-    return path(`M ${n(x-7)} ${n(ankle[1]-6)} C ${n(x-9)} ${n(y-12)} ${n(x-16)} ${n(y-9)} ${n(x-15)} ${y-3} C ${n(x-12)} ${y+1} ${n(x+14)} ${y+1} ${n(x+30)} ${y} L ${n(x+36)} ${y-3} Q ${n(x+40)} ${y-7} ${n(x+32)} ${y-8} L ${n(x+10)} ${y-12} L ${n(x+6)} ${n(ankle[1]-8)} Z`)+path(`M ${n(x-5)} ${y-10} Q ${n(x+9)} ${y-4} ${n(x+27)} ${y-4} L ${n(x+9)} ${y-2} L ${n(x-9)} ${y-3} Z`,PAPER)+(near?path(`M ${n(x+25)} ${y-8} L ${n(x+25)} ${y-3} M ${n(x+29)} ${y-7} L ${n(x+29)} ${y-3}`, 'none', `stroke="${PAPER}" stroke-width="1.2"`):'');
+  // One continuous flesh contour through the joint: no separate muscle capsules.
+  // The long white plane connects shoulder to wrist / hip to ankle; a broken
+  // tapered cut carries the change in tension without outlining every muscle.
+  function limb(a,b,c,r1,r2,far=false,load=0,leg=false) {
+    const centers=[a,along(a,b,.27),along(a,b,.66),b,along(b,c,.27),along(b,c,.68),c];
+    const radii=[r1*.64,r1*(1+load*.07),r1*.72,r1*.34,r2*.89,r2*.56,r2*.24];
+    const normals=centers.map((p,i)=>{
+      const prev=centers[Math.max(0,i-1)],next=centers[Math.min(6,i+1)],
+        dx=next[0]-prev[0],dy=next[1]-prev[1],len=Math.hypot(dx,dy)||1;
+      return [-dy/len,dx/len];
+    });
+    const off=(i,m)=>[centers[i][0]+normals[i][0]*radii[i]*m,centers[i][1]+normals[i][1]*radii[i]*m];
+    const silhouette=centers.map((_,i)=>off(i,-1)).concat(centers.map((_,i)=>off(6-i,1)));
+    // Unequal edges look like a single brush gesture rather than a mirrored tube.
+    silhouette[2]=off(2,-.86);silhouette[10]=off(3,1.15);silhouette[12]=off(1,.83);
+    const whiteA=[off(0,-.29),off(1,-.82),off(2,-.76),off(3,-.62),off(4,-.76),off(5,-.6),off(6,-.18),off(5,.06),off(4,.31),off(3,.11),off(2,.41),off(1,.41),off(0,.28)];
+    let out=path(smoothContour(silhouette))+path(smoothContour(whiteA,.88),PAPER);
+    // The upper muscle's dark return is broad at the load, and disappears at the joint.
+    out+=path(`M ${point(off(1,.3))} Q ${point(off(2,-.34))} ${point(off(3,-.25))} Q ${point(off(2,.14))} ${point(off(1,.3))} Z`);
+    // A dry white edge opens the contour at the end of a stroke.
+    if(!far) out+=path(`M ${point(off(4,1.03))} Q ${point(off(5,.8))} ${point(off(6,.18))} L ${point(off(5,.98))} Z`,PAPER);
+    if(leg) out+=path(`M ${point(off(1,-1.03))} L ${point(off(2,-.95))} L ${point(off(1,-.93))} Z`,PAPER);
+    return out;
   }
-  function torso(hip,shoulder,t) {
+  function pivotFoot(ankle,near,angle=0) {
+    const sole=ankle[1]+(near?13:11),pivot=[ankle[0]+(angle>=0?30:-13),sole],
+      rad=angle*Math.PI/180,dx=ankle[0]-pivot[0],dy=ankle[1]-pivot[1];
+    return {base:ankle,near,angle,pivot,sole,ankle:[pivot[0]+dx*Math.cos(rad)-dy*Math.sin(rad),pivot[1]+dx*Math.sin(rad)+dy*Math.cos(rad)]};
+  }
+  function foot(state) {
+    const {base:ankle,near,angle,pivot}=state;
+    const x=ankle[0], y=state.sole;
+    return `<g transform="rotate(${n(angle)} ${point(pivot)})">`+path(`M ${n(x-7)} ${n(ankle[1]-6)} C ${n(x-9)} ${n(y-12)} ${n(x-16)} ${n(y-9)} ${n(x-15)} ${y-3} C ${n(x-12)} ${y+1} ${n(x+14)} ${y+1} ${n(x+30)} ${y} L ${n(x+36)} ${y-3} Q ${n(x+40)} ${y-7} ${n(x+32)} ${y-8} L ${n(x+10)} ${y-12} L ${n(x+6)} ${n(ankle[1]-8)} Z`)+path(`M ${n(x-5)} ${y-10} Q ${n(x+9)} ${y-4} ${n(x+27)} ${y-4} L ${n(x+9)} ${y-2} L ${n(x-9)} ${y-3} Z`,PAPER)+(near?path(`M ${n(x+25)} ${y-8} L ${n(x+25)} ${y-3} M ${n(x+29)} ${y-7} L ${n(x+29)} ${y-3}`, 'none', `stroke="${PAPER}" stroke-width="1.2"`):'')+'</g>';
+  }
+  function torso(hip,shoulder,load=0,fatigue=0) {
     const {length:l,value}=matrix(hip,shoulder);
     return `<g transform="${value}">`+path(`M -18 -22 C -14 -45 ${n(l*.18)} -54 ${n(l*.35)} -49 C ${n(l*.54)} -62 ${n(l*.77)} -61 ${n(l*.92)} -57 C ${n(l*1.08)} -55 ${n(l*1.16)} -29 ${n(l*1.1)} -5 C ${n(l*1.06)} 15 ${n(l*.9)} 36 ${n(l*.73)} 34 C ${n(l*.55)} 34 ${n(l*.46)} 22 ${n(l*.29)} 30 C ${n(l*.12)} 40 -16 28 -18 8 Z`)
       +path(`M -11 -17 C -9 -37 ${n(l*.19)} -46 ${n(l*.34)} -39 C ${n(l*.5)} -50 ${n(l*.76)} -53 ${n(l*.91)} -48 C ${n(l*1.04)} -44 ${n(l*1.07)} -30 ${n(l*1.05)} -18 C ${n(l*.9)} -25 ${n(l*.81)} -15 ${n(l*.73)} -5 C ${n(l*.65)} 9 ${n(l*.51)} 10 ${n(l*.41)} 4 C ${n(l*.29)} -4 ${n(l*.2)} -5 ${n(l*.1)} 13 C -1 23 -13 11 -11 -17 Z`,PAPER)
-      +path(`M ${n(l*.36)} -38 C ${n(l*.49)} -38 ${n(l*.58)} -36 ${n(l*.64)} -29 C ${n(l*.59)} -18 ${n(l*.53)} -15 ${n(l*.5)} -9 C ${n(l*.47)} -24 ${n(l*.44)} -27 ${n(l*.36)} -38 Z`)
-      +path(`M ${n(l*.61)} -45 C ${n(l*.73)} -45 ${n(l*.77)} -29 ${n(l*.9)} -30 C ${n(l*.78)} -18 ${n(l*.71)} -24 ${n(l*.61)} -45 Z`)
+      +path(`M ${n(l*.32)} -37 C ${n(l*.43)} -36 ${n(l*.46)} -32 ${n(l*.52)} -28 C ${n(l*.56)} -23 ${n(l*.61)} -22 ${n(l*.64)} -24 C ${n(l*.55)} -13 ${n(l*.49)} -18 ${n(l*.44)} -24 C ${n(l*.4)} -29 ${n(l*.36)} -31 ${n(l*.32)} -37 Z`)
+      +path(`M ${n(l*.65)} -46 C ${n(l*.77)} -47 ${n(l*.8)} -38 ${n(l*.91)} -34 C ${n(l*.83)} -31 ${n(l*.8)} -34 ${n(l*.77)} -38 C ${n(l*.73)} -43 ${n(l*.69)} -44 ${n(l*.65)} -46 Z`)
       +path(`M ${n(l*.32)} 19 C ${n(l*.43)} 9 ${n(l*.52)} 10 ${n(l*.6)} 17 C ${n(l*.51)} 22 ${n(l*.43)} 27 ${n(l*.32)} 19 Z`,PAPER)
       +path(`M ${n(l*.62)} 18 Q ${n(l*.76)} 20 ${n(l*.86)} 9 L ${n(l*.78)} 25 Z`,PAPER)
       +path(`M -8 -11 C 3 -21 22 -20 28 -8 C 21 5 10 14 -2 10 Z`,PAPER)
       +path(`M ${n(l*.16)} -38 Q ${n(l*.08)} -25 ${n(l*.11)} -8 L ${n(l*.03)} -22 Z`)
+      +path(`M ${n(l*.14)} -53 Q ${n(l*.25)} -51 ${n(l*.32)} -51 L ${n(l*.19)} -49 Z`,PAPER)
+      +path(`M ${n(l*.74)} -62 L ${n(l*.87)} -61 L ${n(l*.8)} -59 Z`,PAPER)
+      +path(`M ${n(l*.63)} 27 Q ${n(l*.72)} 30 ${n(l*.81)} 22 L ${n(l*.73)} 30 Z`,PAPER)
       +'</g>';
   }
   function head(p,tilt,shoulder) {
@@ -76,30 +121,72 @@
       path('M -13 -9 Q -5 -15 0 -17 L 2 -31 Q 5 -36 7 -30 L 8 -13 L 12 -25 Q 16 -28 17 -22 L 14 -9 L 20 -17 Q 25 -18 24 -12 L 19 -1 L 25 -7 Q 30 -7 28 -1 L 20 10 Q 10 19 0 15 L -14 9 Z')+
       path('M -9 -4 L 3 -10 L 7 -24 L 4 -4 L 16 -10 L 10 2 L 18 0 L 9 10 L 0 10 Z',PAPER)+ '</g>';
   }
-  function render(pose=0, seconds=0, contact={}) {
-    pose=Math.max(0,Math.min(4,Number(pose)||0));
-    const a=Math.floor(pose), b=Math.min(4,a+1), f=pose-a, p={};
-    for(const key in poses[a]) p[key]=Array.isArray(poses[a][key])?poses[a][key].map((v,i)=>lerp(v,poses[b][key][i],f)):lerp(poses[a][key],poses[b][key],f);
-    // Breath moves the rib cage only; hands and soles remain planted.
-    const effort=pose<3.8?1:0.25, breath=Math.sin(seconds*3.5)*1.4*effort;
-    p.shoulder[1]+=breath; p.head[1]+=breath*.7;
-    if(contact.far) p.hand0=contact.far;
-    if(contact.near) p.hand1=contact.near;
-    if(contact.ankles) {
-      if(contact.ankles[0]) p.ankle0=contact.ankles[0];
-      if(contact.ankles[1]) p.ankle1=contact.ankles[1];
+  const actions={
+    brace:{hip:[172,302],shoulder:[305,208],head:[345,239],tilt:53,knee0:[102,355],knee1:[289,355],elbow0:[386,205],elbow1:[359,319]},
+    buckle:{hip:[190,365],shoulder:[322,283],head:[365,329],tilt:69,knee0:[122,411],knee1:[291,410],elbow0:[398,244],elbow1:[390,369]},
+    kneel:{hip:[188,342],shoulder:[325,290],head:[374,327],tilt:58,knee0:[119,406],knee1:[294,415],elbow0:[397,251],elbow1:[392,367]},
+    extend:{hip:[124,276],shoulder:[317,208],head:[366,238],tilt:34,knee0:[90,354],knee1:[215,341],elbow0:[385,208],elbow1:[393,310]},
+    exhausted:{hip:[229,311],shoulder:[272,203],head:[316,238],tilt:52,knee0:[193,374],knee1:[264,379],elbow0:[250,282],elbow1:[310,299]}
+  };
+  function resolve(pose=0,seconds=0,contact={}) {
+    pose=clamp(Number(pose)||0,0,4);
+    let from=Math.floor(pose),to=Math.min(4,from+1),amount=pose-from;
+    if(contact.blend) {
+      from=clamp(Math.round(contact.blend.from||0),0,4);
+      to=clamp(Math.round(contact.blend.to||0),0,4);
+      amount=clamp(Number(contact.blend.amount)||0);
     }
+    const p={};
+    for(const key in poses[from]) p[key]=Array.isArray(poses[from][key])?poses[from][key].map((v,i)=>lerp(v,poses[to][key][i],amount)):lerp(poses[from][key],poses[to][key],amount);
+    const action=actions[contact.action], actionMix=clamp(contact.actionMix===undefined?1:contact.actionMix);
+    if(action) for(const key in action) p[key]=Array.isArray(action[key])?p[key].map((v,i)=>lerp(v,action[key][i],actionMix)):lerp(p[key],action[key],actionMix);
+    if(contact.body) for(const key of ['hip','shoulder','head','tilt','knee0','knee1','elbow0','elbow1']) {
+      if(contact.body[key]!==undefined) p[key]=Array.isArray(contact.body[key])?contact.body[key].slice():contact.body[key];
+    }
+    const load=clamp(Number(contact.load)||0),fatigue=clamp(Number(contact.fatigue)||0),
+      tremble=clamp(Number(contact.tremble)||0,-5,5),
+      breath=(Math.sin(seconds*(2.9-fatigue*.8))+.27*Math.sin(seconds*7.7))*1.15*(pose<3.8?1:.25)*(1-load*.65);
+    // Compression is in the body, never a translation of planted extremities.
+    p.shoulder[0]-=load*11;p.shoulder[1]+=load*15+fatigue*8+breath+tremble;
+    p.hip[1]+=load*4+fatigue*3;
+    p.head[0]-=load*5;p.head[1]+=load*18+fatigue*15+breath*.75+tremble*.55;
+    p.tilt+=load*7+fatigue*9;
+    p.elbow0[1]+=load*6+tremble*.7;p.elbow1[1]+=load*11-tremble*.8;
+    if(contact.far)p.hand0=contact.far.slice();
+    if(contact.near)p.hand1=contact.near.slice();
+    if(contact.ankles) {
+      for(let i=0;i<2;i++) if(contact.ankles[i]) {
+        const key='ankle'+i,delta=[contact.ankles[i][0]-p[key][0],contact.ankles[i][1]-p[key][1]];
+        // A planted foot can lag behind the advancing pelvis. Let its knee follow
+        // part of that lag; an explicitly authored knee remains authoritative.
+        if(!contact.body || !contact.body['knee'+i]) {
+          p['knee'+i][0]+=delta[0]*.35;p['knee'+i][1]+=delta[1]*.38;
+        }
+        p[key]=contact.ankles[i].slice();
+      }
+    }
+    const feet=[0,1].map(i=>pivotFoot(p['ankle'+i],i===1,clamp(Number(contact.footAngles?.[i])||0,-38,42)));
+    p.ankle0=feet[0].ankle;p.ankle1=feet[1].ankle;
+    return {pose,p,feet,load,fatigue};
+  }
+  function render(pose=0,seconds=0,contact={}) {
+    const rig=resolve(pose,seconds,contact),{p,feet,load,fatigue}=rig;
+    const relaxed=Array.isArray(contact.relaxed)?contact.relaxed.map(Boolean):
+      [0,1].map(()=>contact.relaxed===undefined?rig.pose>3.8:Boolean(contact.relaxed));
     let out='<g class="sisyphus-body">';
-    out+=muscle(v(p.hip,-8,-2),p.knee0,30,0,true)+muscle(p.knee0,p.ankle0,20,1,true)+foot(p.ankle0,false);
-    out+=muscle(v(p.shoulder,10,-12),p.elbow0,23,0,true)+muscle(p.elbow0,p.hand0,17,1,true)+hand(p.hand0,true,pose>3.8);
-    out+=muscle(v(p.hip,9,6),p.knee1,37)+muscle(p.knee1,p.ankle1,23,1)+foot(p.ankle1,true);
-    out+=torso(p.hip,p.shoulder,seconds);
+    out+=limb(v(p.hip,-8,-2),p.knee0,p.ankle0,29,20,true,load,true)+foot(feet[0]);
+    out+=limb(v(p.shoulder,10,-12),p.elbow0,p.hand0,23,17,true,load)+hand(p.hand0,true,relaxed[0]);
+    out+=limb(v(p.hip,9,6),p.knee1,p.ankle1,35,23,false,load,true)+foot(feet[1]);
+    out+=torso(p.hip,p.shoulder,load,fatigue);
     out+=head(p.head,p.tilt,p.shoulder);
-    out+=muscle(v(p.shoulder,-3,11),p.elbow1,32)+muscle(p.elbow1,p.hand1,21,1)+hand(p.hand1,false,pose>3.8);
-    // Fine dry-brush marks at contact carry the force into the ground.
-    if(p.ankle0[1]>=428) out+=path(`M ${n(p.ankle0[0]-20)} 444 L ${n(p.ankle0[0]+28)} 443 L ${n(p.ankle0[0]-5)} 446 Z`);
-    if(p.ankle1[1]>=426) out+=path(`M ${n(p.ankle1[0]-16)} 444 L ${n(p.ankle1[0]+35)} 443 L ${n(p.ankle1[0]+12)} 446 Z`);
+    out+=limb(v(p.shoulder,-3,11),p.elbow1,p.hand1,31,21,false,load)+hand(p.hand1,false,relaxed[1]);
+    feet.forEach(f=>{
+      if(f.sole>=439) {
+        const x=f.angle?f.pivot[0]:f.base[0],width=f.angle?13:41;
+        out+=path(`M ${n(x-13)} 444 L ${n(x+width)} 443 L ${n(x+7)} 446 Z`);
+      }
+    });
     return out+'</g>';
   }
-  global.SisyphusFigure={render,poses:poses.map((_,i)=>i),bounds:{x:20,y:55,width:480,height:395},baseline:440};
+  global.SisyphusFigure={render,resolve,actions,poses:poses.map((_,i)=>i),bounds:{x:0,y:55,width:510,height:395},baseline:440};
 })(typeof window==='undefined'?globalThis:window);
