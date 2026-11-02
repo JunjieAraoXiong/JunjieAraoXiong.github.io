@@ -30,7 +30,7 @@ body {
 }
 a { color: inherit; text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 5px; }
-a:focus-visible, button:focus-visible {
+a:focus-visible, button:focus-visible, input:focus-visible {
   outline: 1px solid var(--ink);
   outline-offset: 6px;
 }
@@ -61,7 +61,7 @@ a:focus-visible, button:focus-visible {
 }
 .sisyphus-art {
   display: block;
-  width: min(1100px, 100%);
+  width: min(1400px, 100%);
   height: 100%;
   max-height: 820px;
 }
@@ -103,7 +103,8 @@ a:focus-visible, button:focus-visible {
   .landing-header { padding-top: max(16px, env(safe-area-inset-top)); }
   .landing-name { font-size: 23px; }
   .about-link { font-size: 20px; }
-  .landing-stage { height: calc(100svh - 128px); }
+  .landing-stage { height: calc(100svh - 128px); overflow: hidden; }
+  .sisyphus-art { width: 118%; }
   .landing-footer { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
 }
 @media (max-height: 480px) and (orientation: landscape) {
@@ -111,3 +112,12 @@ a:focus-visible, button:focus-visible {
   .landing-footer { padding-bottom: 8px; }
   .landing-stage { min-height: 0; height: calc(100svh - 104px); }
 }
+
+.motion-controls { display: flex; align-items: center; gap: 19px; }
+.motion-progress { width: 88px; height: 44px; margin: 0; cursor: pointer; appearance: none; -webkit-appearance: none; background: transparent; }
+.motion-progress::-webkit-slider-runnable-track { height: 1px; background: #b9b9b9; }
+.motion-progress::-moz-range-track { height: 1px; background: #b9b9b9; }
+.motion-progress::-webkit-slider-thumb { appearance: none; -webkit-appearance: none; width: 6px; height: 6px; border-radius: 50%; background: var(--quiet-ink); margin-top: -2.5px; }
+.motion-progress::-moz-range-thumb { width: 6px; height: 6px; border: 0; border-radius: 50%; background: var(--quiet-ink); }
+.motion-progress[hidden] { display: none; }
+@media (max-width: 600px) { .motion-controls { gap: 13px; } .motion-progress { width: 54px; } }
