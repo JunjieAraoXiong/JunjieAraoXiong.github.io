@@ -33,7 +33,7 @@
         const dx = 2 * u * (p[0] - enter[0]) + 2 * t * (leave[0] - p[0]);
         const dy = 2 * u * (p[1] - enter[1]) + 2 * t * (leave[1] - p[1]);
         const length = Math.hypot(dx, dy) || 1;
-        const grain = (Math.sin(x * 2.34 + y * 3.15) * 0.7 + Math.sin(x * 0.41 - y * 0.89) * 0.55) * Math.sin(Math.PI * t);
+        const grain = (Math.sin(x * 2.34 + y * 3.15) * 0.27 + Math.sin(x * 0.41 - y * 0.89) * 0.23) * Math.sin(Math.PI * t);
         rough.push([x - dy / length * grain, y + dx / length * grain]);
       }
     }
@@ -83,9 +83,10 @@
       }
     }
     stones.sort((a, b) => a.y - b.y);
-    const markup = ['<g class="mountain-ink" aria-hidden="true" fill="#101010">'];
+    const markup = ['<g class="mountain-ink" aria-hidden="true" fill="#181719">'];
     // Each burden has its own asymmetry, lean, and brush weight. Foreground
     // stones cover the stones behind them, like an accumulated heap.
+    const shadows=[],faces=[],details=[];
     for (const stone of stones) {
       const {x, y, rx, ry, tilt} = stone;
       const count = 10 + Math.floor(random() * 4);
@@ -103,8 +104,8 @@
         const shoulder = 0.94 - weight * (0.16 + random() * 0.13);
         face.push([x + ox * shoulder - 1.2, y + oy * shoulder - 1.2]);
       }
-      markup.push(`<path d="${contour(outline, 0.43)}"/>`);
-      markup.push(`<path fill="#fff" d="${contour(face, 0.47)}"/>`);
+      shadows.push(`<path d="${contour(outline, 0.43)}"/>`);
+      faces.push(`<path fill="#fff" d="${contour(face, 0.47)}"/>`);
       // Short cuts of paper within the dark undercut make the ink feel dragged.
       const chips = rx > 48 ? 3 : 1;
       for (let i = 0; i < chips; i++) {
@@ -112,18 +113,19 @@
         const px = x + Math.cos(t) * rx * 0.87;
         const py = y + Math.sin(t) * ry * 0.89;
         const length = 2 + random() * Math.min(10, rx * 0.16);
-        markup.push(`<path fill="#fff" d="M${rounded(px)} ${rounded(py)}l${rounded(length * 0.52)} ${rounded(-length)} .8 ${rounded(length * 0.85)} -1.2 ${rounded(length * 0.3)}Z"/>`);
+        details.push(`<path fill="#fff" d="M${rounded(px)} ${rounded(py)}l${rounded(length * 0.52)} ${rounded(-length)} .8 ${rounded(length * 0.85)} -1.2 ${rounded(length * 0.3)}Z"/>`);
       }
       if (rx > 69 && random() < 0.14) {
         const px = x - rx * 0.23, py = y + ry * 0.31;
-        markup.push(`<path d="M${rounded(px)} ${rounded(py)}q${rounded(rx * 0.2)} ${rounded(ry * 0.11)} ${rounded(rx * 0.4)} ${rounded(-ry * 0.02)}q${rounded(-rx * 0.19)} ${rounded(ry * 0.05)} ${rounded(-rx * 0.36)} ${rounded(-ry * 0.04)}Z"/>`);
+        details.push(`<path d="M${rounded(px)} ${rounded(py)}q${rounded(rx * 0.2)} ${rounded(ry * 0.11)} ${rounded(rx * 0.4)} ${rounded(-ry * 0.02)}q${rounded(-rx * 0.19)} ${rounded(ry * 0.05)} ${rounded(-rx * 0.36)} ${rounded(-ry * 0.04)}Z"/>`);
       }
     }
+    markup.push(...shadows,...faces,...details);
     // A broad, irregular cap gives the final standing figure an actual foothold.
     // Its left shoulder meets the first row of stones at y≈75.
     markup.push('<g class="summit-ledge">');
-    markup.push(`<path d="${contour([[-88,5],[-78,0],[-66,0],[-56,1],[-44,0],[-31,2],[-17,1],[-2,0],[15,5],[33,29],[43,57],[34,72],[4,85],[-30,80],[-61,59],[-80,34]], 0.15)}"/>`);
-    markup.push(`<path fill="#fff" d="${contour([[-87,7],[-73,3],[-60,3],[-48,4],[-32,4],[-15,4],[-2,3],[12,7],[26,30],[31,52],[22,63],[-5,71],[-33,67],[-61,50],[-78,31]], 0.22)}"/>`);
+    markup.push(`<path d="${contour([[-80,4],[-74,0],[-65,0],[-55,0],[-44,0],[-31,0],[-17,0],[-2,0],[16,3],[31,20],[37,43],[25,62],[-12,75],[-47,62],[-69,35]], 0.15)}"/>`);
+    markup.push(`<path fill="#fff" d="${contour([[-83,6],[-72,.65],[-60,.7],[-48,.75],[-32,.7],[-15,.65],[-2,.65],[14,5],[27,22],[29,40],[16,51],[-14,60],[-43,50],[-69,30],[-83,12]], 0.22)}"/>`);
     markup.push('<path fill="#fff" d="M-72 48l2 8 1-3-1-6zM22 66l5-3-2 4-3 1z"/>');
     markup.push('</g>');
     // Let the last stones disappear into paper instead of ending in a ruler-straight baseline.

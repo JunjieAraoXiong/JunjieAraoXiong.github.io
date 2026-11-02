@@ -64,8 +64,8 @@
       const length = Math.hypot(p[0], p[1]);
       const down = Math.max(0, p[1] / length), left = Math.max(0, -p[0] / length);
       const grain = .5 + .5 * Math.sin(i * .63 + .8);
-      const thickness = Math.max(.8, radius * (.007 + .041 * down ** 2.4
-        + .016 * down * left + .0045 * grain));
+      const thickness = Math.max(1, radius * (.008 + .063 * down ** 2.6
+        + .025 * down * left + .003 * grain));
       const scale = Math.max(.1, 1 - thickness / length);
       return [p[0] * scale, p[1] * scale];
     });

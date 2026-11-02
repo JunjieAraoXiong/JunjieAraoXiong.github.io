@@ -460,3 +460,121 @@ img.project-thumb {
     gap: 12px;
   }
 }
+
+/* The biography keeps the same paper, type, and quiet navigation as the film. */
+.about-page {
+  --text: #171717;
+  --muted: #676767;
+  --link: #171717;
+  --link-hover: #171717;
+  --affil: #171717;
+  -webkit-font-smoothing: antialiased;
+}
+.about-page ::selection { color: var(--text); background: #e6e6e6; }
+.about-page .page {
+  max-width: 1000px;
+  padding: 22px clamp(24px, 4.2vw, 60px) 64px;
+}
+.about-page .topbar {
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 0;
+  margin-bottom: 72px;
+  border: 0;
+}
+.about-page .brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 25px;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+.about-page .topnav { display: flex; align-items: center; gap: 26px; }
+.about-page .topnav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0;
+  font-size: 19px;
+  line-height: 1.2;
+}
+.about-page .topnav a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+.about-page a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.about-page a:focus-visible { outline: 1px solid var(--text); outline-offset: 4px; border-radius: 0; }
+.about-page .intro {
+  grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 56px);
+  margin-bottom: 16px;
+}
+.about-page .intro-photo img { border-radius: 2px; }
+.about-page .intro-copy { line-height: 1.55; }
+.about-page .intro-copy h1 { margin-bottom: 10px; font-size: clamp(34px, 3.6vw, 42px); font-weight: 400; }
+.about-page .tagline { margin-bottom: 24px; color: var(--muted); }
+.about-page .intro-copy p:not(.tagline) { margin-bottom: 18px; }
+.about-page .intro-copy a:not(.booking-button),
+.about-page .section a {
+  text-decoration: underline;
+  text-decoration-color: #aaa;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.about-page .intro-copy a:hover, .about-page .section a:hover { text-decoration-color: var(--text); }
+.about-page .intro-cta { margin-top: 24px; }
+.about-page .booking-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid #999;
+  border-radius: 0;
+  font-size: 18px;
+  color: var(--text);
+}
+.about-page .booking-button:hover { background: transparent; border-color: var(--text); text-decoration: none; }
+.about-page .section { padding: 44px 0 0; }
+.about-page h2 { margin-bottom: 12px; font-size: 28px; font-weight: 400; }
+.about-page h2 u { text-decoration: none; }
+.about-page .role { gap: 32px; padding: 24px 0; align-items: flex-start; }
+.about-page .role-logo { width: 104px; height: 54px; margin-top: 4px; }
+.about-page .role-body { line-height: 1.5; }
+.about-page .role-where { font-weight: 500; }
+.about-page .role-loc { margin-top: 8px; }
+.about-page .role-date, .about-page .role-place { font-size: 16px; }
+.about-page .site-footer { margin-top: 64px; padding-top: 18px; }
+.about-page .site-footer .social { gap: 2px; }
+.about-page .site-footer .social a { width: 44px; height: 44px; align-items: center; justify-content: center; }
+.about-page .site-footer .social svg { width: 18px; height: 18px; }
+
+@media (max-width: 760px) {
+  .about-page .page { padding-inline: 28px; }
+  .about-page .intro { grid-template-columns: 210px minmax(0, 1fr); gap: 32px; }
+}
+@media (max-width: 680px) {
+  .about-page .page { padding: 14px 24px 40px; }
+  .about-page .topbar { flex-direction: row; gap: 18px; margin-bottom: 42px; text-align: left; }
+  .about-page .brand { font-size: 24px; }
+  .about-page .topnav { gap: 17px; }
+  .about-page .topnav a { font-size: 18px; }
+  .about-page .intro { grid-template-columns: 1fr; gap: 30px; justify-items: start; text-align: left; }
+  .about-page .intro-photo { width: min(280px, 100%); }
+  .about-page .intro-photo img { width: 100%; }
+  .about-page .intro-copy h1 { font-size: 36px; }
+  .about-page .intro-copy { font-size: 19px; }
+  .about-page .section { padding-top: 36px; }
+  .about-page .role { gap: 14px; padding: 22px 0; }
+  .about-page .role-logo { width: 104px; height: 44px; margin-top: 0; }
+  .about-page .role-place { float: none; margin: 0 0 3px; display: block; text-align: left; }
+  .about-page .site-footer { align-items: flex-start; gap: 12px; margin-top: 48px; }
+  .about-page .site-footer .social { margin-left: -12px; }
+}
+@media (max-width: 359px) {
+  .about-page .topbar { flex-wrap: wrap; gap: 0; margin-bottom: 32px; }
+  .about-page .topnav { width: 100%; gap: 24px; }
+}

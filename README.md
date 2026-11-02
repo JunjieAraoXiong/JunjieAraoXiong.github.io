@@ -20,13 +20,16 @@ or external fonts. The figure braces, crouches, crawls, heaves, and finally rest
 The boulder grows with each attempt. Feet remain planted until recovery steps;
 long load holds break into short heaves and abrupt failures. The body compresses
 and buckles under the growing load. After arrival, a silent pause precedes an
-eight-second retreat revealing an irregular mountain of earlier stones. The final
+nine-second retreat revealing an irregular mountain of earlier stones. The final
 image holds for four seconds before fading through white.
 
-The animation draws at 18fps, pauses while the tab is hidden, and starts still
-when the visitor requests reduced motion. Play explicitly opts into motion.
-A keyboard-accessible progress slider lets visitors revisit any part of the film.
-The mountain is generated once; only the actor changes during the climb.
+The figure and stone drawings hold at 18fps while the camera and dissolves run
+at the display refresh rate. Framing adapts to both portrait and landscape screens.
+Playback pauses while the tab is hidden and starts still when the visitor requests
+reduced motion. Play explicitly opts into motion. A keyboard-accessible progress
+slider and time counter let visitors revisit any part of the film; dragging the
+slider suspends playback until release. The mountain is generated once, and the
+resting figure stops redrawing during the final camera move.
 
 To regenerate the static poster after editing the drawing:
 

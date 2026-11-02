@@ -11,6 +11,7 @@
  * contact.footAngles:[rear,near] degrees. Positive lifts heel around toe,
  * negative lifts toe around heel. The calf's ankle follows the pivot exactly.
  * contact.relaxed:boolean or [farRelaxed,nearRelaxed] selects hanging hands.
+ * contact.relaxAmount:[far,near] continuously releases the hands from 0 to 1.
  * resolve(pose,seconds,contact) exposes final landmarks p and foot pivot geometry.
  * Coordinates: soles at y=440; x roughly 0..510; y 70..446.
  * Return value is SVG markup. Parent rotates/translates the whole figure.
@@ -57,12 +58,12 @@
     }
     return d+' Z';
   }
-  // One continuous flesh contour through the joint: no separate muscle capsules.
-  // The long white plane connects shoulder to wrist / hip to ankle; a broken
-  // tapered cut carries the change in tension without outlining every muscle.
+  // A flesh silhouette with separate weighted edge strokes. The elbow and knee
+  // retain volume; shadows taper across the muscle rather than dividing it into
+  // repeated triangular pieces. The rear limbs carry a quieter, narrower plane.
   function limb(a,b,c,r1,r2,far=false,load=0,leg=false) {
-    const centers=[a,along(a,b,.27),along(a,b,.66),b,along(b,c,.27),along(b,c,.68),c];
-    const radii=[r1*.64,r1*(1+load*.07),r1*.72,r1*.34,r2*.89,r2*.56,r2*.24];
+    const centers=[a,along(a,b,.25),along(a,b,.64),b,along(b,c,.29),along(b,c,.68),c];
+    const radii=[r1*.72,r1*(1+load*.045),r1*.81,r1*(leg?.46:.43),r2*.94,r2*.59,r2*.29];
     const normals=centers.map((p,i)=>{
       const prev=centers[Math.max(0,i-1)],next=centers[Math.min(6,i+1)],
         dx=next[0]-prev[0],dy=next[1]-prev[1],len=Math.hypot(dx,dy)||1;
@@ -70,15 +71,18 @@
     });
     const off=(i,m)=>[centers[i][0]+normals[i][0]*radii[i]*m,centers[i][1]+normals[i][1]*radii[i]*m];
     const silhouette=centers.map((_,i)=>off(i,-1)).concat(centers.map((_,i)=>off(6-i,1)));
-    // Unequal edges look like a single brush gesture rather than a mirrored tube.
-    silhouette[2]=off(2,-.86);silhouette[10]=off(3,1.15);silhouette[12]=off(1,.83);
-    const whiteA=[off(0,-.29),off(1,-.82),off(2,-.76),off(3,-.62),off(4,-.76),off(5,-.6),off(6,-.18),off(5,.06),off(4,.31),off(3,.11),off(2,.41),off(1,.41),off(0,.28)];
-    let out=path(smoothContour(silhouette))+path(smoothContour(whiteA,.88),PAPER);
-    // The upper muscle's dark return is broad at the load, and disappears at the joint.
-    out+=path(`M ${point(off(1,.3))} Q ${point(off(2,-.34))} ${point(off(3,-.25))} Q ${point(off(2,.14))} ${point(off(1,.3))} Z`);
-    // A dry white edge opens the contour at the end of a stroke.
-    if(!far) out+=path(`M ${point(off(4,1.03))} Q ${point(off(5,.8))} ${point(off(6,.18))} L ${point(off(5,.98))} Z`,PAPER);
-    if(leg) out+=path(`M ${point(off(1,-1.03))} L ${point(off(2,-.95))} L ${point(off(1,-.93))} Z`,PAPER);
+    silhouette[2]=off(2,-.92);silhouette[10]=off(3,1.09);silhouette[12]=off(1,.89);
+    const negative=[-.43,-.91,-.87,-.75,-.84,-.72,-.35],
+      positive=far?[.3,.63,.57,.64,.52,.35,.22]:[.32,.78,.72,.74,.65,.45,.25];
+    const face=negative.map((m,i)=>off(i,m)).concat(positive.slice().reverse().map((m,i)=>off(6-i,m)));
+    let out=path(smoothContour(silhouette,.72))+path(smoothContour(face,.68),PAPER);
+    // Deltoid / quadriceps meets the tendon with a short, asymmetric ink wedge.
+    out+=path(`M ${point(off(1,.63))} C ${point(off(1,.16))} ${point(off(2,.33))} ${point(off(3,.12))} C ${point(off(2,.64))} ${point(off(2,.69))} ${point(off(1,.63))} Z`);
+    // Forearm flexor or calf: a second mass, with breathing room at the joint.
+    out+=path(`M ${point(off(4,.56))} Q ${point(off(5,.04))} ${point(off(6,-.05))} Q ${point(off(5,.43))} ${point(off(4,.56))} Z`);
+    if(leg) out+=path(`M ${point(off(2,-.43))} Q ${point(off(3,-.74))} ${point(off(3,-.02))} Q ${point(off(3,-.42))} ${point(off(2,-.43))} Z`);
+    // Leave a small dry opening in the far edge, as a brush lifts from paper.
+    if(!far) out+=path(`M ${point(off(4,-1.01))} Q ${point(off(5,-.94))} ${point(off(6,-.38))} L ${point(off(5,-.99))} Z`,PAPER);
     return out;
   }
   function pivotFoot(ankle,near,angle=0) {
@@ -93,33 +97,42 @@
   }
   function torso(hip,shoulder,load=0,fatigue=0) {
     const {length:l,value}=matrix(hip,shoulder);
-    return `<g transform="${value}">`+path(`M -18 -22 C -14 -45 ${n(l*.18)} -54 ${n(l*.35)} -49 C ${n(l*.54)} -62 ${n(l*.77)} -61 ${n(l*.92)} -57 C ${n(l*1.08)} -55 ${n(l*1.16)} -29 ${n(l*1.1)} -5 C ${n(l*1.06)} 15 ${n(l*.9)} 36 ${n(l*.73)} 34 C ${n(l*.55)} 34 ${n(l*.46)} 22 ${n(l*.29)} 30 C ${n(l*.12)} 40 -16 28 -18 8 Z`)
-      +path(`M -11 -17 C -9 -37 ${n(l*.19)} -46 ${n(l*.34)} -39 C ${n(l*.5)} -50 ${n(l*.76)} -53 ${n(l*.91)} -48 C ${n(l*1.04)} -44 ${n(l*1.07)} -30 ${n(l*1.05)} -18 C ${n(l*.9)} -25 ${n(l*.81)} -15 ${n(l*.73)} -5 C ${n(l*.65)} 9 ${n(l*.51)} 10 ${n(l*.41)} 4 C ${n(l*.29)} -4 ${n(l*.2)} -5 ${n(l*.1)} 13 C -1 23 -13 11 -11 -17 Z`,PAPER)
-      +path(`M ${n(l*.32)} -37 C ${n(l*.43)} -36 ${n(l*.46)} -32 ${n(l*.52)} -28 C ${n(l*.56)} -23 ${n(l*.61)} -22 ${n(l*.64)} -24 C ${n(l*.55)} -13 ${n(l*.49)} -18 ${n(l*.44)} -24 C ${n(l*.4)} -29 ${n(l*.36)} -31 ${n(l*.32)} -37 Z`)
-      +path(`M ${n(l*.65)} -46 C ${n(l*.77)} -47 ${n(l*.8)} -38 ${n(l*.91)} -34 C ${n(l*.83)} -31 ${n(l*.8)} -34 ${n(l*.77)} -38 C ${n(l*.73)} -43 ${n(l*.69)} -44 ${n(l*.65)} -46 Z`)
-      +path(`M ${n(l*.32)} 19 C ${n(l*.43)} 9 ${n(l*.52)} 10 ${n(l*.6)} 17 C ${n(l*.51)} 22 ${n(l*.43)} 27 ${n(l*.32)} 19 Z`,PAPER)
-      +path(`M ${n(l*.62)} 18 Q ${n(l*.76)} 20 ${n(l*.86)} 9 L ${n(l*.78)} 25 Z`,PAPER)
-      +path(`M -8 -11 C 3 -21 22 -20 28 -8 C 21 5 10 14 -2 10 Z`,PAPER)
-      +path(`M ${n(l*.16)} -38 Q ${n(l*.08)} -25 ${n(l*.11)} -8 L ${n(l*.03)} -22 Z`)
-      +path(`M ${n(l*.14)} -53 Q ${n(l*.25)} -51 ${n(l*.32)} -51 L ${n(l*.19)} -49 Z`,PAPER)
-      +path(`M ${n(l*.74)} -62 L ${n(l*.87)} -61 L ${n(l*.8)} -59 Z`,PAPER)
-      +path(`M ${n(l*.63)} 27 Q ${n(l*.72)} 30 ${n(l*.81)} 22 L ${n(l*.73)} 30 Z`,PAPER)
-      +'</g>';
-  }
-  function head(p,tilt,shoulder) {
-    const neck=path(`M ${point(v(shoulder,-6,0))} Q ${point(v(p,-37,-21))} ${point(v(p,-10,-20))} L ${point(v(p,2,13))} Q ${point(v(shoulder,16,35))} ${point(v(shoulder,4,28))} Z`);
-    return neck+`<g transform="translate(${point(p)}) rotate(${n(tilt)})">`+
-      path('M -23 -6 C -25 -23 -16 -36 0 -34 C 13 -34 21 -25 22 -12 L 21 -5 L 30 4 L 23 8 L 24 15 L 19 19 Q 16 29 5 28 C -5 27 -10 19 -15 13 Q -23 13 -23 -6 Z')+
-      path('M -17 -10 C -19 -23 -10 -31 0 -29 C 10 -28 15 -22 16 -14 L 15 -6 L 24 3 L 17 6 L 18 13 L 12 17 Q 9 22 3 19 L -3 10 C 1 4 -4 0 -9 4 L -12 11 Q -18 7 -17 -10 Z',PAPER)+
-      path('M 6 -11 L 18 -8 L 11 -4 L 4 -5 Z M 13 12 L 20 11 L 18 15 Z M -12 3 Q -6 -1 -5 6 L -9 13 L -12 10 Z')+
-      path('M -18 -19 Q -7 -33 7 -25 L 14 -20 Q 1 -28 -12 -16 Z')+
+    return `<g transform="${value}">`+
+      path(`M -18 -13 C -21 -30 -8 -43 ${n(l*.14)} -40 C ${n(l*.32)} -38 ${n(l*.44)} -47 ${n(l*.61)} -54 C ${n(l*.8)} -63 ${n(l*.99)} -54 ${n(l*1.07)} -36 C ${n(l*1.13)} -21 ${n(l*1.04)} -4 ${n(l*.93)} 7 C ${n(l*.75)} 24 ${n(l*.56)} 22 ${n(l*.39)} 18 C ${n(l*.28)} 17 ${n(l*.25)} 29 ${n(l*.12)} 32 C -6 37 -19 20 -18 -13 Z`)+
+      path(`M -13 -12 C -15 -28 -3 -37 ${n(l*.14)} -35 C ${n(l*.33)} -32 ${n(l*.46)} -43 ${n(l*.63)} -49 C ${n(l*.81)} -57 ${n(l*.96)} -48 ${n(l*1.025)} -35 C ${n(l*1.07)} -25 ${n(l*1.02)} -13 ${n(l*.94)} -6 C ${n(l*.79)} -2 ${n(l*.66)} 15 ${n(l*.49)} 11 C ${n(l*.36)} 8 ${n(l*.25)} 16 ${n(l*.18)} 24 C 8 31 -11 21 -13 -12 Z`,PAPER)+
+      // The scapula is one asymmetric ridge, with a soft open ribcage below it.
+      path(`M ${n(l*.91)} -40 C ${n(l*.82)} -42 ${n(l*.7)} -35 ${n(l*.64)} -23 C ${n(l*.61)} -17 ${n(l*.58)} -9 ${n(l*.52)} -4 C ${n(l*.63)} -7 ${n(l*.68)} -18 ${n(l*.72)} -25 C ${n(l*.77)} -33 ${n(l*.84)} -38 ${n(l*.91)} -40 Z`)+
+      path(`M ${n(l*.57)} -44 Q ${n(l*.39)} -32 ${n(l*.28)} -31 C ${n(l*.39)} -29 ${n(l*.5)} -34 ${n(l*.57)} -44 Z`)+
+      // A short lumbar crease and the weight-bearing hip, not decorative cutouts.
+      path(`M ${n(l*.2)} -30 C ${n(l*.08)} -24 ${n(l*.075)} -9 ${n(l*.13)} 2 C ${n(l*.11)} -12 ${n(l*.14)} -24 ${n(l*.2)} -30 Z`)+
+      path(`M ${n(l*.18)} 25 C ${n(l*.27)} 19 ${n(l*.3)} 9 ${n(l*.37)} 4 C ${n(l*.28)} 7 ${n(l*.22)} 13 ${n(l*.18)} 25 Z`)+
+      path(`M ${n(l*.58)} 17 Q ${n(l*.7)} 20 ${n(l*.84)} 11 Q ${n(l*.74)} 24 ${n(l*.58)} 17 Z`,PAPER)+
+      path(`M ${n(l*.64)} -54 Q ${n(l*.72)} -57 ${n(l*.79)} -55 L ${n(l*.68)} -52 Z`,PAPER)+
       '</g>';
   }
-  function hand(p,other,rest) {
-    if(rest) return `<g transform="translate(${point(p)}) rotate(12)">${path('M -8 -10 Q -13 0 -8 13 L -3 24 L 1 24 L 1 12 L 5 25 L 9 23 L 6 9 L 11 21 L 14 18 L 9 3 L 13 11 L 16 8 L 8 -10 Z')}${path('M -5 -5 L -3 13 L 1 16 L -1 1 Z',PAPER)}</g>`;
-    return `<g transform="translate(${point(p)}) rotate(${other?-7:7})">`+
-      path('M -13 -9 Q -5 -15 0 -17 L 2 -31 Q 5 -36 7 -30 L 8 -13 L 12 -25 Q 16 -28 17 -22 L 14 -9 L 20 -17 Q 25 -18 24 -12 L 19 -1 L 25 -7 Q 30 -7 28 -1 L 20 10 Q 10 19 0 15 L -14 9 Z')+
-      path('M -9 -4 L 3 -10 L 7 -24 L 4 -4 L 16 -10 L 10 2 L 18 0 L 9 10 L 0 10 Z',PAPER)+ '</g>';
+  function neck(p,shoulder) {
+    return path(`M ${point(v(shoulder,-3,-10))} Q ${point(v(p,-34,-22))} ${point(v(p,-13,-24))} L ${point(v(p,-1,12))} Q ${point(v(shoulder,20,19))} ${point(v(shoulder,4,23))} Z`)+
+      path(`M ${point(v(shoulder,8,-3))} Q ${point(v(p,-29,-15))} ${point(v(p,-19,-17))} L ${point(v(p,-9,7))} Q ${point(v(shoulder,18,12))} ${point(v(shoulder,8,14))} Z`,PAPER);
+  }
+  function head(p,tilt) {
+    return `<g transform="translate(${point(p)}) rotate(${n(tilt-5)})">`+
+      path('M -24 -9 C -28 -23 -20 -38 -5 -40 C 10 -43 23 -33 24 -18 Q 25 -9 21 -4 L 30 5 Q 31 8 23 10 L 23 16 L 18 20 Q 16 30 4 30 C -7 30 -14 21 -17 15 Q -25 11 -24 -9 Z')+
+      path('M -20 -10 C -23 -24 -16 -35 -4 -36 C 8 -39 19 -30 20 -18 Q 20 -11 16 -5 L 25 5 L 18 8 L 19 14 L 13 18 Q 12 23 5 24 C -1 23 -5 18 -8 13 L -10 5 Q -7 -1 -12 -2 Q -19 -3 -16 8 L -18 11 Q -22 5 -20 -10 Z',PAPER)+
+      path('M 5 -11 Q 12 -13 19 -7 L 12 -6 L 6 -8 Z M 14 14 L 21 13 L 17 16 Z M -14 1 Q -8 -2 -10 6 L -13 9 L -12 4 Z')+
+      path('M -20 -22 C -12 -35 -1 -39 9 -31 C -1 -35 -12 -30 -20 -22 Z')+
+      '</g>';
+  }
+  const handOpen=[[-14,-8],[-6,-12],[-1,-18],[7,-27],[11,-25],[9,-17],[18,-24],[22,-22],[16,-14],[24,-19],[27,-16],[20,-7],[27,-11],[28,-7],[19,6],[11,13],[3,16],[-12,9]];
+  const handLoose=[[-8,-10],[-11,-3],[-10,10],[-5,24],[-1,25],[0,12],[5,25],[9,25],[7,10],[13,22],[16,20],[11,4],[16,11],[18,8],[11,-2],[9,-8],[3,-10],[-6,-11]];
+  const palmOpen=[[-10,-5],[-4,-8],[6,-19],[3,-8],[17,-18],[8,-5],[20,-11],[12,0],[20,-4],[9,8],[3,11],[-8,6]];
+  const palmLoose=[[-5,-5],[-8,0],[-5,14],[-2,18],[-1,11],[-3,4],[3,15],[5,19],[3,8],[5,5],[3,-5],[-4,-7]];
+  function hand(p,other,release) {
+    const amount=clamp(Number(release)||0),morph=(a,b)=>a.map((q,i)=>along(q,b[i],amount));
+    // The fingers curl as contact is released: the same contour throughout,
+    // including the quiet hanging hand at the end of the climb.
+    return `<g transform="translate(${point(p)}) rotate(${n(lerp(other?-7:7,12,amount))})">`+
+      path(smoothContour(morph(handOpen,handLoose),.5))+
+      path(smoothContour(morph(palmOpen,palmLoose),.35),PAPER)+'</g>';
   }
   const actions={
     brace:{hip:[172,302],shoulder:[305,208],head:[345,239],tilt:53,knee0:[102,355],knee1:[289,355],elbow0:[386,205],elbow1:[359,319]},
@@ -173,13 +186,15 @@
     const rig=resolve(pose,seconds,contact),{p,feet,load,fatigue}=rig;
     const relaxed=Array.isArray(contact.relaxed)?contact.relaxed.map(Boolean):
       [0,1].map(()=>contact.relaxed===undefined?rig.pose>3.8:Boolean(contact.relaxed));
+    const release=[0,1].map(i=>Array.isArray(contact.relaxAmount)?clamp(Number(contact.relaxAmount[i])||0):Number(relaxed[i]));
     let out='<g class="sisyphus-body">';
     out+=limb(v(p.hip,-8,-2),p.knee0,p.ankle0,29,20,true,load,true)+foot(feet[0]);
-    out+=limb(v(p.shoulder,10,-12),p.elbow0,p.hand0,23,17,true,load)+hand(p.hand0,true,relaxed[0]);
+    out+=limb(v(p.shoulder,10,-12),p.elbow0,p.hand0,23,17,true,load)+hand(p.hand0,true,release[0]);
     out+=limb(v(p.hip,9,6),p.knee1,p.ankle1,35,23,false,load,true)+foot(feet[1]);
     out+=torso(p.hip,p.shoulder,load,fatigue);
-    out+=head(p.head,p.tilt,p.shoulder);
-    out+=limb(v(p.shoulder,-3,11),p.elbow1,p.hand1,31,21,false,load)+hand(p.hand1,false,relaxed[1]);
+    out+=neck(p.head,p.shoulder);
+    out+=limb(v(p.shoulder,-3,11),p.elbow1,p.hand1,30,20,false,load)+hand(p.hand1,false,release[1]);
+    out+=head(p.head,p.tilt);
     feet.forEach(f=>{
       if(f.sole>=439) {
         const x=f.angle?f.pivot[0]:f.base[0],width=f.angle?13:41;
