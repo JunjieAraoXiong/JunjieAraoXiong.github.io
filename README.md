@@ -6,9 +6,9 @@ Static site hosted on GitHub Pages.
 
 - `index.html` — animation-first entrance with a link to the existing About page
 - `landing.css` / `landing.js` — responsive layout, playback, seeking, reduced motion
-- `scene.js` — 43-second narrative, growing stone, camera, and timeline
-- `figure.js` — anatomical ink figure with continuous joint contours, authored body acting, and planted feet
-- `stone.js` — rotating irregular contour, ground support, and palm intersections
+- `scene.js` — 56-second narrative, growing stone, camera, and timeline
+- `figure.js` — anatomical ink figure with a solved skeleton, changing muscle volume, and a progressive ink silhouette
+- `stone.js` — a circular boulder with analytic support, palm intersections, and rotating ink marks
 - `mountain.js` — deterministic mountain assembled from irregular stones
 - `sisyphus.svg` — static first-frame fallback for JavaScript-free browsing
 - `about.html` — biography, research, experience, and social links
@@ -16,20 +16,21 @@ Static site hosted on GitHub Pages.
 
 The entrance is an original browser-drawn study inspired by Marcell Jankovics's
 *Sisyphus* (1974), credited in the footer. It needs no video, animation library,
-or external fonts. The figure braces, crouches, crawls, heaves, and finally rests.
-The boulder grows with each attempt. Feet remain planted until recovery steps;
-long load holds break into short heaves and abrupt failures. The body compresses
-and buckles under the growing load. After arrival, a silent pause precedes an
-nine-second retreat revealing an irregular mountain of earlier stones. The final
-image holds for four seconds before fading through white.
+or external fonts. A strong, upright figure begins with a manageable round stone.
+The burden grows while his gait shortens, his back bends, and his muscular outline
+reduces to a thin ink silhouette. A quiet release precedes the mountain reveal.
 
-The figure and stone drawings hold at 18fps while the camera and dissolves run
-at the display refresh rate. Framing adapts to both portrait and landscape screens.
-Playback pauses while the tab is hidden and starts still when the visitor requests
-reduced motion. Play explicitly opts into motion. A keyboard-accessible progress
-slider and time counter let visitors revisit any part of the film; dragging the
-slider suspends playback until release. The mountain is generated once, and the
-resting figure stops redrawing during the final camera move.
+The fixed hillside, planted foot contacts, and circular stone share one world.
+Legs and arms use two-bone inverse kinematics to preserve their lengths. The feet
+alternate through stance and swing; stone rotation follows travelled distance
+and current radius. The camera allows the burden to dominate the frame before
+the final pullback. It does not continually resize the pair to keep them contained.
+
+The figure drawings hold at 24fps while camera movement and dissolves run at the
+display refresh rate. Framing adapts to portrait and landscape screens. Playback
+pauses while the tab is hidden and starts still when the visitor requests reduced
+motion. A keyboard-accessible timeline allows seeking; dragging suspends playback
+until release. The mountain is generated once.
 
 To regenerate the static poster after editing the drawing:
 

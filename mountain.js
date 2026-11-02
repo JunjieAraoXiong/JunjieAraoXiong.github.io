@@ -3,7 +3,8 @@
  * Usage: svgGroup.innerHTML = window.SisyphusMountain.create();
  * Coordinates: summit (0, 0), base y=800, x=-735..805.
  * The left climbing silhouette follows x≈-0.92*y below the summit ledge.
- * The rough summit cap supports a figure at local x=-65,y=0 (world x≈-47 after scaleX .72).
+ * The summit cap supports the figure on the flat crest at local x=-105..-75,y=0.
+ * Scene scales the mountain by12, with an additional .72 horizontal factor.
  * Mount once; animate the parent group/camera. No per-frame update is needed.
  */
 (() => {
@@ -124,8 +125,8 @@
     // A broad, irregular cap gives the final standing figure an actual foothold.
     // Its left shoulder meets the first row of stones at y≈75.
     markup.push('<g class="summit-ledge">');
-    markup.push(`<path d="${contour([[-80,4],[-74,0],[-65,0],[-55,0],[-44,0],[-31,0],[-17,0],[-2,0],[16,3],[31,20],[37,43],[25,62],[-12,75],[-47,62],[-69,35]], 0.15)}"/>`);
-    markup.push(`<path fill="#fff" d="${contour([[-83,6],[-72,.65],[-60,.7],[-48,.75],[-32,.7],[-15,.65],[-2,.65],[14,5],[27,22],[29,40],[16,51],[-14,60],[-43,50],[-69,30],[-83,12]], 0.22)}"/>`);
+    markup.push(`<path d="${contour([[-166,7.8],[-146,2.3],[-130,.3],[-121.5,0],[-105,0],[-88,0],[-65,0],[-42,0],[-18,0],[0,0],[19,5],[34,24],[40,46],[25,69],[-13,83],[-56,75],[-96,55],[-139,30]], 0.15)}"/>`);
+    markup.push(`<path fill="#fff" d="${contour([[-166,9],[-146,3.1],[-130,1],[-121.5,.65],[-105,.65],[-88,.65],[-65,.65],[-42,.65],[-18,.65],[0,.65],[17,7],[29,25],[31,43],[16,56],[-15,70],[-55,75],[-98,58],[-143,33],[-170,15]], 0.22)}"/>`);
     markup.push('<path fill="#fff" d="M-72 48l2 8 1-3-1-6zM22 66l5-3-2 4-3 1z"/>');
     markup.push('</g>');
     // Let the last stones disappear into paper instead of ending in a ruler-straight baseline.
