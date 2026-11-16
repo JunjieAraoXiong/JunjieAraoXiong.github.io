@@ -12,7 +12,7 @@
     <!-- <title> = the text shown on the browser tab. -->
     <title>About · Junjie Xiong</title>
     <!-- This line loads all the styling (fonts, colors, layout). Leave it. -->
-    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=14">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=18">
 
     <link rel="preload" href="fonts/ebgaramond-400.woff2" as="font" type="font/woff2" crossorigin>
     <!-- Favicon: the small icon shown on the browser tab. -->
@@ -76,7 +76,7 @@
 
         <!-- TEXT (right column): heading, tagline, then bio paragraphs. -->
         <div class="intro-copy">
-          <h1>I'm Junjie <span lang="zh">俊杰</span>.</h1>
+          <h1>I&rsquo;m Junjie <span lang="zh">俊杰</span>.</h1>
           <p class="tagline">CS + Maths @ <a class="affil" href="https://www.berkeley.edu/">UC Berkeley</a></p>
           <p>
             My research centers on reinforcement learning, training language
@@ -131,7 +131,7 @@
         <h2><u>Research</u></h2>
 
         <div class="role">
-          <img class="role-logo" src="images/logos/berkeley.png" alt="UC Berkeley" loading="lazy">
+          <img class="role-logo logo-sky" src="images/logos/sky-trim.png" alt="UC Berkeley" loading="lazy">
           <div class="role-body">
             <div class="role-head">
               <span class="role-place">Berkeley, CA</span>
@@ -143,7 +143,7 @@
         </div>
 
         <div class="role">
-          <img class="role-logo" src="images/logos/bair.png" alt="Berkeley Artificial Intelligence Research (BAIR)" loading="lazy">
+          <img class="role-logo logo-bair" src="images/logos/bair.png" alt="Berkeley Artificial Intelligence Research (BAIR)" loading="lazy">
           <div class="role-body">
             <div class="role-head">
               <span class="role-place">Berkeley, CA</span>
@@ -157,7 +157,7 @@
         </div>
 
         <div class="role">
-          <img class="role-logo" src="images/logos/stanford.jpg" alt="Stanford" loading="lazy">
+          <img class="role-logo logo-stanford" src="images/logos/stanford-trim.jpg" alt="Stanford" loading="lazy">
           <div class="role-body">
             <div class="role-head">
               <span class="role-place">Stanford, CA</span>
@@ -169,7 +169,7 @@
         </div>
 
         <div class="role">
-          <img class="role-logo" src="images/logos/duke.png" alt="Duke University" loading="lazy">
+          <img class="role-logo logo-solid" src="images/logos/duke.png" alt="Duke University" loading="lazy">
           <div class="role-body">
             <div class="role-head">
               <span class="role-place">Florence, Italy</span>
@@ -204,19 +204,19 @@
         <h2><u>Internships</u></h2>
 
         <div class="role">
-          <img class="role-logo" src="images/logos/tencent.jpg" alt="Tencent" loading="lazy">
+          <img class="role-logo logo-tencent" src="images/logos/tencent-trim.jpg" alt="Tencent" loading="lazy">
           <div class="role-body">
             <div class="role-head">
               <span class="role-place">Palo Alto, CA</span>
               <span class="role-where"><strong>Software Engineer</strong>, Tencent</span>
               <span class="role-date">Jun 2026 &ndash; Sep 2026</span>
             </div>
-            <p class="role-loc">Developed Go backend services and infrastructure for an internal ML platform supporting model training and LLM evaluation for Tencent&rsquo;s <a href="https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/">Hy 4 Preview</a>, Hy 4 and Hy 4 Flash models. Contributed from day one to asynchronous workflow orchestration, automated failure recovery, and model proxy monitoring.</p>
+            <p class="role-loc">Developed Go backend services and infrastructure for an internal ML platform supporting model training and LLM evaluation for Tencent&rsquo;s <a href="https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/">Hy 4 Preview</a>, <a href="https://www.tencent.com/tencent-launches-hy4-joining-the-ranks-of-the-worlds-leading-open-source-ai-models/">Hy 4</a> and <a href="https://www.tencent.com/tencent-launches-hy4-joining-the-ranks-of-the-worlds-leading-open-source-ai-models/#:~:text=Hy4%20Flash%20Recently%20Released">Hy 4 Flash</a> models. Contributed from day one to asynchronous workflow orchestration, automated failure recovery, and model proxy monitoring.</p>
           </div>
         </div>
 
         <div class="role">
-          <img class="role-logo" src="images/logos/epoch.png" alt="Epoch AI" loading="lazy">
+          <img class="role-logo logo-epoch" src="images/logos/epoch-trim.png" alt="Epoch AI" loading="lazy">
           <div class="role-body">
             <div class="role-head">
               <span class="role-place">San Francisco, CA</span>
@@ -228,7 +228,7 @@
         </div>
 
         <div class="role">
-          <img class="role-logo" src="images/logos/xiaomi.svg" alt="Xiaomi" loading="lazy">
+          <img class="role-logo logo-solid" src="images/logos/xiaomi.svg" alt="Xiaomi" loading="lazy">
           <div class="role-body">
             <div class="role-head">
               <span class="role-place">Beijing, China</span>
@@ -240,7 +240,7 @@
         </div>
 
         <div class="role">
-          <img class="role-logo" src="images/logos/cowin.png" alt="Cowin Capital Group" loading="lazy">
+          <img class="role-logo logo-cowin" src="images/logos/cowin-trim.png" alt="Cowin Capital Group" loading="lazy">
           <div class="role-body">
             <div class="role-head">
               <span class="role-place">Shenzhen, China</span>
@@ -303,16 +303,15 @@
             frame.appendChild(iframe);
           }
           panel.hidden = false;
-          requestAnimationFrame(() => {
-            link.setAttribute('aria-expanded', String(open));
-            panel.classList.toggle('is-open', open);
-          });
+          void panel.offsetHeight; // flush the closed state so opening transitions too
+          link.setAttribute('aria-expanded', String(open));
+          panel.classList.toggle('is-open', open);
           if (!open) setTimeout(() => { if (link.getAttribute('aria-expanded') !== 'true') panel.hidden = true; }, 450);
         });
       })();
     </script>
     <script src="site.js?v=1" defer></script>
-    <script src="bounce.js?v=3" defer></script>
+    <script src="bounce.js?v=9" defer></script>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7baadfe13e8945a28573f8ceda32b6dd"}'></script><!-- End Cloudflare Web Analytics -->
   </body>
 </html>

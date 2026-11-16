@@ -39,7 +39,6 @@ footer{padding:8px var(--edge) max(22px,env(safe-area-inset-bottom))}
 .who:hover .hint,.name:focus-visible+.hint{opacity:1;transform:none}
 @media (hover:none){.hint{opacity:1;transform:none}}
 @media (max-width:600px){.who{flex-direction:column;gap:0}.hint{font-size:14px}header{align-items:baseline}.stage{padding-inline:0}.film{width:min(100%,calc((100svh - 190px)*4/2.52))}}
-@media (hover:none){button{opacity:1}}
 @media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/2.52))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.45s;animation-timing-function:ease}
@@ -58,7 +57,8 @@ footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em
 .credit{text-align:right;line-height:1.35}
 .credit cite{font-style:italic}
 button{font:13px 'EB Garamond',Georgia,serif;color:var(--quiet);background:none;border:0;padding:0;cursor:pointer;min-height:44px;min-width:44px;opacity:0;transition:opacity .2s}
-footer:hover button,button:focus-visible{opacity:1}button:hover{color:var(--ink)}
+footer:hover button,button:focus-visible,button.is-shown{opacity:1}button:hover{color:var(--ink)}
+@media (hover:none){button{opacity:1}}
 button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 @media (prefers-reduced-motion: reduce){.film{transition:none}}
 @media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left}.foot-right{width:100%;justify-content:space-between}}
@@ -85,18 +85,34 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
   const film=document.getElementById('film'),btn=document.getElementById('toggle');
   const SETTLE=3.5;      // s of real playback before YouTube's overlay has cleared
   const LOOP_AT=118.2;   // s: loop on the film's end card, before the staff credits
-  let player,playing=!reduce,looping=false,settleFrom=null;
+  let player,playing=!reduce,looping=false,settleFrom=null,pauseTimer=0,played=false,blocked=false;
   const show=()=>film.classList.add('is-visible'),hide=()=>{film.classList.remove('is-visible');settleFrom=null;};
   function sync(){btn.textContent=playing?'Pause':'Play';btn.setAttribute('aria-label',playing?'Pause film':'Play film');}
+  // When the film is not playing on its own, keep Play visible so the stage is never a blank mystery.
+  const reveal=on=>btn.classList.toggle('is-shown',on);
   function restart(){looping=true;hide();setTimeout(()=>{player.seekTo(0,true);player.playVideo();looping=false;},1500);}
   window.onYouTubeIframeAPIReady=()=>{
     player=new YT.Player('player',{host:'https://www.youtube-nocookie.com',videoId:'QujiLG93BKw',
       playerVars:{autoplay:reduce?0:1,mute:1,controls:0,disablekb:1,fs:0,iv_load_policy:3,cc_load_policy:0,rel:0,playsinline:1},
       events:{
-        onReady:e=>{e.target.mute();try{e.target.unloadModule('captions');e.target.unloadModule('cc');}catch(_){}if(!reduce)e.target.playVideo();},
+        onReady:e=>{
+          e.target.mute();try{e.target.unloadModule('captions');e.target.unloadModule('cc');}catch(_){}
+          // The film is decorative (credited in the footer and main's label): keep it out of the tab order.
+          const f=e.target.getIframe();f.setAttribute('tabindex','-1');f.setAttribute('aria-hidden','true');
+          if(!reduce){
+            e.target.playVideo();
+            // Autoplay can be refused (e.g. iOS Low Power Mode): then offer Play instead of a stale Pause.
+            setTimeout(()=>{if(!played&&playing){playing=false;blocked=true;sync();reveal(true);}},4000);
+          }
+        },
         onStateChange:e=>{
           const S=YT.PlayerState;
-          if(e.data===S.PLAYING){if(settleFrom===null)settleFrom=player.getCurrentTime();}
+          if(e.data===S.PLAYING){
+            played=true;
+            if(blocked){blocked=false;playing=true;sync();reveal(false);} // it started after all
+            if(settleFrom===null)settleFrom=player.getCurrentTime();
+          }
+          else if(e.data===S.PAUSED&&playing&&!looping&&!document.hidden){hide();player.playVideo();} // paused by the browser or YouTube, not by us
           else if(e.data===S.BUFFERING||e.data===S.UNSTARTED||e.data===S.CUED)hide();
           else if(e.data===S.ENDED&&playing&&!looping)restart();
         }}});
@@ -108,13 +124,21 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
     },200);
   };
   btn.addEventListener('click',()=>{
-    if(!player)return;playing=!playing;
-    if(playing){player.playVideo();}else{hide();setTimeout(()=>{if(!playing)player.pauseVideo();},1400);}
+    if(!player||!player.playVideo)return;playing=!playing;blocked=false;
+    clearTimeout(pauseTimer);
+    if(playing){
+      reveal(false);
+      // Resumed before the delayed pause ran: the film never stopped, so just fade it back in.
+      if(player.getPlayerState()===YT.PlayerState.PLAYING)show();
+      else player.playVideo();
+    }else{hide();pauseTimer=setTimeout(()=>{if(!playing)player.pauseVideo();},1400);}
     sync();
   });
+  // Coming back to the tab (iOS suspends background video): resume if the film should be playing.
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&playing&&player&&player.playVideo&&player.getPlayerState()!==YT.PlayerState.PLAYING){hide();player.playVideo();}});
   // Space toggles the film when focus is not on a link or button.
   document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.target.closest('a,button')){e.preventDefault();btn.click();}});
-  sync();
+  sync();if(reduce)reveal(true);
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7baadfe13e8945a28573f8ceda32b6dd"}'></script><!-- End Cloudflare Web Analytics -->
