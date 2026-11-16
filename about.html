@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.youtube.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; frame-src https://www.youtube-nocookie.com https://www.youtube.com https://calendar.google.com; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <!-- "author" and "description" are for search engines / link previews.
          "description" is the blurb that can show up in Google results. -->
     <meta name="author" content="Junjie Xiong">
@@ -10,8 +12,9 @@
     <!-- <title> = the text shown on the browser tab. -->
     <title>About · Junjie Xiong</title>
     <!-- This line loads all the styling (fonts, colors, layout). Leave it. -->
-    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=9">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=10">
 
+    <link rel="preload" href="fonts/ebgaramond-400.woff2" as="font" type="font/woff2" crossorigin>
     <!-- Favicon: the small icon shown on the browser tab. -->
     <link rel="icon" href="favicon.png" type="image/png">
     <!-- Canonical: the official address of this page (helps Google). -->
@@ -68,7 +71,7 @@
       <section class="intro">
         <!-- PHOTO (left column): change the file in images/ or point src elsewhere. -->
         <div class="intro-photo">
-          <img src="images/profile-v2.jpg" alt="Profile photo of Junjie Xiong">
+          <img src="images/profile-v2.jpg" alt="Profile photo of Junjie Xiong" width="600" height="450" fetchpriority="high" decoding="async">
         </div>
 
         <!-- TEXT (right column): heading, tagline, then bio paragraphs. -->
@@ -89,12 +92,17 @@
             world, and I am an <a href="https://www.goodreads.com/jaraxiong">avid reader</a>. I also enjoy staying active through
             swimming, long-distance running, and racket sports like tennis, squash, and pickleball.
           </p>
-          <p class="intro-cta">
-            <a class="booking-button" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0hemlKWA5RV6NTSEnQb1QsIstkVHGdphK5uVpNm4v_qwpuFbbecWndGT-TyEWS_tWH6-xf9TfY">Book a 15-minute chat</a>
-          </p>
-          <p class="booking-availability">
-            11 AM&ndash;11 PM Pacific daily, including weekends and holidays, through December 31, 2026. See the calendar for current availability.
-          </p>
+          <div class="booking">
+            <a class="booking-button" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0hemlKWA5RV6NTSEnQb1QsIstkVHGdphK5uVpNm4v_qwpuFbbecWndGT-TyEWS_tWH6-xf9TfY" aria-controls="booking-panel" aria-expanded="false">
+              <span>Book a 15-minute chat</span><span class="booking-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            <div class="booking-panel" id="booking-panel" hidden>
+              <div class="booking-inner">
+                <div class="booking-frame" data-src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0hemlKWA5RV6NTSEnQb1QsIstkVHGdphK5uVpNm4v_qwpuFbbecWndGT-TyEWS_tWH6-xf9TfY?gv=true"></div>
+                <a class="booking-fallback" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0hemlKWA5RV6NTSEnQb1QsIstkVHGdphK5uVpNm4v_qwpuFbbecWndGT-TyEWS_tWH6-xf9TfY" target="_blank" rel="noopener noreferrer">Open in Google Calendar</a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -277,6 +285,32 @@
         </span>
       </footer>
     </main>
+    <script>
+      // Booking opens inline; Google Calendar loads only when first opened.
+      (() => {
+        const link = document.querySelector('.booking-button');
+        const panel = document.getElementById('booking-panel');
+        const frame = panel && panel.querySelector('.booking-frame');
+        if (!link || !panel || !frame) return;
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          const open = link.getAttribute('aria-expanded') !== 'true';
+          if (open && !frame.firstChild) {
+            const iframe = document.createElement('iframe');
+            iframe.src = frame.dataset.src;
+            iframe.title = 'Book a 15-minute chat with Junjie Xiong';
+            iframe.loading = 'lazy';
+            frame.appendChild(iframe);
+          }
+          panel.hidden = false;
+          requestAnimationFrame(() => {
+            link.setAttribute('aria-expanded', String(open));
+            panel.classList.toggle('is-open', open);
+          });
+          if (!open) setTimeout(() => { if (link.getAttribute('aria-expanded') !== 'true') panel.hidden = true; }, 450);
+        });
+      })();
+    </script>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7baadfe13e8945a28573f8ceda32b6dd"}'></script><!-- End Cloudflare Web Analytics -->
   </body>
 </html>
