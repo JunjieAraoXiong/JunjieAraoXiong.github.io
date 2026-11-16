@@ -11,6 +11,8 @@
 <link rel="preconnect" href="https://www.youtube-nocookie.com">
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="dns-prefetch" href="https://i.ytimg.com">
+<link rel="dns-prefetch" href="https://www.google.com">
+<script async src="https://www.youtube.com/iframe_api"></script>
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="canonical" href="https://junjiearaoxiong.github.io/">
 <meta property="og:type" content="website">
@@ -38,8 +40,6 @@ footer{padding:8px var(--edge) max(22px,env(safe-area-inset-bottom))}
 .hint{font-size:15px;font-style:italic;color:var(--quiet);white-space:nowrap;opacity:0;transform:translateX(-6px);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
 .who:hover .hint,.name:focus-visible+.hint{opacity:1;transform:none}
 @media (hover:none){.hint{opacity:1;transform:none}}
-@media (max-width:600px){.who{flex-direction:column;gap:0}.hint{font-size:14px}header{align-items:baseline}.stage{padding-inline:0}.film{width:min(100%,calc((100svh - 190px)*4/2.52))}}
-@media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/2.52))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.45s;animation-timing-function:ease}
 @media (prefers-reduced-motion:reduce){@view-transition{navigation:none}.hint{transition:none}}
@@ -49,7 +49,11 @@ footer{padding:8px var(--edge) max(22px,env(safe-area-inset-bottom))}
   mix-blend-mode:multiply;filter:grayscale(1) contrast(1.45) brightness(1.08)}
 .film iframe{position:absolute;top:-1.5%;left:-1.5%;width:103%;height:122.62%;border:0;pointer-events:none}
 .film::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 40px 18px var(--paper);pointer-events:none}
-.film{opacity:0;transition:opacity 1.4s ease}
+.film{opacity:0;transition:opacity 1s ease}
+.stage{position:relative}
+.wait{position:absolute;inset:0;display:grid;place-items:center;font-style:italic;font-size:22px;letter-spacing:.01em;color:var(--quiet);opacity:0;transition:opacity .8s ease;pointer-events:none}
+.wait.is-on{opacity:.75}
+.film.is-visible~.wait{opacity:0;transition-duration:.6s}
 .film.is-visible{opacity:1}
 footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em}
 .copyright{white-space:nowrap}
@@ -62,12 +66,24 @@ footer:hover button,button:focus-visible,button.is-shown{opacity:1}button:hover{
 button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 @media (prefers-reduced-motion: reduce){.film{transition:none}}
 @media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left}.foot-right{width:100%;justify-content:space-between}}
+@media (max-width:600px){.who{flex-direction:column;gap:0}.hint{font-size:14px}header{align-items:baseline}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*1.25));aspect-ratio:1.25}.film iframe{width:130.8%;left:-15.4%}.wait{font-size:19px}}
+@media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/2.52))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
 </style>
 </head>
 <body>
 <header><span class="who"><a class="name" href="index.html" aria-current="page">Junjie Xiong</a><span class="hint">Post-training research &middot; UC Berkeley</span></span><a class="about" href="about.html">About</a></header>
 <main class="stage" aria-label="Sisyphus (1974) by Marcell Jankovics, embedded from YouTube">
   <div class="film" id="film"><div id="player"></div></div>
+  <span class="wait" id="wait" aria-hidden="true">Sisyphus</span>
+  <script>
+    // Start the player at once instead of after the API script chain (iframe_api, then widgetapi, then the iframe).
+    (function(){var r=matchMedia('(prefers-reduced-motion: reduce)').matches,f=document.createElement('iframe');
+      f.id='player';f.title='Sisyphus (1974), Marcell Jankovics';f.allow='autoplay; encrypted-media';f.tabIndex=-1;f.setAttribute('aria-hidden','true');
+      f.src='https://www.youtube-nocookie.com/embed/QujiLG93BKw?enablejsapi=1&autoplay='+(r?0:1)+'&mute=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&cc_load_policy=0&rel=0&playsinline=1&origin='+encodeURIComponent(location.origin);
+      document.getElementById('player').replaceWith(f);
+      // Only name the film if it is slow to arrive, so a fast load never flashes the word.
+      setTimeout(function(){if(!document.getElementById('film').classList.contains('is-visible'))document.getElementById('wait').classList.add('is-on');},600);})();
+  </script>
 </main>
 <footer>
   <span class="copyright">&copy; 2026 Junjie Xiong</span>
@@ -83,20 +99,28 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
   // card so YouTube's end screen never appears. The film is credited in the footer.
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const film=document.getElementById('film'),btn=document.getElementById('toggle');
-  const SETTLE=3.5;      // s of real playback before YouTube's overlay has cleared
+  const SETTLE=4.2;      // s of playback (wall clock) before YouTube's overlay has cleared (measured: 3.8 to 4.0 s)
+  const LEAD=0.75;       // hidden lead-in runs slower so the reveal lands on the hand-lettered title
   const LOOP_AT=118.2;   // s: loop on the film's end card, before the staff credits
   let player,playing=!reduce,looping=false,settleFrom=null,pauseTimer=0,played=false,blocked=false;
-  const show=()=>film.classList.add('is-visible'),hide=()=>{film.classList.remove('is-visible');settleFrom=null;};
+  const now=()=>performance.now()/1000;
+  const rate=r=>{try{player.setPlaybackRate(r);}catch(_){}};
+  const show=()=>{if(!film.classList.contains('is-visible')){film.classList.add('is-visible');rate(1);}},hide=()=>{film.classList.remove('is-visible');settleFrom=null;};
   function sync(){btn.textContent=playing?'Pause':'Play';btn.setAttribute('aria-label',playing?'Pause film':'Play film');}
   // When the film is not playing on its own, keep Play visible so the stage is never a blank mystery.
   const reveal=on=>btn.classList.toggle('is-shown',on);
-  function restart(){looping=true;hide();setTimeout(()=>{player.seekTo(0,true);player.playVideo();looping=false;},1500);}
+  function restart(){looping=true;hide();setTimeout(()=>{player.seekTo(0,true);rate(LEAD);player.playVideo();looping=false;},1500);}
+  let inited=false;
   window.onYouTubeIframeAPIReady=()=>{
-    player=new YT.Player('player',{host:'https://www.youtube-nocookie.com',videoId:'QujiLG93BKw',
-      playerVars:{autoplay:reduce?0:1,mute:1,controls:0,disablekb:1,fs:0,iv_load_policy:3,cc_load_policy:0,rel:0,playsinline:1},
+    if(inited)return;inited=true;
+    player=new YT.Player('player',{
       events:{
         onReady:e=>{
-          e.target.mute();try{e.target.unloadModule('captions');e.target.unloadModule('cc');}catch(_){}
+          e.target.mute();
+          // The iframe autoplays before the API attaches, so it may already be rolling: count from the film's start.
+          if(e.target.getPlayerState()===YT.PlayerState.PLAYING){played=true;if(settleFrom===null)settleFrom=now()-e.target.getCurrentTime();}
+          if(e.target.getCurrentTime()<2.5)rate(LEAD);
+          try{e.target.unloadModule('captions');e.target.unloadModule('cc');}catch(_){}
           // The film is decorative (credited in the footer and main's label): keep it out of the tab order.
           const f=e.target.getIframe();f.setAttribute('tabindex','-1');f.setAttribute('aria-hidden','true');
           if(!reduce){
@@ -110,7 +134,7 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
           if(e.data===S.PLAYING){
             played=true;
             if(blocked){blocked=false;playing=true;sync();reveal(false);} // it started after all
-            if(settleFrom===null)settleFrom=player.getCurrentTime();
+            if(settleFrom===null)settleFrom=now();
           }
           else if(e.data===S.PAUSED&&playing&&!looping&&!document.hidden){hide();player.playVideo();} // paused by the browser or YouTube, not by us
           else if(e.data===S.BUFFERING||e.data===S.UNSTARTED||e.data===S.CUED)hide();
@@ -119,7 +143,7 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
     setInterval(()=>{
       if(!player||!player.getCurrentTime||looping)return;
       const t=player.getCurrentTime();
-      if(playing&&settleFrom!==null&&t-settleFrom>=SETTLE)show();
+      if(playing&&settleFrom!==null&&now()-settleFrom>=SETTLE&&player.getPlayerState()===YT.PlayerState.PLAYING)show();
       if(playing&&(t>=LOOP_AT||player.getDuration()-t<1.6))restart();
     },200);
   };
@@ -139,8 +163,9 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
   // Space toggles the film when focus is not on a link or button.
   document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.target.closest('a,button')){e.preventDefault();btn.click();}});
   sync();if(reduce)reveal(true);
+  // The API script is async and may have finished before this handler existed.
+  if(window.YT&&YT.loaded)window.onYouTubeIframeAPIReady();
 </script>
-<script src="https://www.youtube.com/iframe_api"></script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7baadfe13e8945a28573f8ceda32b6dd"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
