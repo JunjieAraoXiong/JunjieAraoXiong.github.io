@@ -34,6 +34,16 @@ a{color:inherit;text-decoration:none}a:hover{text-decoration:underline;text-unde
 header,footer{display:flex;justify-content:space-between;align-items:center;padding:max(22px,env(safe-area-inset-top)) var(--edge) 0}
 footer{padding:8px var(--edge) max(22px,env(safe-area-inset-bottom))}
 .name{font-size:25px;letter-spacing:-.02em}.about{font-size:21px}
+.who{display:flex;align-items:baseline;gap:14px;min-width:0}
+.hint{font-size:15px;font-style:italic;color:var(--quiet);white-space:nowrap;opacity:0;transform:translateX(-6px);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
+.who:hover .hint,.name:focus-visible+.hint{opacity:1;transform:none}
+@media (hover:none){.hint{opacity:1;transform:none}}
+@media (max-width:600px){.who{flex-direction:column;gap:0}.hint{font-size:14px}header{align-items:baseline}.stage{padding-inline:0}.film{width:min(100%,calc((100svh - 190px)*4/2.52))}}
+@media (hover:none){button{opacity:1}}
+@media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/2.52))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.45s;animation-timing-function:ease}
+@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}.hint{transition:none}}
 .stage{display:grid;place-items:center;min-height:0;padding:12px var(--edge)}
 /* 4:3 frame, as large as fits */
 .film{position:relative;width:min(100%,calc((100svh - 170px)*4/2.52));aspect-ratio:4/2.52;overflow:hidden;
@@ -55,7 +65,7 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 </style>
 </head>
 <body>
-<header><a class="name" href="index.html" aria-current="page">Junjie Xiong</a><a class="about" href="about.html">About</a></header>
+<header><span class="who"><a class="name" href="index.html" aria-current="page">Junjie Xiong</a><span class="hint">Post-training research &middot; UC Berkeley</span></span><a class="about" href="about.html">About</a></header>
 <main class="stage" aria-label="Sisyphus (1974) by Marcell Jankovics, embedded from YouTube">
   <div class="film" id="film"><div id="player"></div></div>
 </main>
@@ -67,16 +77,17 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
   </span>
 </footer>
 <script>
-  // The film is hidden while YouTube shows its start-up title bar, then fades in.
-  // We loop it ourselves just before the end, so YouTube's end screen never appears.
+  // YouTube draws its title bar, icons and spinner over the film while it starts,
+  // buffers or pauses. The film stays invisible until it has actually played
+  // SETTLE seconds of footage, fades out if it stalls, and loops on its own end
+  // card so YouTube's end screen never appears. The film is credited in the footer.
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const film=document.getElementById('film'),btn=document.getElementById('toggle');
-  const QUIET=3200;    // ms YouTube needs to hide its overlay after playback starts
-  const LOOP_AT=118.2;  // s: loop on the film's end card, before the staff credits
-  let player,playing=!reduce,revealTimer=0,looping=false;
+  const SETTLE=3.5;      // s of real playback before YouTube's overlay has cleared
+  const LOOP_AT=118.2;   // s: loop on the film's end card, before the staff credits
+  let player,playing=!reduce,looping=false,settleFrom=null;
+  const show=()=>film.classList.add('is-visible'),hide=()=>{film.classList.remove('is-visible');settleFrom=null;};
   function sync(){btn.textContent=playing?'Pause':'Play';btn.setAttribute('aria-label',playing?'Pause film':'Play film');}
-  function hide(){clearTimeout(revealTimer);film.classList.remove('is-visible');}
-  function revealSoon(){clearTimeout(revealTimer);revealTimer=setTimeout(()=>film.classList.add('is-visible'),QUIET);}
   function restart(){looping=true;hide();setTimeout(()=>{player.seekTo(0,true);player.playVideo();looping=false;},1500);}
   window.onYouTubeIframeAPIReady=()=>{
     player=new YT.Player('player',{host:'https://www.youtube-nocookie.com',videoId:'QujiLG93BKw',
@@ -84,20 +95,25 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
       events:{
         onReady:e=>{e.target.mute();try{e.target.unloadModule('captions');e.target.unloadModule('cc');}catch(_){}if(!reduce)e.target.playVideo();},
         onStateChange:e=>{
-          if(e.data===YT.PlayerState.PLAYING&&!looping)revealSoon();
-          if(e.data===YT.PlayerState.ENDED&&playing&&!looping)restart();
+          const S=YT.PlayerState;
+          if(e.data===S.PLAYING){if(settleFrom===null)settleFrom=player.getCurrentTime();}
+          else if(e.data===S.BUFFERING||e.data===S.UNSTARTED||e.data===S.CUED)hide();
+          else if(e.data===S.ENDED&&playing&&!looping)restart();
         }}});
     setInterval(()=>{
-      if(!player||!player.getDuration||!playing||looping)return;
-      // Loop as the hand-written "Vége" (The End) fades, before the staff credits at ~119 s.
-      if(player.getCurrentTime()>=LOOP_AT||player.getDuration()-player.getCurrentTime()<1.6)restart();
-    },250);
+      if(!player||!player.getCurrentTime||looping)return;
+      const t=player.getCurrentTime();
+      if(playing&&settleFrom!==null&&t-settleFrom>=SETTLE)show();
+      if(playing&&(t>=LOOP_AT||player.getDuration()-t<1.6))restart();
+    },200);
   };
   btn.addEventListener('click',()=>{
     if(!player)return;playing=!playing;
     if(playing){player.playVideo();}else{hide();setTimeout(()=>{if(!playing)player.pauseVideo();},1400);}
     sync();
   });
+  // Space toggles the film when focus is not on a link or button.
+  document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.target.closest('a,button')){e.preventDefault();btn.click();}});
   sync();
 </script>
 <script src="https://www.youtube.com/iframe_api"></script>

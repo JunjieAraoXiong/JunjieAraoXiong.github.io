@@ -12,7 +12,7 @@
     <!-- <title> = the text shown on the browser tab. -->
     <title>About · Junjie Xiong</title>
     <!-- This line loads all the styling (fonts, colors, layout). Leave it. -->
-    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=10">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css?v=14">
 
     <link rel="preload" href="fonts/ebgaramond-400.woff2" as="font" type="font/woff2" crossorigin>
     <!-- Favicon: the small icon shown on the browser tab. -->
@@ -71,7 +71,7 @@
       <section class="intro">
         <!-- PHOTO (left column): change the file in images/ or point src elsewhere. -->
         <div class="intro-photo">
-          <img src="images/profile-v2.jpg" alt="Profile photo of Junjie Xiong" width="600" height="450" fetchpriority="high" decoding="async">
+          <img src="images/profile-v2.jpg?v=2" alt="Profile photo of Junjie Xiong" width="450" height="600" fetchpriority="high" decoding="async">
         </div>
 
         <!-- TEXT (right column): heading, tagline, then bio paragraphs. -->
@@ -211,7 +211,7 @@
               <span class="role-where"><strong>Software Engineer</strong>, Tencent</span>
               <span class="role-date">Jun 2026 &ndash; Sep 2026</span>
             </div>
-            <p class="role-loc">Developed Go backend services and infrastructure for an internal ML platform supporting model training and LLM evaluation for Tencent&rsquo;s <a href="https://www.tencent.com/tencent-hunyuan-officially-releases-hy3-advancing-agent-capabilities-and-deeper-product-integration/">Hy3</a> and <a href="https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/">Hy4 preview</a> models. Contributed from day one to asynchronous workflow orchestration, automated failure recovery, and model proxy monitoring.</p>
+            <p class="role-loc">Developed Go backend services and infrastructure for an internal ML platform supporting model training and LLM evaluation for Tencent&rsquo;s <a href="https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/">Hy 4 Preview</a>, Hy 4 and Hy 4 Flash models. Contributed from day one to asynchronous workflow orchestration, automated failure recovery, and model proxy monitoring.</p>
           </div>
         </div>
 
@@ -311,6 +311,8 @@
         });
       })();
     </script>
+    <script src="site.js?v=1" defer></script>
+    <script src="bounce.js?v=3" defer></script>
     <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7baadfe13e8945a28573f8ceda32b6dd"}'></script><!-- End Cloudflare Web Analytics -->
   </body>
 </html>
