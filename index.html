@@ -8,6 +8,7 @@
 <meta name="author" content="Junjie Xiong">
 <meta name="description" content="Junjie Xiong, UC Berkeley CS + Maths student working on reinforcement learning for language models, agents, and ML systems.">
 <title>Junjie Xiong</title>
+<script>/* Safari and every iPhone browser ignore blending on embedded video, so the film keeps its white: feather it into the paper instead. */if(navigator.vendor==="Apple Computer, Inc.")document.documentElement.classList.add("webkit")</script>
 <link rel="preconnect" href="https://www.youtube-nocookie.com">
 <link rel="preconnect" href="https://www.youtube.com">
 <link rel="dns-prefetch" href="https://i.ytimg.com">
@@ -68,6 +69,10 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 @media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left}.foot-right{width:100%;justify-content:space-between}}
 @media (max-width:600px){.who{flex-direction:column;gap:0}.hint{font-size:14px}header{align-items:baseline}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*1.25));aspect-ratio:1.25}.film iframe{width:130.8%;left:-15.4%}.wait{font-size:19px}}
 @media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/2.52))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
+/* Apple engine (Safari, every iPhone browser): blending is ignored on embedded video, so the film's white
+   cannot take on the paper. Make this page's paper the film's white instead, so the frame disappears. */
+.webkit{--paper:#fff}
+.webkit .film{mix-blend-mode:normal;filter:none}
 </style>
 </head>
 <body>
