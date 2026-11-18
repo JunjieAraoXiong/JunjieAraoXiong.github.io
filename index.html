@@ -9,6 +9,7 @@
 <meta name="description" content="Junjie Xiong, UC Berkeley CS + Maths student working on reinforcement learning for language models, agents, and ML systems.">
 <title>Junjie Xiong</title>
 <script>/* Safari and every iPhone browser ignore blending on embedded video, so the film keeps its white: feather it into the paper instead. */if(navigator.vendor==="Apple Computer, Inc.")document.documentElement.classList.add("webkit")</script>
+<link rel="preload" as="image" href="media/sisyphus-poster.jpg" fetchpriority="high">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="canonical" href="https://junjiearaoxiong.github.io/">
 <meta property="og:type" content="website">
@@ -77,7 +78,7 @@ footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em
 <body>
 <header><span class="who"><a class="name" href="index.html" aria-current="page">Junjie Xiong</a></span><a class="about" href="about.html">About</a></header>
 <main class="stage" aria-label="Sisyphus (1974) by Marcell Jankovics">
-  <div class="film" id="film"><video id="player" muted playsinline loop preload="metadata" poster="media/sisyphus-poster.jpg" tabindex="-1" aria-hidden="true"><source src="media/sisyphus-loop-1080p.mp4" type="video/mp4"></video></div>
+  <div class="film is-visible" id="film"><video id="player" muted playsinline loop preload="metadata" poster="media/sisyphus-poster.jpg" tabindex="-1" aria-hidden="true"><source src="media/sisyphus-silent-1080p.mp4" type="video/mp4"></video></div>
   <span class="wait" id="wait" aria-hidden="true">Sisyphus</span>
 </main>
 <footer>
@@ -97,7 +98,9 @@ footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em
   function start(e){if(!player.paused||(e&&e.target.closest('a')))return;play();}
   player.addEventListener('playing',show);
   player.addEventListener('loadeddata',()=>{if(!playing)show();});
-  player.addEventListener('error',()=>{document.getElementById('wait').textContent='Film unavailable';document.getElementById('wait').classList.add('is-on');film.classList.remove('is-visible');});
+  const unavailable=()=>{document.getElementById('wait').textContent='Film unavailable';document.getElementById('wait').classList.add('is-on');film.classList.remove('is-visible');};
+  player.addEventListener('error',unavailable);
+  player.querySelector('source').addEventListener('error',unavailable);
   document.addEventListener('click',start);
   document.addEventListener('keydown',e=>{if((e.code==='Space'||e.code==='Enter')&&!e.target.closest('a')&&player.paused){e.preventDefault();start(e);}});
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&playing&&player.paused)play();});
