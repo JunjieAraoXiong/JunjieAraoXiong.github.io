@@ -61,10 +61,7 @@ footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em
 .foot-right{display:flex;align-items:center;gap:18px}
 .credit{text-align:right;line-height:1.35}
 .credit cite{font-style:italic}
-button{font:13px 'EB Garamond',Georgia,serif;color:var(--quiet);background:none;border:0;padding:0;cursor:pointer;min-height:44px;min-width:44px;opacity:0;transition:opacity .2s}
-footer:hover button,button:focus-visible,button.is-shown{opacity:1}button:hover{color:var(--ink)}
-@media (hover:none){button{opacity:1}}
-button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+.stage.is-tap{cursor:pointer}
 @media (prefers-reduced-motion: reduce){.film{transition:none}}
 @media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left}.foot-right{width:100%;justify-content:space-between}}
 @media (max-width:960px){.who{flex-direction:column;gap:0}.hint{white-space:normal;max-width:34ch;line-height:1.35;margin-top:3px}header{align-items:baseline}}
@@ -98,7 +95,6 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
   <span class="copyright">&copy; 2026 Junjie Xiong</span>
   <span class="foot-right">
     <span class="credit">Film: <cite>Sisyphus</cite> (1974), Marcell Jankovics</span>
-    <button type="button" id="toggle" aria-label="Pause film">Pause</button>
   </span>
 </footer>
 <script>
@@ -107,17 +103,19 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
   // SETTLE seconds of footage, fades out if it stalls, and loops on its own end
   // card so YouTube's end screen never appears. The film is credited in the footer.
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const film=document.getElementById('film'),btn=document.getElementById('toggle');
+  const film=document.getElementById('film'),stage=film.parentElement;
   const SETTLE=4.2;      // s of playback (wall clock) before YouTube's overlay has cleared (measured: 3.8 to 4.0 s)
   const LEAD=0.75;       // hidden lead-in runs slower so the reveal lands on the hand-lettered title
   const LOOP_AT=118.2;   // s: loop on the film's end card, before the staff credits
-  let player,playing=!reduce,looping=false,settleFrom=null,pauseTimer=0,played=false,blocked=false;
+  let player,playing=!reduce,looping=false,settleFrom=null,played=false;
   const now=()=>performance.now()/1000;
   const rate=r=>{try{player.setPlaybackRate(r);}catch(_){}};
   const show=()=>{if(!film.classList.contains('is-visible')){film.classList.add('is-visible');rate(1);}},hide=()=>{film.classList.remove('is-visible');settleFrom=null;};
-  function sync(){btn.textContent=playing?'Pause':'Play';btn.setAttribute('aria-label',playing?'Pause film':'Play film');}
-  // When the film is not playing on its own, keep Play visible so the stage is never a blank mystery.
-  const reveal=on=>btn.classList.toggle('is-shown',on);
+  // No controls on the page. If the film cannot start on its own (autoplay refused, e.g. iOS Low Power Mode,
+  // or reduced motion), a tap or click anywhere outside a link starts it.
+  const waitTap=()=>stage.classList.add('is-tap');
+  function start(e){if(playing||!player||!player.playVideo||(e&&e.target.closest&&e.target.closest('a')))return;
+    playing=true;stage.classList.remove('is-tap');player.playVideo();}
   function restart(){looping=true;hide();setTimeout(()=>{player.seekTo(0,true);rate(LEAD);player.playVideo();looping=false;},1500);}
   let inited=false;
   window.onYouTubeIframeAPIReady=()=>{
@@ -134,15 +132,15 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
           const f=e.target.getIframe();f.setAttribute('tabindex','-1');f.setAttribute('aria-hidden','true');
           if(!reduce){
             e.target.playVideo();
-            // Autoplay can be refused (e.g. iOS Low Power Mode): then offer Play instead of a stale Pause.
-            setTimeout(()=>{if(!played&&playing){playing=false;blocked=true;sync();reveal(true);}},4000);
+            // Autoplay can be refused (e.g. iOS Low Power Mode): then wait for a tap.
+            setTimeout(()=>{if(!played&&playing){playing=false;waitTap();}},4000);
           }
         },
         onStateChange:e=>{
           const S=YT.PlayerState;
           if(e.data===S.PLAYING){
             played=true;
-            if(blocked){blocked=false;playing=true;sync();reveal(false);} // it started after all
+            if(!playing){playing=true;stage.classList.remove('is-tap');} // it started after all
             if(settleFrom===null)settleFrom=now();
           }
           else if(e.data===S.PAUSED&&playing&&!looping&&!document.hidden){hide();player.playVideo();} // paused by the browser or YouTube, not by us
@@ -156,22 +154,11 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
       if(playing&&(t>=LOOP_AT||player.getDuration()-t<1.6))restart();
     },200);
   };
-  btn.addEventListener('click',()=>{
-    if(!player||!player.playVideo)return;playing=!playing;blocked=false;
-    clearTimeout(pauseTimer);
-    if(playing){
-      reveal(false);
-      // Resumed before the delayed pause ran: the film never stopped, so just fade it back in.
-      if(player.getPlayerState()===YT.PlayerState.PLAYING)show();
-      else player.playVideo();
-    }else{hide();pauseTimer=setTimeout(()=>{if(!playing)player.pauseVideo();},1400);}
-    sync();
-  });
+  document.addEventListener('click',start);
   // Coming back to the tab (iOS suspends background video): resume if the film should be playing.
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&playing&&player&&player.playVideo&&player.getPlayerState()!==YT.PlayerState.PLAYING){hide();player.playVideo();}});
-  // Space toggles the film when focus is not on a link or button.
-  document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.target.closest('a,button')){e.preventDefault();btn.click();}});
-  sync();if(reduce)reveal(true);
+  document.addEventListener('keydown',e=>{if((e.code==='Space'||e.code==='Enter')&&!e.target.closest('a')&&!playing){e.preventDefault();start();}});
+  if(reduce)waitTap();
   // The API script is async and may have finished before this handler existed.
   if(window.YT&&YT.loaded)window.onYouTubeIframeAPIReady();
 </script>
