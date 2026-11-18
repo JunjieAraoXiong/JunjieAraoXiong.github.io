@@ -8,8 +8,7 @@
 <meta name="author" content="Junjie Xiong">
 <meta name="description" content="Junjie Xiong, UC Berkeley CS + Maths student working on reinforcement learning for language models, agents, and ML systems.">
 <title>Junjie Xiong</title>
-<script>/* Safari and every iPhone browser ignore blending on embedded video, so the film keeps its white: feather it into the paper instead. */if(navigator.vendor==="Apple Computer, Inc.")document.documentElement.classList.add("webkit")</script>
-<link rel="preload" as="image" href="media/sisyphus-poster.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="media/sisyphus-paper-poster.jpg" fetchpriority="high">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="canonical" href="https://junjiearaoxiong.github.io/">
 <meta property="og:type" content="website">
@@ -45,8 +44,7 @@ footer{padding:8px var(--edge) max(22px,env(safe-area-inset-bottom))}
 @media (prefers-reduced-motion:reduce){@view-transition{navigation:none}.hint{transition:none}}
 .stage{display:grid;place-items:center;min-height:0;padding:12px var(--edge)}
 /* 4:3 frame, as large as fits */
-.film{position:relative;width:min(100%,calc((100svh - 170px)*4/3));aspect-ratio:4/3;overflow:hidden;
-  mix-blend-mode:multiply;filter:grayscale(1) contrast(1.45) brightness(1.08)}
+.film{position:relative;width:min(100%,calc((100svh - 170px)*4/3));aspect-ratio:4/3;overflow:hidden}
 .film video{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
 .film::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 40px 18px var(--paper);pointer-events:none}
 .film{opacity:0;transition:opacity 1s ease}
@@ -62,23 +60,16 @@ footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em
 .credit cite{font-style:italic}
 .stage.is-tap{cursor:pointer}
 @media (prefers-reduced-motion: reduce){.film{transition:none}}
-@media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left;font-size:clamp(8px,2.8vw,13px)}.foot-right{width:100%;justify-content:space-between}}
+@media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left;font-size:13px;white-space:normal;text-wrap:balance;max-width:32ch}.foot-right{width:100%;justify-content:space-between}}
 @media (max-width:960px){.who{flex-direction:column;gap:0}.hint{white-space:normal;max-width:34ch;line-height:1.35;margin-top:3px}header{align-items:baseline}}
 @media (max-width:600px){.hint{font-size:14px;max-width:42ch}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*4/3))}.wait{font-size:19px}}
 @media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/3))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
-/* Apple engine (Safari, every iPhone browser): blending is ignored on embedded video, so the film's white
-   cannot take on the paper. Make this page's paper the film's white instead, so the frame disappears. */
-.webkit{--paper:#fff}
-.webkit .film{mix-blend-mode:normal;filter:none}
-/* No filter to clean the old print's grey edges there, so fade a wider white margin over them. */
-.webkit .film::after{box-shadow:inset 0 0 36px 22px #fff;background:linear-gradient(to top,#fff 4%,rgba(255,255,255,0) 26%)}
-@media (max-width:600px){.webkit .film::after{box-shadow:inset 0 0 18px 8px #fff}}
 </style>
 </head>
 <body>
 <header><span class="who"><a class="name" href="index.html" aria-current="page">Junjie Xiong</a></span><a class="about" href="about.html">About</a></header>
 <main class="stage" aria-label="Sisyphus (1974) by Marcell Jankovics">
-  <div class="film is-visible" id="film"><video id="player" muted playsinline loop preload="metadata" poster="media/sisyphus-poster.jpg" tabindex="-1" aria-hidden="true"><source src="media/sisyphus-silent-1080p.mp4" type="video/mp4"></video></div>
+  <div class="film is-visible" id="film"><video id="player" muted playsinline loop preload="metadata" poster="media/sisyphus-paper-poster.jpg" tabindex="-1" aria-hidden="true"><source src="media/sisyphus-paper-1080p.mp4" type="video/mp4"></video></div>
   <span class="wait" id="wait" aria-hidden="true">Sisyphus</span>
 </main>
 <footer>

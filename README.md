@@ -9,7 +9,7 @@ Static site hosted on GitHub Pages.
 - `classes.html` - course notes
 - `stylesheet.css` - shared paper, ink, and EB Garamond styling for About, Notes, Projects, and posts
 
-The film is served from `media/sisyphus-silent-1080p.mp4`, with the black intro, closing end card, and credits trimmed. The animation loops back to its opening title as the final mountain scene fades to white. It loops with muted inline playback, immediately shows a high-priority poster while loading (and keeps it still for reduced motion), and supports tap-to-play when autoplay is unavailable. The source is https://www.youtube.com/watch?v=LHJ_mNwrH3k (Sisyphus, 1974, Marcell Jankovics).
+The film is served from `media/sisyphus-paper-1080p.mp4`, with the black intro, closing end card, and credits trimmed. The animation loops back to its opening title as the final mountain scene fades to white. It loops with muted inline playback, immediately shows a high-priority poster while loading (and keeps it still for reduced motion), and supports tap-to-play when autoplay is unavailable. Grayscale, contrast, and the warm paper tint are baked into the video and poster, so browsers share the same paper background without CSS filters or a Safari-specific white background. The footer quote wraps into two balanced lines at 13 px on phones. The source is https://www.youtube.com/watch?v=LHJ_mNwrH3k (Sisyphus, 1974, Marcell Jankovics).
 
 ## Local preview
 
