@@ -9,7 +9,7 @@ Static site hosted on GitHub Pages.
 - `classes.html` - course notes
 - `stylesheet.css` - shared paper, ink, and EB Garamond styling for About, Notes, Projects, and posts
 
-The film is served from `media/sisyphus-1080p.mp4`, with the black intro and ending trimmed. It loops with muted inline playback, shows a poster for reduced motion, and supports tap-to-play when autoplay is unavailable. The source is https://www.youtube.com/watch?v=LHJ_mNwrH3k (Sisyphus, 1974, Marcell Jankovics).
+The film is served from `media/sisyphus-loop-1080p.mp4`, with the black intro, closing end card, and credits trimmed. The animation loops back to its opening title as the final mountain scene fades to white. It loops with muted inline playback, shows a poster for reduced motion, and supports tap-to-play when autoplay is unavailable. The source is https://www.youtube.com/watch?v=LHJ_mNwrH3k (Sisyphus, 1974, Marcell Jankovics).
 
 ## Local preview
 
