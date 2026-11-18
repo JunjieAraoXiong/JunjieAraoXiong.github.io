@@ -39,6 +39,7 @@ footer{padding:8px var(--edge) max(22px,env(safe-area-inset-bottom))}
 .name{font-size:25px;letter-spacing:-.02em}.about{font-size:21px}
 .who{display:flex;align-items:baseline;gap:14px;min-width:0}
 .hint{font-size:15px;font-style:italic;color:var(--quiet);white-space:nowrap;opacity:0;transform:translateX(-6px);transition:opacity .35s ease,transform .35s ease;pointer-events:none}
+.hint .by{white-space:nowrap}.hint .cite{font-style:normal}
 .who:hover .hint,.name:focus-visible+.hint{opacity:1;transform:none}
 @media (hover:none){.hint{opacity:1;transform:none}}
 @view-transition{navigation:auto}
@@ -67,7 +68,8 @@ footer:hover button,button:focus-visible,button.is-shown{opacity:1}button:hover{
 button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 @media (prefers-reduced-motion: reduce){.film{transition:none}}
 @media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left}.foot-right{width:100%;justify-content:space-between}}
-@media (max-width:600px){.who{flex-direction:column;gap:0}.hint{font-size:14px}header{align-items:baseline}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*1.25));aspect-ratio:1.25}.film iframe{width:130.8%;left:-15.4%}.wait{font-size:19px}}
+@media (max-width:960px){.who{flex-direction:column;gap:0}.hint{white-space:normal;max-width:34ch;line-height:1.35;margin-top:3px}header{align-items:baseline}}
+@media (max-width:600px){.hint{font-size:14px;max-width:42ch}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*1.25));aspect-ratio:1.25}.film iframe{width:130.8%;left:-15.4%}.wait{font-size:19px}}
 @media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/2.52))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
 /* Apple engine (Safari, every iPhone browser): blending is ignored on embedded video, so the film's white
    cannot take on the paper. Make this page's paper the film's white instead, so the frame disappears. */
@@ -76,7 +78,7 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 </style>
 </head>
 <body>
-<header><span class="who"><a class="name" href="index.html" aria-current="page">Junjie Xiong</a><span class="hint">Post-training research &middot; UC Berkeley</span></span><a class="about" href="about.html">About</a></header>
+<header><span class="who"><a class="name" href="index.html" aria-current="page">Junjie Xiong</a><span class="hint">In the midst of winter, I found there was, within me, an invincible <span class="by">summer&nbsp;&middot;&nbsp;<span class="cite">Camus</span></span></span></span><a class="about" href="about.html">About</a></header>
 <main class="stage" aria-label="Sisyphus (1974) by Marcell Jankovics, embedded from YouTube">
   <div class="film" id="film"><div id="player"></div></div>
   <span class="wait" id="wait" aria-hidden="true">Sisyphus</span>
