@@ -3,17 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.youtube.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; frame-src https://www.youtube-nocookie.com https://www.youtube.com https://calendar.google.com; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; media-src 'self'; frame-src https://calendar.google.com; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="author" content="Junjie Xiong">
 <meta name="description" content="Junjie Xiong, UC Berkeley CS + Maths student working on reinforcement learning for language models, agents, and ML systems.">
 <title>Junjie Xiong</title>
 <script>/* Safari and every iPhone browser ignore blending on embedded video, so the film keeps its white: feather it into the paper instead. */if(navigator.vendor==="Apple Computer, Inc.")document.documentElement.classList.add("webkit")</script>
-<link rel="preconnect" href="https://www.youtube-nocookie.com">
-<link rel="preconnect" href="https://www.youtube.com">
-<link rel="dns-prefetch" href="https://i.ytimg.com">
-<link rel="dns-prefetch" href="https://www.google.com">
-<script async src="https://www.youtube.com/iframe_api"></script>
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="canonical" href="https://junjiearaoxiong.github.io/">
 <meta property="og:type" content="website">
@@ -49,9 +44,9 @@ footer{padding:8px var(--edge) max(22px,env(safe-area-inset-bottom))}
 @media (prefers-reduced-motion:reduce){@view-transition{navigation:none}.hint{transition:none}}
 .stage{display:grid;place-items:center;min-height:0;padding:12px var(--edge)}
 /* 4:3 frame, as large as fits */
-.film{position:relative;width:min(100%,calc((100svh - 170px)*4/2.52));aspect-ratio:4/2.52;overflow:hidden;
+.film{position:relative;width:min(100%,calc((100svh - 170px)*4/3));aspect-ratio:4/3;overflow:hidden;
   mix-blend-mode:multiply;filter:grayscale(1) contrast(1.45) brightness(1.08)}
-.film iframe{position:absolute;top:-1.5%;left:-1.5%;width:103%;height:122.62%;border:0;pointer-events:none}
+.film video{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
 .film::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 40px 18px var(--paper);pointer-events:none}
 .film{opacity:0;transition:opacity 1s ease}
 .stage{position:relative}
@@ -62,14 +57,14 @@ footer{padding:8px var(--edge) max(22px,env(safe-area-inset-bottom))}
 footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em}
 .copyright{white-space:nowrap}
 .foot-right{display:flex;align-items:center;gap:18px}
-.credit{text-align:right;line-height:1.35}
+.credit{text-align:right;line-height:1.35;font-style:italic;max-width:52ch}
 .credit cite{font-style:italic}
 .stage.is-tap{cursor:pointer}
 @media (prefers-reduced-motion: reduce){.film{transition:none}}
 @media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left}.foot-right{width:100%;justify-content:space-between}}
 @media (max-width:960px){.who{flex-direction:column;gap:0}.hint{white-space:normal;max-width:34ch;line-height:1.35;margin-top:3px}header{align-items:baseline}}
-@media (max-width:600px){.hint{font-size:14px;max-width:42ch}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*4/2.52))}.wait{font-size:19px}}
-@media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/2.52))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
+@media (max-width:600px){.hint{font-size:14px;max-width:42ch}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*4/3))}.wait{font-size:19px}}
+@media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/3))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
 /* Apple engine (Safari, every iPhone browser): blending is ignored on embedded video, so the film's white
    cannot take on the paper. Make this page's paper the film's white instead, so the frame disappears. */
 .webkit{--paper:#fff}
@@ -80,90 +75,34 @@ footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em
 </style>
 </head>
 <body>
-<header><span class="who"><a class="name" href="index.html" aria-current="page">Junjie Xiong</a><span class="hint">In the midst of winter, I found there was, within me, an invincible summer</span></span><a class="about" href="about.html">About</a></header>
-<main class="stage" aria-label="Sisyphus (1974) by Marcell Jankovics, embedded from YouTube">
-  <div class="film" id="film"><div id="player"></div></div>
+<header><span class="who"><a class="name" href="index.html" aria-current="page">Junjie Xiong</a></span><a class="about" href="about.html">About</a></header>
+<main class="stage" aria-label="Sisyphus (1974) by Marcell Jankovics">
+  <div class="film" id="film"><video id="player" muted playsinline loop preload="metadata" poster="media/sisyphus-poster.jpg" tabindex="-1" aria-hidden="true"><source src="media/sisyphus-1080p.mp4" type="video/mp4"></video></div>
   <span class="wait" id="wait" aria-hidden="true">Sisyphus</span>
-  <script>
-    // Start the player at once instead of after the API script chain (iframe_api, then widgetapi, then the iframe).
-    (function(){var r=matchMedia('(prefers-reduced-motion: reduce)').matches,f=document.createElement('iframe');
-      f.id='player';f.title='Sisyphus (1974), Marcell Jankovics';f.allow='autoplay; encrypted-media';f.tabIndex=-1;f.setAttribute('aria-hidden','true');
-      f.src='https://www.youtube-nocookie.com/embed/QujiLG93BKw?enablejsapi=1&autoplay='+(r?0:1)+'&mute=1&controls=0&disablekb=1&fs=0&iv_load_policy=3&cc_load_policy=0&rel=0&playsinline=1&origin='+encodeURIComponent(location.origin);
-      document.getElementById('player').replaceWith(f);
-      // Only name the film if it is slow to arrive, so a fast load never flashes the word.
-      setTimeout(function(){if(!document.getElementById('film').classList.contains('is-visible'))document.getElementById('wait').classList.add('is-on');},600);})();
-  </script>
 </main>
 <footer>
   <span class="copyright">&copy; 2026 Junjie Xiong</span>
   <span class="foot-right">
-    <span class="credit">Film: <cite>Sisyphus</cite> (1974), Marcell Jankovics</span>
+    <span class="credit">In the midst of winter, I found there was, within me, an invincible summer</span>
   </span>
 </footer>
 <script>
-  // YouTube draws its title bar, icons and spinner over the film while it starts,
-  // buffers or pauses. The film stays invisible until it has actually played
-  // SETTLE seconds of footage, fades out if it stalls, and loops on its own end
-  // card so YouTube's end screen never appears. The film is credited in the footer.
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const film=document.getElementById('film'),stage=film.parentElement;
-  const SETTLE=4.2;      // s of playback (wall clock) before YouTube's overlay has cleared (measured: 3.8 to 4.0 s)
-  const LEAD=0.75;       // hidden lead-in runs slower so the reveal lands on the hand-lettered title
-  const LOOP_AT=118.2;   // s: loop on the film's end card, before the staff credits
-  let player,playing=!reduce,looping=false,settleFrom=null,played=false;
-  const now=()=>performance.now()/1000;
-  const rate=r=>{try{player.setPlaybackRate(r);}catch(_){}};
-  const show=()=>{if(!film.classList.contains('is-visible')){film.classList.add('is-visible');rate(1);}},hide=()=>{film.classList.remove('is-visible');settleFrom=null;};
-  // No controls on the page. If the film cannot start on its own (autoplay refused, e.g. iOS Low Power Mode,
-  // or reduced motion), a tap or click anywhere outside a link starts it.
-  const waitTap=()=>stage.classList.add('is-tap');
-  function start(e){if(playing||!player||!player.playVideo||(e&&e.target.closest&&e.target.closest('a')))return;
-    playing=true;stage.classList.remove('is-tap');player.playVideo();}
-  function restart(){looping=true;hide();setTimeout(()=>{player.seekTo(0,true);rate(LEAD);player.playVideo();looping=false;},1500);}
-  let inited=false;
-  window.onYouTubeIframeAPIReady=()=>{
-    if(inited)return;inited=true;
-    player=new YT.Player('player',{
-      events:{
-        onReady:e=>{
-          e.target.mute();
-          // The iframe autoplays before the API attaches, so it may already be rolling: count from the film's start.
-          if(e.target.getPlayerState()===YT.PlayerState.PLAYING){played=true;if(settleFrom===null)settleFrom=now()-e.target.getCurrentTime();}
-          if(e.target.getCurrentTime()<2.5)rate(LEAD);
-          try{e.target.unloadModule('captions');e.target.unloadModule('cc');}catch(_){}
-          // The film is decorative (credited in the footer and main's label): keep it out of the tab order.
-          const f=e.target.getIframe();f.setAttribute('tabindex','-1');f.setAttribute('aria-hidden','true');
-          if(!reduce){
-            e.target.playVideo();
-            // Autoplay can be refused (e.g. iOS Low Power Mode): then wait for a tap.
-            setTimeout(()=>{if(!played&&playing){playing=false;waitTap();}},4000);
-          }
-        },
-        onStateChange:e=>{
-          const S=YT.PlayerState;
-          if(e.data===S.PLAYING){
-            played=true;
-            if(!playing){playing=true;stage.classList.remove('is-tap');} // it started after all
-            if(settleFrom===null)settleFrom=now();
-          }
-          else if(e.data===S.PAUSED&&playing&&!looping&&!document.hidden){hide();player.playVideo();} // paused by the browser or YouTube, not by us
-          else if(e.data===S.BUFFERING||e.data===S.UNSTARTED||e.data===S.CUED)hide();
-          else if(e.data===S.ENDED&&playing&&!looping)restart();
-        }}});
-    setInterval(()=>{
-      if(!player||!player.getCurrentTime||looping)return;
-      const t=player.getCurrentTime();
-      if(playing&&settleFrom!==null&&now()-settleFrom>=SETTLE&&player.getPlayerState()===YT.PlayerState.PLAYING)show();
-      if(playing&&(t>=LOOP_AT||player.getDuration()-t<1.6))restart();
-    },200);
-  };
+  const film=document.getElementById('film'),player=document.getElementById('player'),stage=film.parentElement;
+  let playing=!reduce;
+  player.muted=true;
+  const show=()=>film.classList.add('is-visible');
+  const waitTap=()=>{playing=false;stage.classList.add('is-tap');show();};
+  function play(){playing=true;stage.classList.remove('is-tap');player.play().catch(waitTap);}
+  function start(e){if(!player.paused||(e&&e.target.closest('a')))return;play();}
+  player.addEventListener('playing',show);
+  player.addEventListener('loadeddata',()=>{if(!playing)show();});
+  player.addEventListener('error',()=>{document.getElementById('wait').textContent='Film unavailable';document.getElementById('wait').classList.add('is-on');film.classList.remove('is-visible');});
   document.addEventListener('click',start);
-  // Coming back to the tab (iOS suspends background video): resume if the film should be playing.
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&playing&&player&&player.playVideo&&player.getPlayerState()!==YT.PlayerState.PLAYING){hide();player.playVideo();}});
-  document.addEventListener('keydown',e=>{if((e.code==='Space'||e.code==='Enter')&&!e.target.closest('a')&&!playing){e.preventDefault();start();}});
-  if(reduce)waitTap();
-  // The API script is async and may have finished before this handler existed.
-  if(window.YT&&YT.loaded)window.onYouTubeIframeAPIReady();
+  document.addEventListener('keydown',e=>{if((e.code==='Space'||e.code==='Enter')&&!e.target.closest('a')&&player.paused){e.preventDefault();start(e);}});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&playing&&player.paused)play();});
+  if(reduce)waitTap();else play();
+  setTimeout(()=>{if(!film.classList.contains('is-visible'))document.getElementById('wait').classList.add('is-on');},600);
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "7baadfe13e8945a28573f8ceda32b6dd"}'></script><!-- End Cloudflare Web Analytics -->
 </body>

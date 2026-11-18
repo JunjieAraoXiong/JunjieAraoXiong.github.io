@@ -4,12 +4,12 @@ Personal website of Junjie Xiong - https://junjiearaoxiong.github.io
 
 Static site hosted on GitHub Pages.
 
-- `index.html` - landing page: Marcell Jankovics's *Sisyphus* (1974), embedded muted from YouTube on warm paper, with a small film credit and copyright line
+- `index.html` - landing page: Marcell Jankovics's *Sisyphus* (1974), hosted as a muted 1080p MP4 on warm paper, with a quote and copyright line
 - `about.html` - biography, research, experience, and social links
 - `classes.html` - course notes
 - `stylesheet.css` - shared paper, ink, and EB Garamond styling for About, Notes, Projects, and posts
 
-The film is embedded, not hosted here. The page hides YouTube's overlays by fading the film in once playback has settled, and loops it on the film's own end card before the staff credits.
+The film is served from `media/sisyphus-1080p.mp4`, with the black intro and ending trimmed. It loops with muted inline playback, shows a poster for reduced motion, and supports tap-to-play when autoplay is unavailable. The source is https://www.youtube.com/watch?v=LHJ_mNwrH3k (Sisyphus, 1974, Marcell Jankovics).
 
 ## Local preview
 
