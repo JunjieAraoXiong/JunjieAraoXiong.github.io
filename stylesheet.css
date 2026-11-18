@@ -75,6 +75,18 @@
   src: url('fonts/ebgaramond-onum-600.woff2') format('woff2');
   unicode-range: U+0030-0039;
 }
+/* 俊杰 in Kaiti (regular-script brush forms) so the name sits with Garamond
+   instead of falling back to a system sans. FandolKai, subset to the two
+   characters (2 KB); GPL with font exception, see fonts/FandolKai-COPYING.txt.
+   Full source: https://ctan.org/pkg/fandol */
+@font-face {
+  font-family: 'Junjie Kai';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/fandolkai-junjie.woff2') format('woff2');
+  unicode-range: U+4FCA, U+6770;
+}
 /* True small caps (smcp) for section headings only; loads on first use. */
 @font-face {
   font-family: 'EB Garamond SC';
@@ -572,6 +584,7 @@ img.project-thumb {
 .about-page .intro-copy { line-height: 1.55; }
 /* One quiet title size and weight on every page (About, Notes, Projects, posts, 404). */
 .about-page h1 { font-size: clamp(34px, 3.6vw, 42px); font-weight: 400; }
+.about-page [lang="zh"] { font-family: 'Junjie Kai', 'Kaiti SC', 'STKaiti', 'KaiTi', 'EB Garamond', serif; font-weight: 400; margin-left: .06em; }
 .about-page .intro-copy h1 { margin-bottom: 10px; }
 .about-page .tagline { margin-bottom: 24px; color: var(--muted); }
 .about-page .intro-copy p:not(.tagline) { margin-bottom: 18px; }
