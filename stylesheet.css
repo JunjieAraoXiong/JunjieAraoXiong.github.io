@@ -6,7 +6,11 @@
    All visual detail lives here; content lives in the .html files.
    =========================================================== */
 
-/* Self-hosted EB Garamond (latin subset) - no external font requests. */
+/* Self-hosted EB Garamond (latin subset) - no external font requests.
+   The variable file is declared once per weight band so each band can pair
+   with a tiny digits-only face carrying the old-style figures (onum), which
+   sit in the line like lowercase instead of standing up like capitals.
+   Browsers only merge faces whose descriptors match exactly. */
 @font-face {
   font-family: 'EB Garamond';
   font-style: italic;
@@ -17,11 +21,67 @@
 }
 @font-face {
   font-family: 'EB Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/ebgaramond-onum-400-italic.woff2') format('woff2');
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: 'EB Garamond';
   font-style: normal;
-  font-weight: 400 800;  /* one variable font file covers every weight */
+  font-weight: 400;
   font-display: swap;
   src: url('fonts/ebgaramond-400.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/ebgaramond-onum-400.woff2') format('woff2');
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/ebgaramond-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/ebgaramond-onum-500.woff2') format('woff2');
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url('fonts/ebgaramond-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url('fonts/ebgaramond-onum-600.woff2') format('woff2');
+  unicode-range: U+0030-0039;
+}
+/* True small caps (smcp) for section headings only; loads on first use. */
+@font-face {
+  font-family: 'EB Garamond SC';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/ebgaramond-sc-400.woff2') format('woff2');
 }
 
 :root {
@@ -49,6 +109,9 @@ body {
   font-family: 'EB Garamond', Georgia, 'Times New Roman', serif;
   font-size: 19px;
   line-height: 1.6;
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures;
+  hanging-punctuation: first allow-end;   /* Safari: quotes hang outside the measure */
 }
 
 a {
@@ -538,6 +601,8 @@ img.project-thumb {
 .about-page .booking-button:hover { background: transparent; border-color: var(--text); text-decoration: none; }
 .about-page .section { padding: 44px 0 0; }
 .about-page h2 { margin-bottom: 12px; font-size: 28px; font-weight: 400; }
+/* Section labels in true small caps, letterspaced as small caps should be. */
+.about-page h2 { font-family: 'EB Garamond SC', 'EB Garamond', Georgia, serif; font-variant-caps: all-small-caps; letter-spacing: .09em; }
 .about-page h2 u { text-decoration: none; }
 .about-page .role { gap: 32px; padding: 24px 0; align-items: flex-start; }
 .about-page .role-logo { width: 104px; height: 54px; margin-top: 4px; }
