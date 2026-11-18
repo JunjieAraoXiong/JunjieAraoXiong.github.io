@@ -69,12 +69,15 @@ button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 @media (prefers-reduced-motion: reduce){.film{transition:none}}
 @media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left}.foot-right{width:100%;justify-content:space-between}}
 @media (max-width:960px){.who{flex-direction:column;gap:0}.hint{white-space:normal;max-width:34ch;line-height:1.35;margin-top:3px}header{align-items:baseline}}
-@media (max-width:600px){.hint{font-size:14px;max-width:42ch}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*1.25));aspect-ratio:1.25}.film iframe{width:130.8%;left:-15.4%}.wait{font-size:19px}}
+@media (max-width:600px){.hint{font-size:14px;max-width:42ch}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*4/2.52))}.wait{font-size:19px}}
 @media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/2.52))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
 /* Apple engine (Safari, every iPhone browser): blending is ignored on embedded video, so the film's white
    cannot take on the paper. Make this page's paper the film's white instead, so the frame disappears. */
 .webkit{--paper:#fff}
 .webkit .film{mix-blend-mode:normal;filter:none}
+/* No filter to clean the old print's grey edges there, so fade a wider white margin over them. */
+.webkit .film::after{box-shadow:inset 0 0 36px 22px #fff;background:linear-gradient(to top,#fff 4%,rgba(255,255,255,0) 26%)}
+@media (max-width:600px){.webkit .film::after{box-shadow:inset 0 0 18px 8px #fff}}
 </style>
 </head>
 <body>
