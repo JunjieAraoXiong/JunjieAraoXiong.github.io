@@ -59,11 +59,13 @@ footer{padding:8px var(--edge) max(22px,env(safe-area-inset-bottom))}
 footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em}
 .copyright{white-space:nowrap}
 .foot-right{display:flex;align-items:center;gap:18px}
-.credit{text-align:right;line-height:1.35;font-style:normal;white-space:nowrap}
+.credit{text-align:right;line-height:1.35;font-style:normal;white-space:nowrap;font-size:17px}
 .credit cite{font-style:italic}
+.credit>span{white-space:nowrap}
 .stage.is-tap{cursor:pointer}
 @media (prefers-reduced-motion: reduce){.film{transition:none}}
-@media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:2px}.credit{text-align:left;font-size:13px;white-space:normal;text-wrap:balance;max-width:32ch}.foot-right{width:100%;justify-content:space-between}}
+@media (max-width:960px){.credit{white-space:normal;text-wrap:balance;max-width:40ch}}
+@media (max-width:600px){footer{flex-direction:column-reverse;align-items:flex-start;gap:4px}.credit{text-align:left;font-size:15px;max-width:34ch}.foot-right{width:100%;justify-content:space-between}}
 @media (max-width:960px){.who{flex-direction:column;gap:0}.hint{white-space:normal;max-width:34ch;line-height:1.35;margin-top:3px}header{align-items:baseline}}
 @media (max-width:600px){.hint{font-size:14px;max-width:42ch}.stage{padding-inline:16px}.film{width:min(100%,calc((100svh - 190px)*4/3))}.wait{font-size:19px}}
 @media (max-height:480px) and (orientation:landscape){body{min-height:0}header{padding-top:max(10px,env(safe-area-inset-top))}footer{padding-bottom:max(8px,env(safe-area-inset-bottom));padding-top:0}.stage{padding-block:4px}.film{width:min(100%,calc((100svh - 124px)*4/3))}.name{font-size:21px}.about{font-size:18px}.hint{display:none}}
@@ -80,13 +82,22 @@ footer{align-items:center;font-size:13px;color:var(--quiet);letter-spacing:.01em
 <footer>
   <span class="copyright">&copy; 2026 Junjie Xiong</span>
   <span class="foot-right">
-    <span class="credit">In the midst of winter, I found there was, within me, an invincible summer</span>
+    <span class="credit"><span>In the midst of winter,</span> <span>I found there was, within me,</span> <span>an invincible summer</span></span>
   </span>
 </footer>
 <script>
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const film=document.getElementById('film'),player=document.getElementById('player'),stage=film.parentElement;
   let playing=!reduce;
+  // Remember where the film is, so coming back from About resumes it there (per tab).
+  const KEY='sisyphus-t',save=()=>{try{if(player.currentTime>0)sessionStorage.setItem(KEY,player.currentTime.toFixed(2));}catch(_){}};
+  let resumeAt=0;try{resumeAt=parseFloat(sessionStorage.getItem(KEY))||0;}catch(_){}
+  const seekResume=()=>{if(resumeAt>0&&resumeAt<player.duration-0.5)player.currentTime=resumeAt;resumeAt=0;};
+  if(player.readyState>=1)seekResume();else player.addEventListener('loadedmetadata',seekResume,{once:true});
+  let lastSave=0;player.addEventListener('timeupdate',()=>{const n=performance.now();if(n-lastSave>1000){lastSave=n;save();}});
+  addEventListener('pagehide',save);
+  // Back button with the page kept in memory (bfcache): just carry on playing.
+  addEventListener('pageshow',e=>{if(e.persisted&&playing&&player.paused)play();});
   player.muted=true;
   const show=()=>film.classList.add('is-visible');
   const waitTap=()=>{playing=false;stage.classList.add('is-tap');show();};
